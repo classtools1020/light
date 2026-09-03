@@ -1,61 +1,90 @@
 <!doctype html>
-<html lang="zh-Hant">
-<head>
+<html lang="zh-Hant"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>光的世界｜自然科互動教材</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Noto+Sans+TC:wght@500;700;900&display=swap">
+<meta name="theme-color" content="#05101f">
+<title>光偵探隊｜自然科總入口</title>
 <style>
-:root{--bg:#0E0B1A;--panel:#1E183C;--panel2:#271F4E;--ink:#F6F2FF;--soft:#B7ADDD;--beam:#FFC53D;--line:#3A2F63;--go:#37D67A}
-*{box-sizing:border-box}
-body{margin:0;min-height:100vh;background:radial-gradient(1200px 700px at 50% -10%,#221a44,var(--bg) 60%);
-  color:var(--ink);font-family:"Noto Sans TC","Baloo 2",system-ui,sans-serif;
-  display:flex;flex-direction:column;align-items:center;padding:clamp(24px,5vw,60px) 18px}
-.bulb{font-size:clamp(46px,9vw,72px);filter:drop-shadow(0 0 22px var(--beam))}
-h1{font-size:clamp(38px,8vw,68px);font-weight:900;margin:.1em 0;text-align:center;text-wrap:balance}
-h1 .hl{color:var(--beam);text-shadow:0 0 26px rgba(255,197,61,.5)}
-.tag{color:var(--soft);font-size:clamp(15px,3vw,20px);margin:.2em 0 clamp(24px,5vw,44px);text-align:center}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(14px,2.4vw,22px);width:min(920px,100%)}
-.card{display:block;text-decoration:none;color:inherit;background:var(--panel);border:3px solid var(--line);
-  border-radius:24px;padding:clamp(20px,3vw,30px);box-shadow:0 18px 40px rgba(0,0,0,.5);
-  transition:transform .15s,border-color .2s}
-.card:hover{transform:translateY(-6px);border-color:var(--beam)}
-.card.soon{opacity:.5;pointer-events:none}
-.num{display:inline-block;font-size:14px;font-weight:800;color:#2a1c00;background:var(--beam);
-  padding:4px 12px;border-radius:999px;margin-bottom:12px}
-.card h2{font-size:clamp(24px,4vw,30px);font-weight:900;margin:.1em 0}
-.card p{color:var(--soft);font-size:15px;margin:.3em 0 0;font-weight:500}
-.card .em{font-size:44px;line-height:1;margin-bottom:6px}
-.go{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-weight:800;color:var(--beam)}
-.foot{margin-top:auto;padding-top:36px;color:var(--soft);font-size:13px;text-align:center}
+  :root{
+    --bg1:#05101f; --bg2:#0a2036; --bg3:#0e3350;
+    --amber:#ffc93c; --amber2:#ff9f1c; --teal:#42e0c8;
+    --ink:#eaf6ff; --dim:#9db8cf; --card:#0f2841; --line:rgba(120,170,210,.28);
+    --shadow:rgba(0,0,0,.45);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",system-ui,sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(120% 80% at 50% -10%, rgba(255,201,60,.10), transparent 55%),
+      linear-gradient(165deg,var(--bg1) 0%,var(--bg2) 55%,var(--bg3) 100%);
+    min-height:100vh;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:24px 18px 64px}
+  header.hero{text-align:center;padding:26px 10px 10px}
+  .emblem{font-size:80px;line-height:1;filter:drop-shadow(0 8px 18px rgba(255,201,60,.35))}
+  .eyebrow{font-size:16px;font-weight:900;letter-spacing:.3em;color:var(--amber);text-transform:uppercase;margin-top:6px}
+  h1{font-size:46px;margin:4px 0 4px;letter-spacing:1px}
+  .sub{font-size:22px;color:var(--teal);font-weight:900}
+  .en{font-size:15px;color:var(--dim);font-weight:700;margin-top:6px;letter-spacing:.04em}
+
+  h2.sec{font-size:24px;margin:38px 0 14px;display:flex;align-items:center;gap:10px}
+  h2.sec::after{content:"";flex:1;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--amber),transparent)}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+  .card{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+    background:var(--card);border-radius:22px;padding:32px 18px;text-decoration:none;color:var(--ink);
+    box-shadow:0 8px 22px var(--shadow);border:2px solid var(--line);transition:transform .1s, box-shadow .1s, border-color .1s;
+    min-height:190px;
+  }
+  .card:hover{transform:translateY(-5px);border-color:var(--amber);box-shadow:0 14px 30px var(--shadow)}
+  .card.soon{opacity:.5;pointer-events:none}
+  .card .ico{font-size:60px;line-height:1;margin-bottom:8px}
+  .card .num{display:inline-block;font-size:13px;font-weight:900;color:#08131f;background:var(--amber);border-radius:999px;padding:2px 12px;margin-bottom:8px}
+  .card .t{font-size:28px;font-weight:900}
+  .card .d{font-size:15px;color:var(--dim);font-weight:700;margin-top:5px}
+  .card.c1{background:linear-gradient(160deg,#123152,#0c2742);border-color:rgba(255,201,60,.4)}
+  .card.c2{background:linear-gradient(160deg,#14343f,#0c2742);border-color:rgba(66,224,200,.4)}
+  .card.c3{background:linear-gradient(160deg,#132a4d,#0c2742);border-color:rgba(74,163,255,.4)}
+
+  footer{text-align:center;margin-top:46px;font-size:14px;color:var(--dim)}
+  @media (max-width:720px){.cards{grid-template-columns:1fr}h1{font-size:34px}}
 </style>
 </head>
 <body>
-  <div class="bulb">💡</div>
-  <h1>光的<span class="hl">世界</span></h1>
-  <p class="tag">自然科 · 翰林八上第四章　🚂 跟著小火車一起探險</p>
-  <div class="grid">
-    <a class="card" href="01-phenomena/">
-      <div class="em">🌑🪞💧</div>
+<div class="wrap">
+  <header class="hero">
+    <div class="emblem">🔦</div>
+    <div class="eyebrow">光偵探隊</div>
+    <h1>光的世界</h1>
+    <div class="sub">自然科・翰林八上第四章</div>
+    <div class="en">一頁直達：簡報・闖關・教案・學習單・影片</div>
+  </header>
+
+  <h2 class="sec">🕵️ 選擇任務</h2>
+  <div class="cards">
+    <a class="card c1" href="01-phenomena/">
       <span class="num">第 1 節</span>
-      <h2>光的現象</h2>
-      <p>影子・反射・折射　簡報＋遊戲＋教案＋學習單</p>
-      <span class="go">查看全部 →</span>
+      <div class="ico">🌑🪞💧</div>
+      <div class="t">光的現象</div>
+      <div class="d">影子・反射・折射</div>
     </a>
-    <a class="card" href="02-color/">
-      <div class="em">🔴🟢🔵</div>
+    <a class="card c2" href="02-color/">
       <span class="num">第 2 節</span>
-      <h2>光與顏色</h2>
-      <p>三原色・混光・彩虹　簡報＋遊戲＋教案＋學習單</p>
-      <span class="go">查看全部 →</span>
+      <div class="ico">🔴🟢🔵</div>
+      <div class="t">光與顏色</div>
+      <div class="d">三原色・混光・彩虹</div>
     </a>
-    <div class="card soon">
-      <div class="em">🔍</div>
+    <div class="card c3 soon">
       <span class="num">第 3 節</span>
-      <h2>光學產品</h2>
-      <p>放大鏡・眼鏡・照相機　（製作中）</p>
+      <div class="ico">🔍</div>
+      <div class="t">光學儀器</div>
+      <div class="d">放大鏡・眼鏡・照相機（製作中）</div>
     </div>
   </div>
-  <div class="foot">大圖少字 · 有聲音 · 中英雙語 · 三層次差異化</div>
-</body>
-</html>
+
+  <footer>🔦 光偵探隊　｜　自然科　｜　一頁直達所有教材</footer>
+</div>
+</body></html>
