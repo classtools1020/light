@@ -53,6 +53,29 @@
   .gamewrap{background:var(--card);border:2px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 8px 22px var(--shadow)}
   .gamewrap iframe{width:100%;height:900px;border:0;display:block}
   footer{text-align:center;margin-top:40px;font-size:13px;color:var(--dim)}
+
+  /* 全班搶答計分板 */
+  .scoreboard{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 8px 22px var(--shadow)}
+  .teams{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:16px}
+  .team{background:linear-gradient(160deg,#123152,#0c2742);border:2px solid var(--line);border-radius:18px;padding:16px;text-align:center;transition:transform .1s}
+  .team.t1{border-color:rgba(255,107,107,.5)}
+  .team.t2{border-color:rgba(66,224,200,.5)}
+  .team.t3{border-color:rgba(255,201,60,.5)}
+  .team.t4{border-color:rgba(155,140,255,.5)}
+  .team .tname{font-size:16px;font-weight:900;color:var(--dim);margin-bottom:6px}
+  .team .tscore{font-size:52px;font-weight:900;color:var(--ink);line-height:1;margin-bottom:12px}
+  .tbtns{display:flex;gap:8px;justify-content:center}
+  .tbtn{width:44px;height:44px;border-radius:12px;border:none;font-size:22px;font-weight:900;cursor:pointer}
+  .tbtn.plus{background:var(--teal);color:#08131f}
+  .tbtn.minus{background:rgba(255,255,255,.12);color:var(--ink)}
+  .tbtn:active{transform:scale(.9)}
+  .sb-controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .sb-btn{background:var(--card);border:2px solid var(--line);color:var(--ink);border-radius:14px;padding:10px 18px;font-size:15px;font-weight:800;cursor:pointer}
+  .sb-btn:hover{border-color:var(--amber)}
+  .buzzer-flash{position:fixed;inset:0;background:var(--amber);opacity:0;pointer-events:none;z-index:99;transition:opacity .15s}
+  .buzzer-flash.on{opacity:.85}
+  .buzzer-name{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.7);font-size:64px;font-weight:900;color:#08131f;z-index:100;opacity:0;transition:all .2s;pointer-events:none;text-align:center}
+  .buzzer-name.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
 </style>
 <div class="wrap">
   <a class="back" href="index.html">← 光與顏色 總入口</a>
@@ -94,16 +117,64 @@
     <div class="answer"><div class="big">⚫ 變成黑色！</div><div class="why">紅蘋果只會反射「紅光」，把其他顏色的光都吸收掉了。沒有紅光可以反射，蘋果就變成黑色——物體的顏色，其實是光決定的。</div></div>
   </div>
 
+  <h2 class="sec">🙋 全班搶答計分板</h2>
+  <div class="scoreboard">
+    <div class="teams" id="teams"></div>
+    <div class="sb-controls">
+      <button class="sb-btn" id="buzzBtn">🔔 搶答鈴（點我）</button>
+      <button class="sb-btn" id="resetBtn">🔁 分數歸零</button>
+      <select class="sb-btn" id="teamCount"><option value="2">2 組</option><option value="3" selected>3 組</option><option value="4">4 組</option></select>
+    </div>
+  </div>
+
   <h2 class="sec">🎮 案件挑戰</h2>
   <div class="gamewrap"><iframe src="game/index.html" title="光與顏色互動遊戲" loading="lazy"></iframe></div>
 
   <footer>🕵️ 光偵探隊・光與顏色　｜　自然科　｜　一頁看完所有教材</footer>
 </div>
+<div class="buzzer-flash" id="flash"></div>
+<div class="buzzer-name" id="buzzName"></div>
 <script>
 document.querySelectorAll('.case').forEach(c=>{
   const btn=c.querySelector('.reveal-btn'), ans=c.querySelector('.answer');
+  if(!btn) return;
   btn.addEventListener('click',()=>{ans.classList.toggle('show'); btn.textContent=ans.classList.contains('show')?'🔍 再看一次題目':'🔍 揭曉答案';});
 });
+
+/* ---- 全班搶答計分板 ---- */
+const TEAM_NAMES=["🔴 紅隊","🟢 綠隊","🟡 黃隊","🟣 紫隊"];
+const TEAM_CLS=["t1","t2","t3","t4"];
+let scores=[0,0,0,0];
+function renderTeams(){
+  const n=parseInt(document.getElementById('teamCount').value);
+  const wrap=document.getElementById('teams'); wrap.innerHTML="";
+  for(let i=0;i<n;i++){
+    const el=document.createElement('div'); el.className="team "+TEAM_CLS[i];
+    el.innerHTML=`<div class="tname">${TEAM_NAMES[i]}</div><div class="tscore" id="score${i}">${scores[i]}</div>
+      <div class="tbtns"><button class="tbtn minus" data-i="${i}" data-d="-1">－</button><button class="tbtn plus" data-i="${i}" data-d="1">＋</button></div>`;
+    wrap.appendChild(el);
+  }
+  wrap.querySelectorAll('.tbtn').forEach(b=>b.addEventListener('click',()=>{
+    const i=+b.dataset.i, d=+b.dataset.d; scores[i]=Math.max(0,scores[i]+d);
+    document.getElementById('score'+i).textContent=scores[i];
+    if(d>0) sTap();
+  }));
+}
+document.getElementById('teamCount').addEventListener('change',renderTeams);
+document.getElementById('resetBtn').addEventListener('click',()=>{scores=[0,0,0,0]; renderTeams();});
+let ac2=null; function audio2(){if(!ac2){try{ac2=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}return ac2}
+function tone2(f,s,d,t,g){const c=audio2();if(!c)return;const o=c.createOscillator(),ga=c.createGain();o.type=t||"sine";o.frequency.value=f;const tt=c.currentTime+s;ga.gain.setValueAtTime(0,tt);ga.gain.linearRampToValueAtTime(g||.25,tt+.02);ga.gain.exponentialRampToValueAtTime(.0001,tt+d);o.connect(ga).connect(c.destination);o.start(tt);o.stop(tt+d+.03)}
+function sTap(){tone2(880,0,.08,"square",.15)}
+function sBuzz(){[400,300].forEach((f,i)=>tone2(f,i*.1,.18,"sawtooth",.22))}
+document.getElementById('buzzBtn').addEventListener('click',()=>{
+  audio2(); sBuzz();
+  const flash=document.getElementById('flash'), name=document.getElementById('buzzName');
+  const n=parseInt(document.getElementById('teamCount').value);
+  const who=TEAM_NAMES[Math.floor(Math.random()*n)];
+  flash.classList.add('on'); name.textContent=who+" 搶到了！"; name.classList.add('on');
+  setTimeout(()=>{flash.classList.remove('on'); name.classList.remove('on')},1400);
+});
+renderTeams();
 </script>
 
 </html>
