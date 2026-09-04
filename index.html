@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#05101f">
-<title>光偵探隊｜自然科總入口</title>
+<title>光偵探隊｜今天上課點這裡</title>
 <style>
   :root{
     --bg1:#05101f; --bg2:#0a2036; --bg3:#0e3350;
@@ -12,79 +12,56 @@
     --shadow:rgba(0,0,0,.45);
   }
   *{box-sizing:border-box}
-  html,body{margin:0;padding:0}
+  html,body{margin:0;padding:0;height:100%}
   body{
     font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",system-ui,sans-serif;
     color:var(--ink);
-    background:
-      radial-gradient(120% 80% at 50% -10%, rgba(255,201,60,.10), transparent 55%),
+    background:radial-gradient(120% 80% at 50% -10%, rgba(255,201,60,.10), transparent 55%),
       linear-gradient(165deg,var(--bg1) 0%,var(--bg2) 55%,var(--bg3) 100%);
-    min-height:100vh;
+    min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:24px 16px;
   }
-  .wrap{max-width:1080px;margin:0 auto;padding:24px 18px 64px}
-  header.hero{text-align:center;padding:26px 10px 10px}
-  .emblem{font-size:80px;line-height:1;filter:drop-shadow(0 8px 18px rgba(255,201,60,.35))}
-  .eyebrow{font-size:16px;font-weight:900;letter-spacing:.3em;color:var(--amber);text-transform:uppercase;margin-top:6px}
-  h1{font-size:46px;margin:4px 0 4px;letter-spacing:1px}
-  .sub{font-size:22px;color:var(--teal);font-weight:900}
-  .en{font-size:15px;color:var(--dim);font-weight:700;margin-top:6px;letter-spacing:.04em}
+  .emblem{font-size:clamp(56px,12vw,90px);filter:drop-shadow(0 8px 18px rgba(255,201,60,.35))}
+  .eyebrow{font-size:15px;font-weight:900;letter-spacing:.3em;color:var(--amber);margin-top:6px;text-align:center}
+  h1{font-size:clamp(30px,6vw,44px);margin:6px 0 30px;text-align:center}
 
-  h2.sec{font-size:24px;margin:38px 0 14px;display:flex;align-items:center;gap:10px}
-  h2.sec::after{content:"";flex:1;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--amber),transparent)}
-
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
-  .card{
-    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
-    background:var(--card);border-radius:22px;padding:32px 18px;text-decoration:none;color:var(--ink);
-    box-shadow:0 8px 22px var(--shadow);border:2px solid var(--line);transition:transform .1s, box-shadow .1s, border-color .1s;
-    min-height:190px;
+  .big-btns{display:flex;flex-direction:column;gap:22px;width:100%;max-width:520px}
+  .bigbtn{
+    display:flex;align-items:center;gap:20px;
+    background:linear-gradient(160deg,#123152,#0c2742);
+    border:3px solid var(--line);border-radius:28px;
+    padding:28px 30px;text-decoration:none;color:var(--ink);
+    box-shadow:0 12px 30px var(--shadow);
+    transition:transform .12s, border-color .15s;
   }
-  .card:hover{transform:translateY(-5px);border-color:var(--amber);box-shadow:0 14px 30px var(--shadow)}
-  .card.soon{opacity:.5;pointer-events:none}
-  .card .ico{font-size:60px;line-height:1;margin-bottom:8px}
-  .card .num{display:inline-block;font-size:13px;font-weight:900;color:#08131f;background:var(--amber);border-radius:999px;padding:2px 12px;margin-bottom:8px}
-  .card .t{font-size:28px;font-weight:900}
-  .card .d{font-size:15px;color:var(--dim);font-weight:700;margin-top:5px}
-  .card.c1{background:linear-gradient(160deg,#123152,#0c2742);border-color:rgba(255,201,60,.4)}
-  .card.c2{background:linear-gradient(160deg,#14343f,#0c2742);border-color:rgba(66,224,200,.4)}
-  .card.c3{background:linear-gradient(160deg,#132a4d,#0c2742);border-color:rgba(74,163,255,.4)}
+  .bigbtn:active{transform:scale(.97)}
+  .bigbtn.a{border-color:rgba(255,107,107,.55)}
+  .bigbtn.b{border-color:rgba(66,224,200,.55)}
+  .bigbtn .ic{font-size:56px;line-height:1;flex:none}
+  .bigbtn .tx .t{font-size:34px;font-weight:900}
+  .bigbtn .tx .d{font-size:16px;color:var(--dim);font-weight:700;margin-top:4px}
+  .bigbtn .go{margin-left:auto;font-size:34px;color:var(--amber);flex:none}
 
-  footer{text-align:center;margin-top:46px;font-size:14px;color:var(--dim)}
-  @media (max-width:720px){.cards{grid-template-columns:1fr}h1{font-size:34px}}
+  footer{margin-top:36px;font-size:13px;color:var(--dim);text-align:center}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header class="hero">
-    <div class="emblem">🔦</div>
-    <div class="eyebrow">光偵探隊</div>
-    <h1>光的世界</h1>
-    <div class="sub">自然科・翰林八上第四章</div>
-    <div class="en">一頁直達：簡報・闖關・教案・學習單・影片</div>
-  </header>
+  <div class="emblem">🕵️</div>
+  <div class="eyebrow">光偵探隊　今天上課</div>
+  <h1>點你的班級，直接開始</h1>
 
-  <h2 class="sec">🕵️ 選擇任務</h2>
-  <div class="cards">
-    <a class="card c1" href="01-phenomena/">
-      <span class="num">第 1 節</span>
-      <div class="ico">🌑🪞💧</div>
-      <div class="t">光的現象</div>
-      <div class="d">影子・反射・折射</div>
+  <div class="big-btns">
+    <a class="bigbtn a" href="01-phenomena/case-file.html">
+      <div class="ic">🅰️</div>
+      <div class="tx"><div class="t">甲班</div><div class="d">光的現象（影子・反射・折射）</div></div>
+      <div class="go">▶</div>
     </a>
-    <a class="card c2" href="02-color/">
-      <span class="num">第 2 節</span>
-      <div class="ico">🔴🟢🔵</div>
-      <div class="t">光與顏色</div>
-      <div class="d">三原色・混光・彩虹</div>
+    <a class="bigbtn b" href="01-phenomena/case-file.html">
+      <div class="ic">🅱️</div>
+      <div class="tx"><div class="t">乙班</div><div class="d">先上光的現象，第二堂再點下一步</div></div>
+      <div class="go">▶</div>
     </a>
-    <div class="card c3 soon">
-      <span class="num">第 3 節</span>
-      <div class="ico">🔍</div>
-      <div class="t">光學儀器</div>
-      <div class="d">放大鏡・眼鏡・照相機（製作中）</div>
-    </div>
   </div>
 
-  <footer>🔦 光偵探隊　｜　自然科　｜　一頁直達所有教材</footer>
-</div>
+  <footer>🕵️ 光偵探隊　｜　自然科　｜　點下去就對了，不用想</footer>
 </body></html>
