@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#05101f">
-<title>光偵探隊｜光與顏色 Kahoot 題庫</title>
-<meta name="description" content="光偵探隊 Kahoot 題庫：光與顏色 14 題，可匯入 Kahoot，也可投影當搶答。">
+<title>顏色偵探｜光與顏色 Kahoot 題庫</title>
+<meta name="description" content="顏色偵探 Kahoot 題庫：光與顏色（顏色主題）12 題，可匯入 Kahoot，也可投影當搶答。">
 <style>
   :root{
     --bg1:#05101f; --bg2:#0a2036; --bg3:#0e3350;
@@ -31,8 +31,9 @@
   h1{font-size:clamp(28px,6vw,40px);margin:4px 0 2px}
   .sub{font-size:17px;color:var(--teal);font-weight:900}
   .lead{font-size:15px;color:var(--dim);font-weight:700;margin-top:8px;line-height:1.7}
+  .rainbow{background:linear-gradient(90deg,#e94b4b,#ff9f1c,#f4c020,#38b26b,#2e7be0,#8a5cf6);
+    -webkit-background-clip:text;background-clip:text;color:transparent}
 
-  /* 匯入說明卡 */
   .howto{background:linear-gradient(160deg,#123152,#0c2742);border:2px solid var(--line);
     border-radius:22px;padding:20px 22px;margin:20px 0;box-shadow:0 8px 22px var(--shadow)}
   .howto h2{font-size:20px;margin:0 0 12px;color:var(--amber)}
@@ -52,7 +53,6 @@
   .chip{font-size:13px;font-weight:800;color:#08131f;background:var(--teal);border-radius:999px;padding:4px 12px}
   .chip.g{background:var(--amber)}
 
-  /* 題目卡 */
   .q{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:18px 18px 16px;
     margin:16px 0;box-shadow:0 8px 22px var(--shadow)}
   .q .top{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
@@ -85,13 +85,14 @@
 <body>
 <div class="wrap">
   <header class="hero">
-    <div class="emblem">🕵️</div>
-    <div class="eyebrow">光偵探隊　搶答挑戰</div>
-    <h1>光與顏色 Kahoot 題庫</h1>
-    <div class="sub">14 題・全班一起搶答・讓大家愛死！</div>
+    <div class="emblem">🎨</div>
+    <div class="eyebrow">顏色偵探　搶答挑戰</div>
+    <h1><span class="rainbow">光與顏色</span> Kahoot 題庫</h1>
+    <div class="sub">顏色主題・12 題・全班一起搶答，讓大家愛死！</div>
     <div class="meta">
-      <span class="chip g">第1節 光的現象</span>
-      <span class="chip">第2節 光與顏色</span>
+      <span class="chip g">三原色・混光</span>
+      <span class="chip">色散・彩虹</span>
+      <span class="chip g">物體的顏色</span>
     </div>
     <p class="lead">這一頁是老師專用的答案卡＋投影備用。<br>要玩正式 Kahoot？下面一鍵下載匯入檔就好 👇</p>
   </header>
@@ -101,9 +102,9 @@
     <div class="steps">
       <div class="step"><span class="n">1</span><p>登入 Kahoot → 按 <b>Create</b> 建立新的 Kahoot。</p></div>
       <div class="step"><span class="n">2</span><p>點 <b>Add question</b> 旁邊的 <b>Import spreadsheet</b>。</p></div>
-      <div class="step"><span class="n">3</span><p>上傳下面這個 Excel，14 題一次自動生成，開玩！</p></div>
+      <div class="step"><span class="n">3</span><p>上傳下面這個 Excel，12 題一次自動生成，開玩！</p></div>
     </div>
-    <a class="dl" href="光與顏色_Kahoot匯入.xlsx" download>⬇️ 下載 Kahoot 匯入檔（.xlsx）</a>
+    <a class="dl" href="顏色_Kahoot匯入.xlsx" download>⬇️ 下載顏色版 Kahoot 匯入檔（.xlsx）</a>
     <p class="note">💡 匯入若遇到問題：直接把這頁投影，用班級搶答計分板玩也一樣熱血。答案已標「✓ 正解」，老師一眼就懂。</p>
   </section>
 
@@ -111,55 +112,49 @@
 
   <div id="qs"></div>
 
-  <footer>🕵️ 光偵探隊　｜　自然科　光與顏色　｜　答對拍拍手，答錯也是好偵探，再想一次就對了！</footer>
+  <footer>🎨 顏色偵探　｜　自然科　光與顏色　｜　答對拍拍手，答錯也是好偵探，再想一次就對了！</footer>
 </div>
 
 <a class="back-float" href="../index.html">🏠 回首頁</a>
 
 <script>
 const DATA = [
- {s:"光源", q:"光偵探隊出動！下面哪一個「自己會發光」，是真的光源？",
-  o:["🌙 月亮","☀️ 太陽","🪞 鏡子","🍎 蘋果"], a:2,
-  h:"太陽自己會發光；月亮、鏡子、蘋果都是「借光」再反射給我們看的偷光大王 😎"},
- {s:"看得見的條件", q:"房間關燈全黑，什麼都看不到，是因為少了誰？",
-  o:["💡 光","💨 空氣","💧 水","📱 手機"], a:1,
-  h:"沒有光，眼睛就直接罷工。有光 → 光進眼睛 → 才看得到。"},
- {s:"直線傳播", q:"光走路超守規矩，它是怎麼前進的？",
-  o:["🌀 繞圈圈","〰️ 彎彎曲曲","➡️ 直直走（直線前進）","🦘 跳來跳去"], a:3,
-  h:"光沿直線前進，所以才會有影子、才有雷射筆一條直線。"},
- {s:"影子", q:"大太陽下，地上黑黑一塊一直跟著你跑，那是？",
-  o:["🐕 一隻黑狗","🕳️ 一個洞","🕶️ 你的影子","🎨 油漆"], a:3,
-  h:"身體把直線前進的光擋住，後面沒被照到就變成影子。"},
- {s:"影子成因", q:"影子到底是怎麼變出來的？",
-  o:["🚧 光被身體擋住了","😴 太陽睡著了","💦 身體在流汗","🧹 地板沒擦乾淨"], a:1,
-  h:"光走直線，遇到不透明的物體被擋住，後面就出現影子。"},
- {s:"反射", q:"想看自己今天帥不帥、美不美，照哪個最清楚？（光會反射）",
-  o:["🧱 磚頭","🪞 鏡子","🧻 衛生紙","🪵 木板"], a:2,
-  h:"鏡子表面很平，光整齊反射回來，才照得清楚。"},
- {s:"折射", q:"筷子插進水杯，看起來像「折斷」了！這是光的什麼現象？",
-  o:["💥 爆炸","✂️ 真的斷了","👻 鬧鬼","🌈 折射"], a:4,
-  h:"光從水進到空氣會轉彎（折射），我們的眼睛被騙，以為筷子斷了。"},
- {s:"三原色", q:"重點記起來！光的三原色是哪三個顏色？",
-  o:["🔴🟢🔵 紅、綠、藍","🔴🟡🔵 紅、黃、藍","🟠🟢🟣 橘、綠、紫","⚫⚪🟤 黑、白、棕"], a:1,
-  h:"光的三原色 = 紅 Red、綠 Green、藍 Blue（RGB），電視螢幕就是用這三色。"},
- {s:"混光（加色）", q:"紅光＋綠光＋藍光，三種光疊在一起會變成什麼？",
-  o:["⚫ 黑色","🟤 咖啡色","⚪ 白光","🌈 直接變彩虹"], a:3,
-  h:"光是「越加越亮」，三原色一起疊 → 變回白光。"},
+ {s:"三原色", q:"🎨 顏色偵探開案！光的三原色是哪三個顏色？",
+  o:["🔴🟡🔵 紅、黃、藍","🔴🟢🔵 紅、綠、藍","🟠🟢🟣 橘、綠、紫","⚫⚪🟤 黑、白、棕"], a:2,
+  h:"光的三原色 = 紅 Red、綠 Green、藍 Blue（RGB）。"},
+ {s:"三原色應用", q:"電視、手機螢幕是用哪三種顏色的光，變出所有畫面？",
+  o:["🎨 黑、白、灰","🌈 全部七彩","🔴🟢🔵 紅、綠、藍","🖍️ 紅、黃、藍"], a:3,
+  h:"螢幕就是靠紅綠藍三色的小燈點，混出各種顏色的畫面。"},
+ {s:"混光（加色）", q:"紅光 ＋ 綠光 ＋ 藍光，三種光疊在一起會變成？",
+  o:["⚫ 黑色","⚪ 白光","🟤 咖啡色","🌈 直接變彩虹"], a:2,
+  h:"三原色的光一起疊 → 變回白光。"},
+ {s:"混光觀念", q:"光跟顏料不一樣！光是「越加越亮」還是「越加越暗」？",
+  o:["🌑 越加越暗","☀️ 越加越亮","😐 都沒變","💥 會爆炸"], a:2,
+  h:"光是加色：越多光疊在一起越亮，全部疊起來就是白光。"},
  {s:"色散", q:"白白的太陽光穿過三稜鏡，散開變成七彩，這叫？",
   o:["💨 蒸發","🌈 色散","🧊 結冰","🔊 回音"], a:2,
   h:"白光其實藏了很多顏色，三稜鏡把它們分開 → 色散。"},
- {s:"彩虹", q:"下雨後天空出現七彩的橋，那是什麼？（跟色散是好麻吉）",
+ {s:"白光的祕密", q:"其實白光裡面藏了什麼祕密？",
+  o:["🕳️ 什麼都沒有","💧 藏了水","🌈 藏了很多顏色的光","🔋 藏了電"], a:3,
+  h:"看起來白白的太陽光，其實是很多顏色的光混在一起。"},
+ {s:"彩虹", q:"下雨後天空出現七彩的橋，那是什麼？",
   o:["☁️ 烏雲","⚡ 閃電","🌈 彩虹","🎆 煙火"], a:3,
-  h:"空中的小水滴就像一顆顆三稜鏡，把陽光色散成彩虹。"},
+  h:"空中的小水滴像一顆顆三稜鏡，把陽光色散成彩虹。"},
+ {s:"彩虹顏色", q:"彩虹總共有幾種顏色？",
+  o:["3️⃣ 三種","7️⃣ 七種（紅橙黃綠藍靛紫）","5️⃣ 五種","🔟 十種"], a:2,
+  h:"彩虹七色：紅、橙、黃、綠、藍、靛、紫。"},
  {s:"選擇性反射", q:"為什麼香蕉看起來是黃色的？",
   o:["💛 它把黃光反射進我們眼睛","🎨 有人偷偷幫它上色","😋 因為它很好吃","🌙 因為晚上才看得到"], a:1,
   h:"香蕉把黃光反射、其他光吃掉，所以我們看到黃色。物體顏色 = 它反射出來的光。"},
- {s:"生活應用", q:"🚦 紅綠燈！看到哪個顏色可以安全走過馬路？",
+ {s:"選擇性反射", q:"那紅蘋果呢？它為什麼是紅色的？",
+  o:["🖌️ 農夫幫它塗紅色","🍎 它反射紅光、把別的光吃掉","🔥 因為它很燙","😳 因為它害羞臉紅"], a:2,
+  h:"蘋果反射紅光、吸收其他顏色，所以看起來是紅色。"},
+ {s:"顏色需要光", q:"在全黑、完全沒有光的房間裡，紅蘋果看起來是什麼顏色？",
+  o:["🔴 還是紅色","🌈 變成彩虹色","⚫ 黑黑的，看不出顏色","⚪ 變白色"], a:3,
+  h:"沒有光就沒有可以反射的光 → 看不出顏色。有光，才有顏色！"},
+ {s:"生活應用", q:"🚦 顏色偵探結案！紅綠燈看到哪個顏色可以安全走過馬路？",
   o:["🔴 紅燈","🟡 黃燈","🟢 綠燈","🌈 彩虹燈"], a:3,
-  h:"綠燈行、紅燈停、黃燈要小心。顏色是生活裡最重要的訊號之一。"},
- {s:"總結", q:"🕵️ 光偵探隊結案！如果世界上完全沒有光，我們的眼睛會？",
-  o:["👀 看得更清楚","🙈 什麼都看不到","🌈 只看得到彩虹","😎 變透視眼"], a:2,
-  h:"有光才有一切！光讓我們看見形狀、影子和顏色。今天你也是光偵探了 🎉"},
+  h:"綠燈行、紅燈停、黃燈小心。顏色是生活裡最重要的訊號之一。今天你也是顏色偵探了 🎉"},
 ];
 const cls = ["r","b","y","g"];
 const sh  = ["🔺","🔷","🟡","🟩"];
