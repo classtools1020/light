@@ -1,95 +1,103 @@
-<!doctype html>
-<html lang="zh-Hant"><head>
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#05101f">
-<title>光偵探隊｜今天上課點這裡</title>
+<title>光線特勤隊・自然課主畫面</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@500;700;900&display=swap">
 <style>
-  :root{
-    --bg1:#05101f; --bg2:#0a2036; --bg3:#0e3350;
-    --amber:#ffc93c; --amber2:#ff9f1c; --teal:#42e0c8;
-    --ink:#eaf6ff; --dim:#9db8cf; --card:#0f2841; --line:rgba(120,170,210,.28);
-    --shadow:rgba(0,0,0,.45);
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;padding:0;height:100%}
-  body{
-    font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",system-ui,sans-serif;
-    color:var(--ink);
-    background:radial-gradient(120% 80% at 50% -10%, rgba(255,201,60,.10), transparent 55%),
-      linear-gradient(165deg,var(--bg1) 0%,var(--bg2) 55%,var(--bg3) 100%);
-    min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
-    padding:24px 16px;
-  }
-  .emblem{font-size:clamp(56px,12vw,90px);filter:drop-shadow(0 8px 18px rgba(255,201,60,.35))}
-  .eyebrow{font-size:15px;font-weight:900;letter-spacing:.3em;color:var(--amber);margin-top:6px;text-align:center}
-  h1{font-size:clamp(30px,6vw,44px);margin:6px 0 30px;text-align:center}
+  :root{--bg1:#05101f;--bg2:#0a2036;--bg3:#0e3350;--amber:#ffc93c;--amber2:#ff9f1c;--teal:#42e0c8;
+    --ink:#eaf6ff;--dim:#9db8cf;--card:#0f2841;--line:rgba(120,170,210,.28);
+    --disp:'Fredoka','Noto Sans TC',system-ui,sans-serif;--body:'Noto Sans TC','Microsoft JhengHei',system-ui,sans-serif}
+  *{box-sizing:border-box}html,body{margin:0}
+  body{font-family:var(--body);color:var(--ink);min-height:100vh;
+    background:radial-gradient(120% 80% at 50% -10%,rgba(255,201,60,.12),transparent 55%),
+      radial-gradient(60% 40% at 90% 100%,rgba(66,224,200,.08),transparent 60%),
+      linear-gradient(165deg,var(--bg1),var(--bg2) 55%,var(--bg3))}
+  .wrap{max-width:960px;margin:0 auto;padding:34px 18px 56px}
+  header{text-align:center;margin-bottom:26px}
+  .emblem{font-size:78px;line-height:1;filter:drop-shadow(0 10px 22px rgba(255,201,60,.4));animation:float 3.5s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  .eyebrow{font-size:15px;font-weight:900;letter-spacing:.32em;color:var(--amber);margin-top:8px}
+  h1{font-family:var(--disp);font-size:48px;margin:2px 0 4px;letter-spacing:2px}
+  .sub{font-size:20px;color:var(--teal);font-weight:900}
 
-  .big-btns{display:flex;flex-direction:column;gap:22px;width:100%;max-width:520px}
-  .bigbtn{
-    display:flex;align-items:center;gap:20px;
-    background:linear-gradient(160deg,#123152,#0c2742);
-    border:3px solid var(--line);border-radius:28px;
-    padding:28px 30px;text-decoration:none;color:var(--ink);
-    box-shadow:0 12px 30px var(--shadow);
-    transition:transform .12s, border-color .15s;
-  }
-  .bigbtn:active{transform:scale(.97)}
-  .bigbtn.a{border-color:rgba(255,107,107,.55)}
-  .bigbtn.b{border-color:rgba(66,224,200,.55)}
-  .bigbtn.k{border-color:rgba(255,201,60,.6)}
-  .bigbtn.play{border-color:rgba(255,93,143,.65);background:linear-gradient(160deg,#1a2f52,#0c2742)}
-  .bigbtn .ic{font-size:56px;line-height:1;flex:none}
-  .bigbtn .tx .t{font-size:34px;font-weight:900}
-  .bigbtn .tx .d{font-size:16px;color:var(--dim);font-weight:700;margin-top:4px}
-  .bigbtn .go{margin-left:auto;font-size:34px;color:var(--amber);flex:none}
+  .tasks{display:grid;gap:20px}
+  .task{position:relative;display:block;border-radius:26px;overflow:hidden;text-decoration:none;color:#fff;
+    min-height:190px;border:3px solid var(--line);box-shadow:0 14px 34px rgba(0,0,0,.5);
+    transition:transform .14s,border-color .14s,box-shadow .14s;-webkit-tap-highlight-color:transparent}
+  .task:hover,.task:active{transform:translateY(-5px) scale(1.01);border-color:var(--amber);box-shadow:0 22px 44px rgba(0,0,0,.6)}
+  .task img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.02);transition:transform .5s}
+  .task:hover img{transform:scale(1.08)}
+  .task .ov{position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,10,20,.92) 0%,rgba(4,10,20,.72) 45%,rgba(4,10,20,.18) 100%)}
+  .task .in{position:relative;display:flex;align-items:center;gap:22px;padding:28px 30px;min-height:190px}
+  .num{flex:none;width:92px;height:92px;border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    font-family:var(--disp);font-weight:700;color:#08131f;box-shadow:0 8px 18px rgba(0,0,0,.45)}
+  .num .k{font-size:14px;letter-spacing:.2em}.num .n{font-size:40px;line-height:1}
+  .t1 .num{background:linear-gradient(180deg,#ffd85a,#ffb01c)}
+  .t2 .num{background:linear-gradient(180deg,#7ff0e0,#2fc9b3)}
+  .t3 .num{background:linear-gradient(180deg,#ff9ad0,#d95cff)}
+  .tx{flex:1;min-width:0}
+  .title{font-family:var(--disp);font-size:36px;font-weight:700;line-height:1.15;text-shadow:0 3px 8px rgba(0,0,0,.6)}
+  .desc{font-size:17px;font-weight:800;color:#ffe08a;margin-top:6px;text-shadow:0 2px 6px rgba(0,0,0,.7)}
+  .tools{font-size:14px;font-weight:700;color:#cfe4f5;margin-top:4px;text-shadow:0 2px 6px rgba(0,0,0,.7)}
+  .go{flex:none;font-size:42px;color:var(--amber);filter:drop-shadow(0 4px 8px rgba(0,0,0,.6))}
+  .tag{display:inline-block;font-size:13px;font-weight:900;color:#08131f;background:linear-gradient(180deg,var(--amber),var(--amber2));
+    border-radius:999px;padding:3px 12px;margin-left:10px;vertical-align:middle;letter-spacing:.05em;animation:blink 1.6s ease-in-out infinite}
+  @keyframes blink{0%,100%{box-shadow:0 0 0 0 rgba(255,201,60,.6)}50%{box-shadow:0 0 0 8px rgba(255,201,60,0)}}
+  .t3{border-color:rgba(255,201,60,.55)}
 
-  footer{margin-top:36px;font-size:13px;color:var(--dim);text-align:center}
+  .more{text-align:center;margin-top:30px;font-size:13px;color:var(--dim);font-weight:700}
+  .more a{color:var(--dim);text-decoration:underline dotted;margin:0 8px}
+  footer{text-align:center;margin-top:14px;font-size:13px;color:var(--dim)}
+  @media(max-width:640px){h1{font-size:36px}.task .in{padding:20px 18px;gap:14px}.num{width:70px;height:70px}.num .n{font-size:30px}
+    .title{font-size:27px}.desc{font-size:15px}.go{font-size:32px}.task{min-height:160px}}
 </style>
 </head>
 <body>
-  <div class="emblem">🕵️</div>
-  <div class="eyebrow">光偵探隊　今天上課</div>
-  <h1>點你的班級，直接開始</h1>
+<div class="wrap">
+  <header>
+    <div class="emblem">🔦</div>
+    <div class="eyebrow">竹東國中自然科</div>
+    <h1>光線特勤隊</h1>
+    <div class="sub">點任務，直接上課</div>
+  </header>
 
-  <div class="big-btns">
-    <a class="bigbtn a" href="01-phenomena/case-file.html">
-      <div class="ic">🅰️</div>
-      <div class="tx"><div class="t">甲班</div><div class="d">光的現象（影子・反射・折射）</div></div>
-      <div class="go">▶</div>
+  <div class="tasks">
+    <a class="task t1" href="https://classtools1020.github.io/light-shadow/">
+      <img src="https://classtools1020.github.io/light-shadow/img/shadow.jpg" alt="" loading="eager" onerror="this.style.display='none'">
+      <div class="ov"></div>
+      <div class="in">
+        <div class="num"><span class="k">任務</span><span class="n">一</span></div>
+        <div class="tx"><div class="title">光與影子</div><div class="desc">光源・光走直線・影子現形</div><div class="tools">簡報・大富翁・搶答・影片・學習單</div></div>
+        <div class="go">▶</div>
+      </div>
     </a>
-    <a class="bigbtn b" href="01-phenomena/case-file.html">
-      <div class="ic">🅱️</div>
-      <div class="tx"><div class="t">乙班</div><div class="d">先上光的現象，第二堂再點下一步</div></div>
-      <div class="go">▶</div>
+    <a class="task t2" href="https://classtools1020.github.io/light-reflection/">
+      <img src="https://classtools1020.github.io/light-reflection/img/lake.png" alt="" loading="eager" onerror="this.style.display='none'">
+      <div class="ov"></div>
+      <div class="in">
+        <div class="num"><span class="k">任務</span><span class="n">二</span></div>
+        <div class="tx"><div class="title">光的反射</div><div class="desc">反射定律・鏡面／漫反射</div><div class="tools">大富翁・賽車・實驗室・魔法倒影・學習單</div></div>
+        <div class="go">▶</div>
+      </div>
     </a>
-    <a class="bigbtn play" href="kahoot/play/index.html">
-      <div class="ic">🎮</div>
-      <div class="tx"><div class="t">顏色偵探大挑戰</div><div class="d">互動搶答遊戲・大圖＋音效＋抽獎，全班嗨翻</div></div>
-      <div class="go">▶</div>
-    </a>
-    <a class="bigbtn k" href="kahoot/index.html">
-      <div class="ic">📋</div>
-      <div class="tx"><div class="t">Kahoot 題庫</div><div class="d">下載匯入檔＋答案卡（顏色 12 題）</div></div>
-      <div class="go">▶</div>
-    </a>
-    <div style="width:100%;color:#9db8cf;font-weight:900;font-size:16px;margin-top:10px;letter-spacing:.08em">🔦 光線特勤隊・任務一二三（今天上任務三）</div>
-    <a class="bigbtn play" href="https://classtools1020.github.io/light-color/">
-      <div class="ic">🌈</div>
-      <div class="tx"><div class="t">任務三・光與顏色</div><div class="d">今天的課：簡報・魔法相機・光的舞臺・搶答・偵探挑戰</div></div>
-      <div class="go">▶</div>
-    </a>
-    <a class="bigbtn a" href="https://classtools1020.github.io/light-shadow/">
-      <div class="ic">🔦</div>
-      <div class="tx"><div class="t">任務一・光與影子</div><div class="d">光走直線・影子現形</div></div>
-      <div class="go">▶</div>
-    </a>
-    <a class="bigbtn b" href="https://classtools1020.github.io/light-reflection/">
-      <div class="ic">🪞</div>
-      <div class="tx"><div class="t">任務二・光的反射</div><div class="d">反射定律・鏡面／漫反射</div></div>
-      <div class="go">▶</div>
+    <a class="task t3" href="https://classtools1020.github.io/light-color/">
+      <img src="https://classtools1020.github.io/light-color/img/rainbow.png" alt="" loading="eager" onerror="this.style.display='none'">
+      <div class="ov"></div>
+      <div class="in">
+        <div class="num"><span class="k">任務</span><span class="n">三</span></div>
+        <div class="tx"><div class="title">光與顏色<span class="tag">本週</span></div><div class="desc">色散・選擇性反射・加色混合</div><div class="tools">簡報・魔法相機・光的舞臺・偵探挑戰・搶答・實驗室</div></div>
+        <div class="go">▶</div>
+      </div>
     </a>
   </div>
 
-  <footer>🕵️ 光偵探隊　｜　自然科　｜　點下去就對了，不用想</footer>
-</body></html>
+  <div class="more">其他資源：<a href="01-phenomena/case-file.html">偵探案件卷宗</a>・<a href="kahoot/index.html">Kahoot 題庫</a>・<a href="kahoot/play/index.html">顏色偵探大挑戰（原版）</a></div>
+  <footer>🔦 光線特勤隊　｜　竹東國中自然科　｜　一頁直達所有教材</footer>
+</div>
+</body>
+</html>
