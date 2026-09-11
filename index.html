@@ -159,7 +159,7 @@
           <h4>🛒 準備（勾了會記住）</h4><div class="prep">${L.prep.map((p,i)=>`<label class="${done[i]?"done":""}"><input type="checkbox" data-l="${s.l}" data-i="${i}" ${done[i]?"checked":""}> ${esc(p)}</label>`).join("")}</div>
           ${L.steps.length?`<h4>▶ 上課照這個順序點</h4><div class="steps">${L.steps.map((st,i)=>`<a href="${st[1]}" target="_blank" rel="noopener"><span class="n">${i+1}</span>${esc(st[0])}</a>`).join("")}</div>`:""}
           <div class="tipbox">💡 ${esc(L.tip)}</div>
-          <button onclick="tdStart(\x27${s.l}\x27)" style="margin-top:12px;width:100%;font-weight:900;font-size:20px;border:none;border-radius:16px;padding:16px;cursor:pointer;background:linear-gradient(180deg,#42e0c8,#1fbfa8);color:#063;box-shadow:0 6px 0 #14907f">▶ 開始這堂課（自動串聯）</button>
+          <button onclick="tdStart('${s.l}')" style="margin-top:12px;width:100%;font-weight:900;font-size:20px;border:none;border-radius:16px;padding:16px;cursor:pointer;background:linear-gradient(180deg,#42e0c8,#1fbfa8);color:#063;box-shadow:0 6px 0 #14907f">▶ 開始這堂課（自動串聯）</button>
           <div class="docs" style="margin-top:8px"><a href="${LC}files/01_光與顏色_三堂教案台詞_SEL融入版.docx">📘 教案逐字台詞</a><a href="${LC}">🌈 任務三首頁</a></div></div>`;});
       document.getElementById("tbody").innerHTML=h||`<div class="empty">這天沒有安排。</div>`;
       document.querySelectorAll("#tbody input[type=checkbox]").forEach(cb=>cb.onchange=()=>{const k=prepKey(cb.dataset.l);let o={};try{o=JSON.parse(localStorage.getItem(k)||"{}");}catch(e){}
