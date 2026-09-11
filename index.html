@@ -66,6 +66,101 @@
     <div class="sub">點任務，直接上課</div>
   </header>
 
+  <!-- ===== 📅 今天要上什麼 ===== -->
+  <style>
+    .today{background:linear-gradient(160deg,#14304f,#0c2340);border:3px solid rgba(255,201,60,.55);border-radius:24px;padding:18px 18px 14px;margin:8px 0 22px;box-shadow:0 14px 34px rgba(0,0,0,.5)}
+    .today .th{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+    .today .tt{font-size:24px;font-weight:900}
+    .today .td{font-size:15px;color:#9db8cf;font-weight:800}
+    .today .nav{display:flex;gap:8px}
+    .today .nav button{background:#0f2841;border:2px solid rgba(120,170,210,.35);color:#eaf6ff;border-radius:12px;padding:8px 12px;font-weight:900;cursor:pointer;font-size:14px}
+    .today .empty{font-size:18px;font-weight:900;color:#ffe08a;margin:12px 0 4px}
+    .slot{background:#0f2841;border:2px solid rgba(120,170,210,.28);border-radius:18px;padding:14px 16px;margin-top:12px}
+    .slot .sh{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .slot .cls{font-family:'Fredoka','Noto Sans TC',sans-serif;font-weight:700;font-size:15px;letter-spacing:.1em;color:#08131f;background:linear-gradient(180deg,#ffc93c,#ff9f1c);border-radius:999px;padding:4px 12px}
+    .slot .cls.b{background:linear-gradient(180deg,#7ff0e0,#2fc9b3)}
+    .slot .per{font-weight:900;color:#ffe08a}
+    .slot .ln{font-size:21px;font-weight:900}
+    .slot .cp{font-size:14px;color:#9db8cf;font-weight:700;width:100%}
+    .slot h4{margin:12px 0 6px;font-size:15px;color:#42e0c8;font-weight:900;letter-spacing:.05em}
+    .prep label{display:flex;align-items:center;gap:8px;font-weight:800;font-size:15px;padding:4px 0;cursor:pointer}
+    .prep input{width:20px;height:20px;accent-color:#42e0c8}
+    .prep label.done{opacity:.55;text-decoration:line-through}
+    .steps{display:flex;flex-wrap:wrap;gap:8px}
+    .steps a{display:inline-flex;align-items:center;gap:6px;background:#13314f;border:2px solid rgba(120,170,210,.3);border-radius:12px;padding:8px 12px;text-decoration:none;color:#eaf6ff;font-weight:900;font-size:14px}
+    .steps a:hover{border-color:#ffc93c}
+    .steps a .n{background:#ffc93c;color:#08131f;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-size:13px}
+    .tipbox{margin-top:10px;font-size:14px;font-weight:800;color:#ffd86b;background:rgba(255,201,60,.08);border-radius:12px;padding:8px 12px}
+    .docs a{color:#42e0c8;font-weight:900;font-size:14px;text-decoration:underline dotted;margin-right:12px}
+  </style>
+  <div class="today" id="today">
+    <div class="th"><div><div class="tt">📅 今天要上什麼</div><div class="td" id="tdate"></div></div>
+      <div class="nav"><button onclick="tdShift(-1)">‹ 前一堂</button><button onclick="tdShift(0)">今天</button><button onclick="tdShift(1)">下一堂 ›</button></div></div>
+    <div id="tstrip" style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 2px"></div>
+    <div id="tbody"></div>
+  </div>
+  <script>
+  (function(){
+    const LC="https://classtools1020.github.io/light-color/";
+    const LESSONS={
+      A:{name:"課 A・白光的祕密",task:"任務三 光與顏色｜第1節 看懂母題",cp:"色散（白光藏七彩）＋選擇性反射（蘋果為什麼是紅的）",
+        prep:["紅蘋果 1 顆","綠葉 1 片","藍色的東西 1 個","投影＋平板或手機（開相機用）","心情卡／完成貼紙"],
+        steps:[["先暖身 30 秒",LC+"reflect-recap.html"],["簡報：白光是什麼顏色？","https://gamma.app/docs/cvet1x6jr7eyeh7"],["魔法相機：綠光下蘋果變黑",LC+"camera.html"],["光的舞臺",LC+"stage.html"],["顏色偵探大挑戰",LC+"detective.html"]],
+        tip:"開相機前先說「畫面會變暗一下」；每個問題等 5 秒再點人；謎題先不解答。"},
+      B:{name:"課 B・混光魔法・白光大解密",task:"任務三 光與顏色｜第2節 動手探究",cp:"光的三原色・加色混合：紅＋綠＋藍＝白光",
+        prep:["LED 手電筒 3 支（或手機 3 支）","紅、綠、藍玻璃紙 各 1–2 張","橡皮筋 3 條","白牆或白板","圓點貼紙（紅綠藍黃白）","教室能關燈（拉窗簾）"],
+        steps:[["簡報（含影片）","https://gamma.app/docs/rzk98mghshheb2j"],["🎬 影片：螢幕放大看不是白色 1:44","https://www.youtube.com/watch?v=2j7oBDZOcbM"],["混光魔法：關燈儀式→先猜→驗證→開寶箱",LC+"mix-magic.html"],["🎬 影片：光的三原色一看就懂 1:29","https://www.youtube.com/watch?v=K4L-_1ybLzc"],["數位混光台","https://classtools1020.github.io/games/color-mixer.html"],["學習單 🔵🟠（列印）",LC+"files/04_混光魔法_學習單_操作與推理.docx"]],
+        tip:"關燈一定先說「數 3、2、1」；怕黑的同學先問要不要坐旁邊或安靜角。三支燈輪流拿，其他人當裁判。"},
+      C:{name:"課 C・顏色偵探・結案報告",task:"任務三 光與顏色｜第3節 整理與應用",cp:"選擇性反射的生活決定：背心・白衣黑衣・紅綠燈",
+        prep:["結案報告單（列印）","貼紙","選配：螢光背心或螢光黃紙、黑T＋白T"],
+        steps:[["簡報（含影片）","https://gamma.app/docs/rtg4ii4w0kekctx"],["🎬 影片：為什麼東西有顏色（均一）播 0–2:30","https://www.youtube.com/watch?v=822JZAJiZ3I"],["結案關卡：三個生活案件",LC+"case-close.html"],["🎬 影片：反光背心的祕密 播 0–1:30","https://www.youtube.com/watch?v=nJVP2tpuNNc"],["🎬 影片：紅綠燈的由來 播 0–2:00","https://www.youtube.com/watch?v=oqvqH75A3MI"],["顏色大搶答","https://classtools1020.github.io/games/light-color-quiz.html"],["結案報告單（列印）",LC+"files/06_顏色偵探_結案報告單.docx"]],
+        tip:"每破一案蓋章；三案全破按「結案」機器人會出來。乙班第 7 節若縮短，搶答與學習單做到哪算到哪。"},
+      R1:{name:"任務四・光的折射 第1節「吸管真的斷了嗎？」",task:"翰林 4-3 光的折射（Ka-IV-8）｜規劃中",cp:"光從空氣進到水裡，方向改變＝折射",
+        prep:["透明杯 每桌 1 個","吸管","硬幣","碗＋水"],steps:[],tip:"頁面尚未製作。上完本週跟我說「做任務四」，我就把整包做好接上來。"},
+      R2:{name:"任務四・光的折射 第2節（規劃中）",task:"動手探究：硬幣浮起、水中撈東西",cp:"折射讓東西看起來比較淺",prep:["透明杯、硬幣、碗、水"],steps:[],tip:"待製作。"},
+      R3:{name:"任務四・光的折射 第3節（規劃中）",task:"整理應用：游泳池、眼鏡、放大鏡入門",cp:"折射的生活應用",prep:["放大鏡"],steps:[],tip:"待製作。"}
+    };
+    const SCHED=[
+      {d:"2026-09-14",c:"甲班",p:"第7節 15:00–15:45",l:"A"},
+      {d:"2026-09-16",c:"乙班",p:"第4節 11:05–11:50",l:"A"},{d:"2026-09-16",c:"甲班",p:"第7節 15:00–15:45",l:"B"},
+      {d:"2026-09-18",c:"甲班",p:"第5節 13:10–13:55",l:"C"},{d:"2026-09-18",c:"乙班",p:"第6節 14:05–14:50",l:"B"},{d:"2026-09-18",c:"乙班",p:"第7節 15:00–15:45",l:"C"},
+      {d:"2026-09-21",c:"甲班",p:"第7節",l:"R1"},
+      {d:"2026-09-23",c:"乙班",p:"第4節",l:"R1"},{d:"2026-09-23",c:"甲班",p:"第7節",l:"R2"},
+      {d:"2026-09-25",c:"甲班",p:"第5節",l:"R3"},{d:"2026-09-25",c:"乙班",p:"第6節",l:"R2"},{d:"2026-09-25",c:"乙班",p:"第7節",l:"R3"}
+    ];
+    const W=["日","一","二","三","四","五","六"];
+    const today=new Date().toLocaleDateString("en-CA",{timeZone:"Asia/Taipei"});
+    const dates=[...new Set(SCHED.map(s=>s.d))].sort();
+    let idx=dates.findIndex(d=>d>=today); if(idx<0)idx=dates.length-1;
+    const fmt=d=>{const [y,m,dd]=d.split("-");return `${+m}/${+dd}（週${W[new Date(d+"T00:00:00+08:00").getDay()]}）`;};
+    const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+    function prepKey(l){return "prep-"+l;}
+    function strip(){
+      document.getElementById("tstrip").innerHTML=dates.map((d,i)=>{const cls=[...new Set(SCHED.filter(s=>s.d===d).map(s=>s.c))].join("＋");const on=i===idx;const past=d<today;
+        return `<button onclick="tdGo(${i})" style="border-radius:14px;padding:8px 12px;font-weight:900;font-size:14px;cursor:pointer;border:2px solid ${on?"#ffc93c":"rgba(120,170,210,.35)"};background:${on?"#3a2f10":"#0f2841"};color:${on?"#ffc93c":(past?"#7a8ea6":"#eaf6ff")}">${fmt(d)}<br><span style="font-size:12px;font-weight:800;color:${on?"#ffe08a":"#9db8cf"}">${cls}${d===today?"・今天":""}</span></button>`;}).join("");
+    }
+    window.tdGo=i=>{idx=i;render();};
+    function render(){
+      strip();
+      const d=dates[idx];const isToday=d===today;
+      document.getElementById("tdate").textContent=(isToday?"今天 ":"")+fmt(d)+(d>today&&!isToday?"　（下一次上課）":"")+(d<today?"　（已過）":"");
+      const items=SCHED.filter(s=>s.d===d);
+      let h="";
+      if(!isToday&&dates.indexOf(today)<0&&d>today){h+=`<div class="empty">今天（${fmt(today)}）沒有自然課 👇 下一堂在 ${fmt(d)}</div>`;}
+      items.forEach(s=>{const L=LESSONS[s.l];let done={};try{done=JSON.parse(localStorage.getItem(prepKey(s.l))||"{}");}catch(e){}
+        h+=`<div class="slot"><div class="sh"><span class="cls ${s.c==="乙班"?"b":""}">${s.c}</span><span class="per">${esc(s.p)}</span><span class="ln">${esc(L.name)}</span><span class="cp">${esc(L.task)}｜${esc(L.cp)}</span></div>
+          <h4>🛒 準備（勾了會記住）</h4><div class="prep">${L.prep.map((p,i)=>`<label class="${done[i]?"done":""}"><input type="checkbox" data-l="${s.l}" data-i="${i}" ${done[i]?"checked":""}> ${esc(p)}</label>`).join("")}</div>
+          ${L.steps.length?`<h4>▶ 上課照這個順序點</h4><div class="steps">${L.steps.map((st,i)=>`<a href="${st[1]}" target="_blank" rel="noopener"><span class="n">${i+1}</span>${esc(st[0])}</a>`).join("")}</div>`:""}
+          <div class="tipbox">💡 ${esc(L.tip)}</div>
+          <div class="docs" style="margin-top:8px"><a href="${LC}files/01_光與顏色_三堂教案台詞_SEL融入版.docx">📘 教案逐字台詞</a><a href="${LC}">🌈 任務三首頁</a></div></div>`;});
+      document.getElementById("tbody").innerHTML=h||`<div class="empty">這天沒有安排。</div>`;
+      document.querySelectorAll("#tbody input[type=checkbox]").forEach(cb=>cb.onchange=()=>{const k=prepKey(cb.dataset.l);let o={};try{o=JSON.parse(localStorage.getItem(k)||"{}");}catch(e){}
+        o[cb.dataset.i]=cb.checked;try{localStorage.setItem(k,JSON.stringify(o));}catch(e){}cb.parentElement.classList.toggle("done",cb.checked);});
+    }
+    window.tdShift=n=>{if(n===0){idx=dates.findIndex(d=>d>=today);if(idx<0)idx=dates.length-1;}else{idx=Math.min(dates.length-1,Math.max(0,idx+n));}render();};
+    render();
+  })();
+  </script>
   <div class="tasks">
     <a class="task t1" href="https://classtools1020.github.io/light-shadow/">
       <img src="https://classtools1020.github.io/light-shadow/img/shadow.jpg" alt="" loading="eager" onerror="this.style.display='none'">
