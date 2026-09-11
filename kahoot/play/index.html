@@ -97,9 +97,11 @@
   .opt.r{background:linear-gradient(160deg,#ff6a6a,#d93636)} .opt.b{background:linear-gradient(160deg,#4a95ff,#2160d6)}
   .opt.y{background:linear-gradient(160deg,#ffe066,#e8ad00);color:#3a2a00} .opt.g{background:linear-gradient(160deg,#54d98a,#2a9455)}
   .opt.dim{filter:grayscale(.7) brightness(.5);transform:scale(.97)}
-  .opt.win{outline:6px solid #fff;box-shadow:0 0 0 6px var(--amber),0 0 40px var(--amber);animation:pop .5s}
+  .opt.win{outline:6px solid #fff;box-shadow:0 0 0 6px var(--amber),0 0 40px var(--amber);animation:pop .5s;filter:none !important;transform:none}
   @keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.06)}100%{transform:scale(1)}}
-  .opt.lose{opacity:.55}
+  .opt.lose{opacity:.6}
+  .opt .mark{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:1.5em;
+    filter:drop-shadow(0 2px 3px rgba(0,0,0,.4))}
   .qfoot{display:flex;gap:12px;align-items:center;width:100%;max-width:1180px;margin-top:1.2vh;justify-content:space-between;flex-wrap:wrap}
   .hintbox{flex:1;min-width:240px;font-size:clamp(15px,2.2vh,22px);color:var(--teal);font-weight:800;
     background:rgba(66,224,200,.1);border-left:5px solid var(--teal);border-radius:0 12px 12px 0;padding:10px 16px;line-height:1.5}
@@ -150,16 +152,19 @@
   <h1 class="title"><span class="rb">顏色偵探</span> 大挑戰</h1>
   <div class="tag">光與顏色 ・ 12 關 ・ 看圖搶答 ・ 音效 ＋ 抽獎，全班嗨翻！</div>
   <div class="panel">
-    <label>🎡 抽人名單（用逗號、空白或換行分開；空白就用 1～8 號）</label>
-    <textarea id="names" placeholder="小明, 小華, 阿光, 小美 …"></textarea>
+    <label>🎡 抽人名單（老師自己輸入座號或姓名，用逗號／空白／換行分開；留空就自動用 1～8 號）</label>
+    <textarea id="names" placeholder="例如：1, 2, 3, 4, 5, 6　或直接留空用座號"></textarea>
     <div class="row">
       <div class="chk on" id="chkTimer">⏱️ 計時模式</div>
       <div class="chk on" id="chkSound">🔊 音效</div>
+      <div class="chk" id="chkShuffle">🔀 隨機出題</div>
     </div>
     <div class="row">
       <button class="btn big" id="startBtn">▶ 開始挑戰</button>
       <button class="btn ghost" id="wheelHomeBtn">🎡 先抽人</button>
     </div>
+    <p style="text-align:center;color:var(--dim);font-size:14px;font-weight:700;margin:14px 0 0;line-height:1.6">
+      玩法：看大圖 → 按 🎡 抽人回答 → 點答案，答對加分！<br>可用滑鼠、觸控或鍵盤 <b>1~4</b> 選答、<b>空白鍵</b> 下一題。</p>
   </div>
 </section>
 
@@ -197,6 +202,11 @@
   <div class="msg" id="resMsg">太厲害了，你們都是光的專家！</div>
   <div class="bigscore" id="resScore">0</div>
   <div class="stars" id="resStars">⭐⭐⭐</div>
+  <div id="recapWrap" style="text-align:center;margin:1vh 0 2vh">
+    <div style="font-size:clamp(16px,2.4vh,22px);font-weight:900;color:var(--teal);margin-bottom:1vh">
+      答對 <span id="rightN">0</span> / <span id="totalN">12</span> 題</div>
+    <div id="recap" style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;max-width:640px"></div>
+  </div>
   <div class="row">
     <button class="btn big" id="drawBtn">🎁 終極大抽獎</button>
     <button class="btn ghost" id="againBtn">🔄 再玩一次</button>
@@ -302,25 +312,30 @@ const Snd=(()=>{
 const $=id=>document.getElementById(id);
 const show=id=>{document.querySelectorAll(".screen").forEach(s=>s.classList.remove("on")); $(id).classList.add("on");};
 let names=[], score=0, combo=0, idx=0, timer=null, timeLeft=0, locked=false, useTimer=true;
+let deck=Q.slice(), results=[];
+function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
 
 /* ================= 開始 ================= */
 $("chkTimer").onclick=e=>{e.currentTarget.classList.toggle("on"); useTimer=e.currentTarget.classList.contains("on");};
 $("chkSound").onclick=e=>{e.currentTarget.classList.toggle("on"); Snd.set(e.currentTarget.classList.contains("on"));};
+$("chkShuffle").onclick=e=>{e.currentTarget.classList.toggle("on");};
 function parseNames(){
   const raw=$("names").value.trim();
   let arr = raw? raw.split(/[\s,，、]+/).filter(Boolean) : [];
   if(arr.length<2) arr=["1號","2號","3號","4號","5號","6號","7號","8號"];
   return arr;
 }
-$("startBtn").onclick=()=>{ Snd.resume(); Snd.click(); names=parseNames(); score=0; combo=0; idx=0;
-  useTimer=$("chkTimer").classList.contains("on"); $("scoreN").textContent=0; show("quiz"); render(); };
+$("startBtn").onclick=()=>{ Snd.resume(); Snd.click(); names=parseNames(); score=0; combo=0; idx=0; results=[];
+  useTimer=$("chkTimer").classList.contains("on");
+  deck = $("chkShuffle").classList.contains("on") ? shuffle(Q.slice()) : Q.slice();
+  $("scoreN").textContent=0; show("quiz"); render(); };
 $("wheelHomeBtn").onclick=()=>{ Snd.resume(); names=parseNames(); openWheel("🎡 抽人回答", names, null); };
 $("againBtn").onclick=()=>{ Snd.click(); show("home"); };
 
 /* ================= 出題 ================= */
 function render(){
   locked=false;
-  const q=Q[idx];
+  const q=deck[idx];
   $("curN").textContent=idx+1; $("qnum").textContent=idx+1;
   $("qtext").textContent=q.q;
   $("qimg").src=IMG_DIR+q.img; $("qimg").alt=q.s;
@@ -328,7 +343,7 @@ function render(){
   $("comboPill").style.visibility = combo>=2? "visible":"hidden"; $("comboN").textContent=combo;
   // 進度圓點
   const dots=$("dots"); dots.innerHTML="";
-  Q.forEach((_,i)=>{ const d=document.createElement("div");
+  deck.forEach((_,i)=>{ const d=document.createElement("div");
     d.className="dot"+(i<idx?" done":"")+(i===idx?" cur":""); dots.appendChild(d); });
   const box=$("opts"); box.innerHTML="";
   q.o.forEach((t,i)=>{
@@ -359,15 +374,19 @@ function startTimer(){
 function choose(i,btn){ if(locked)return; Snd.click(); reveal(i,btn); }
 function reveal(picked,btn){
   if(locked)return; locked=true; clearInterval(timer);
-  const q=Q[idx];
+  const q=deck[idx];
   const opts=[...document.querySelectorAll(".opt")];
-  opts.forEach((el,i)=>{ if(i===q.a) el.classList.add("win"); else el.classList.add("dim"); });
-  if(picked===q.a){
+  const correct = (picked===q.a); results[idx]=correct;
+  opts.forEach((el,i)=>{
+    if(i===q.a){ el.classList.add("win"); el.insertAdjacentHTML("beforeend",'<span class="mark">✅</span>'); }
+    else { el.classList.add("dim"); }
+  });
+  if(correct){
     combo++; const gain = 100 + (combo>=2?(combo-1)*30:0);
     score+=gain; bumpScore();
     Snd.correct(); confetti(); flashMsg("答對啦！ +"+gain, "#38d967");
   }else{
-    combo=0; if(btn) btn.classList.add("lose");
+    combo=0; if(btn){ btn.classList.add("lose"); btn.insertAdjacentHTML("beforeend",'<span class="mark">❌</span>'); }
     Snd.wrong(); document.body.classList.add("shake"); setTimeout(()=>document.body.classList.remove("shake"),400);
     flashMsg(picked<0? "時間到！看正解 👀":"再想一次也很棒 💪", "#ff5d8f");
   }
@@ -377,20 +396,30 @@ function reveal(picked,btn){
 }
 function bumpScore(){ const s=$("scoreN"); let cur=score-100; const step=Math.ceil((score-cur)/12);
   const t=setInterval(()=>{ cur+=step; if(cur>=score){cur=score;clearInterval(t);} s.textContent=cur; },20); }
-$("nextBtn").onclick=()=>{ Snd.click(); idx++; if(idx>=Q.length) finish(); else render(); };
+$("nextBtn").onclick=()=>{ Snd.click(); idx++; if(idx>=deck.length) finish(); else render(); };
 $("pickBtn").onclick=()=>{ Snd.resume(); openWheel("🎡 誰來回答第 "+(idx+1)+" 關？", names, null); };
 
 /* ================= 結算 ================= */
 function finish(){
   show("result");
-  const max=Q.length*130; const ratio=score/max;
-  $("resScore").textContent="0"; let c=0; const step=Math.ceil(score/40);
+  const total=deck.length, right=results.filter(Boolean).length, ratio=right/total;
+  $("totalN").textContent=total; $("rightN").textContent=right;
+  // 復習表：每題一格，綠=答對 紅=答錯
+  const rc=$("recap"); rc.innerHTML="";
+  deck.forEach((_,i)=>{ const c=document.createElement("div");
+    const ok=results[i]; c.textContent=i+1;
+    c.style.cssText=`width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-weight:900;
+      font-size:16px;color:#fff;background:${ok?"#38b26b":"#e94b4b"};box-shadow:0 4px 10px var(--shadow)`;
+    rc.appendChild(c); });
+  $("resScore").textContent="0"; let c=0; const step=Math.max(1,Math.ceil(score/40));
   const t=setInterval(()=>{ c+=step; if(c>=score){c=score;clearInterval(t);} $("resScore").textContent=c; },25);
-  let stars="⭐⭐⭐", emo="🎉", msg="太厲害了，你們都是光的專家！";
+  let stars="⭐⭐⭐", emo="🏆", msg="太厲害了，你們都是光的專家！";
   if(ratio<.4){stars="⭐";emo="💪";msg="很棒的開始！再玩一次會更神！";}
-  else if(ratio<.75){stars="⭐⭐";emo="😎";msg="很強喔！顏色偵探實習生出師啦！";}
+  else if(ratio<.75){stars="⭐⭐";emo="😎";msg="很強喔！顏色偵探出師啦！";}
   $("resStars").textContent=stars; $("resEmo").textContent=emo; $("resMsg").textContent=msg;
-  Snd.win(); confetti(2200);
+  Snd.win();
+  // 盛大慶祝：連續多波彩帶
+  confetti(2600); [500,1000,1600].forEach(d=>setTimeout(()=>confetti(1800),d));
 }
 
 /* ================= 轉盤 / 抽獎 ================= */
@@ -445,12 +474,12 @@ const cv=$("fx"), cx=cv.getContext("2d"); let parts=[];
 function resize(){ cv.width=innerWidth; cv.height=innerHeight; } resize(); addEventListener("resize",resize);
 const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
 function confetti(ms=1400){
-  if(REDUCE) ms=Math.min(ms,600);
+  if(REDUCE) ms=Math.min(ms,700);
   const cols=["#ffc93c","#ff5d8f","#42e0c8","#38d967","#2e9bff","#ff9f1c","#8a5cf6"];
-  const N = REDUCE? 28 : 90;
-  for(let i=0;i<N;i++) parts.push({x:innerWidth/2+(Math.random()-.5)*260, y:innerHeight*.35,
-    vx:(Math.random()-.5)*11, vy:-Math.random()*13-4, g:.4+Math.random()*.2,
-    s:6+Math.random()*8, c:cols[i%cols.length], r:Math.random()*6, vr:(Math.random()-.5)*.4, life:ms});
+  const N = REDUCE? 24 : 70;
+  for(let i=0;i<N;i++) parts.push({x:Math.random()*innerWidth, y:-20-Math.random()*120,
+    vx:(Math.random()-.5)*3, vy:2+Math.random()*3.5, g:.06+Math.random()*.05,
+    s:7+Math.random()*8, c:cols[i%cols.length], r:Math.random()*6, vr:(Math.random()-.5)*.35, life:ms});
   if(!raf) loop();
 }
 let raf=null;
