@@ -96,6 +96,15 @@
     </a>
   </div>
 
+  <div class="more" id="badgewall" style="margin-top:26px;font-size:15px"></div>
+  <script>
+  (function(){try{var b=JSON.parse(localStorage.getItem("lightBadges")||"{}");var ks=Object.keys(b);var el=document.getElementById("badgewall");
+    var all=[["mix","🔦","混光魔法師"],["case","🕵️","顏色偵探"],["quiz","🎮","顏色搶答王"]];
+    el.innerHTML="<div style=\"font-weight:900;color:#ffc93c;font-size:18px;margin-bottom:8px\">🏅 勳章牆　"+ks.length+" / "+all.length+"</div><div style=\"display:flex;gap:12px;justify-content:center;flex-wrap:wrap\">"+
+      all.map(function(a){var got=!!b[a[0]];return "<div style=\"width:96px;text-align:center;opacity:"+(got?1:.3)+";filter:"+(got?"none":"grayscale(1)")+"\"><div style=\"font-size:44px;line-height:1;"+(got?"filter:drop-shadow(0 0 12px rgba(255,201,60,.8))":"")+"\">"+a[1]+"</div><div style=\"font-size:13px;font-weight:900;color:#eaf6ff;margin-top:4px\">"+a[2]+"</div></div>";}).join("")+"</div>"+
+      (ks.length>=all.length?"<div style=\"margin-top:10px;font-weight:900;color:#42e0c8\">🎉 全部集滿！光線特勤隊・光與顏色 結業！</div>":"<div style=\"margin-top:8px;color:#9db8cf;font-weight:700\">完成各堂課的關卡就會亮起來</div>");
+  }catch(e){}})();
+  </script>
   <div class="more">其他資源：<a href="01-phenomena/case-file.html">偵探案件卷宗</a>・<a href="kahoot/index.html">Kahoot 題庫</a>・<a href="kahoot/play/index.html">顏色偵探大挑戰（原版）</a></div>
   <footer>🔦 光線特勤隊　｜　竹東國中自然科　｜　一頁直達所有教材</footer>
 </div>
