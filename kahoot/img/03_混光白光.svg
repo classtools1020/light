@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="'WenQuanYi Zen Hei','Noto Sans TC',sans-serif">
+<defs><radialGradient id="bg" cx="50%" cy="8%" r="120%">
+<stop offset="0%" stop-color="#123a5c"/><stop offset="55%" stop-color="#0a2036"/><stop offset="100%" stop-color="#05101f"/>
+</radialGradient></defs>
+<rect width="1280" height="720" fill="url(#bg)"/>
+<rect x="10" y="10" width="1260" height="700" rx="30" fill="none" stroke="rgba(120,170,210,.28)" stroke-width="4"/>
+<text x="640" y="80" font-size="52" fill="#ffc93c" text-anchor="middle" font-weight="900">紅光 ＋ 綠光 ＋ 藍光</text>
+<text x="640" y="128" font-size="32" fill="#9db8cf" text-anchor="middle" font-weight="700">三種光疊在一起 → 變成白光</text>
+<rect x="300" y="180" width="470" height="470" rx="24" fill="#02040a"/>
+<g>
+ <circle cx="535" cy="330" r="150" fill="#00ff2a" style="mix-blend-mode:screen"/>
+ <circle cx="720" cy="330" r="150" fill="#1a5cff" style="mix-blend-mode:screen"/>
+ <circle cx="628" cy="490" r="150" fill="#ff1a1a" style="mix-blend-mode:screen"/>
+</g>
+<text x="470" y="250" font-size="30" fill="#7dffa0" font-weight="900" text-anchor="middle">綠</text>
+<text x="790" y="250" font-size="30" fill="#8ab4ff" font-weight="900" text-anchor="middle">藍</text>
+<text x="628" y="600" font-size="30" fill="#ff9a9a" font-weight="900" text-anchor="middle">紅</text>
+<text x="628" y="415" font-size="30" fill="#0a1424" font-weight="900" text-anchor="middle">白</text>
+<line x1="800" y1="400" x2="960" y2="400" stroke="#ffc93c" stroke-width="12" stroke-linecap="round"/>
+<polygon points="990,400 958,384 958,416" fill="#ffc93c"/>
+<circle cx="1090" cy="400" r="86" fill="#ffffff"/>
+<circle cx="1090" cy="400" r="110" fill="#ffffff" opacity=".25"/>
+<text x="1090" y="412" font-size="34" fill="#111" text-anchor="middle" font-weight="900">白光</text>
+</svg>

@@ -61,6 +61,8 @@
   .q .stem{font-size:clamp(18px,3.6vw,22px);font-weight:900;line-height:1.5;flex:1 1 240px}
   .q .sec{font-size:12px;font-weight:800;color:var(--dim);background:rgba(120,170,210,.12);
     border-radius:999px;padding:4px 10px;flex:none}
+  .qimg{width:100%;max-width:640px;display:block;margin:4px auto 14px;border-radius:16px;
+    border:2px solid var(--line);box-shadow:0 8px 20px var(--shadow);background:#05101f}
   .opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
   @media(max-width:560px){.opts{grid-template-columns:1fr}}
   .opt{display:flex;align-items:center;gap:10px;border-radius:14px;padding:12px 14px;
@@ -88,7 +90,7 @@
     <div class="emblem">🎨</div>
     <div class="eyebrow">顏色偵探　搶答挑戰</div>
     <h1><span class="rainbow">光與顏色</span> Kahoot 題庫</h1>
-    <div class="sub">顏色主題・12 題・全班一起搶答，讓大家愛死！</div>
+    <div class="sub">顏色主題・12 題・每題配大圖・全班搶答，讓大家愛死！</div>
     <div class="meta">
       <span class="chip g">三原色・混光</span>
       <span class="chip">色散・彩虹</span>
@@ -105,7 +107,14 @@
       <div class="step"><span class="n">3</span><p>上傳下面這個 Excel，12 題一次自動生成，開玩！</p></div>
     </div>
     <a class="dl" href="顏色_Kahoot匯入.xlsx" download>⬇️ 下載顏色版 Kahoot 匯入檔（.xlsx）</a>
-    <p class="note">💡 匯入若遇到問題：直接把這頁投影，用班級搶答計分板玩也一樣熱血。答案已標「✓ 正解」，老師一眼就懂。</p>
+    <h2 style="margin-top:22px">🖼️ 每一題都幫你配好對照圖了</h2>
+    <p class="note" style="margin-top:2px">下面每題都有一張大圖，學生看圖對照最有感。圖片檔全部放在 <b>img/</b> 資料夾，檔名就是題號（<b>01～12</b>）。</p>
+    <div class="steps" style="margin-top:10px">
+      <div class="step"><span class="n">A</span><p>Excel 匯入只會帶「文字」，<b>圖片要在 Kahoot 裡自己加</b>（這是 Kahoot 的限制，不是漏做喔）。</p></div>
+      <div class="step"><span class="n">B</span><p>在每題右邊點 <b>加圖片</b> → 上傳對應題號的 PNG（例：第 5 題就選 <b>05</b>）。</p></div>
+      <div class="step"><span class="n">C</span><p>懶得一張張上傳？<b>直接投影這一頁</b>玩搶答，圖片、正解、解說全都在，零設定！</p></div>
+    </div>
+    <p class="note">💡 圖片同時附 <b>.png</b>（給 Kahoot 上傳）和 <b>.svg</b>（投影超清晰）兩種格式，任你挑。</p>
   </section>
 
   <button class="toggle" id="toggle">🙈 先蓋住正解（考自己）／👀 顯示正解</button>
@@ -156,6 +165,8 @@ const DATA = [
   o:["🔴 紅燈","🟡 黃燈","🟢 綠燈","🌈 彩虹燈"], a:3,
   h:"綠燈行、紅燈停、黃燈小心。顏色是生活裡最重要的訊號之一。今天你也是顏色偵探了 🎉"},
 ];
+const IMG = ["01_三原色","02_螢幕RGB","03_混光白光","04_越加越亮","05_三稜鏡色散","06_白光的祕密",
+  "07_彩虹","08_彩虹七色","09_香蕉黃","10_蘋果紅","11_全黑房間","12_紅綠燈"];
 const cls = ["r","b","y","g"];
 const sh  = ["🔺","🔷","🟡","🟩"];
 const box = document.getElementById("qs");
@@ -166,6 +177,7 @@ box.innerHTML = DATA.map((d,i)=>`
       <span class="stem">${d.q}</span>
       <span class="sec">${d.s}</span>
     </div>
+    <img class="qimg" src="img/${IMG[i]}.svg" alt="${d.s}對照圖" loading="lazy">
     <div class="opts">
       ${d.o.map((t,k)=>`<div class="opt ${cls[k]} ${k+1===d.a?'correct':''}"><span class="sh">${sh[k]}</span><span>${t}</span></div>`).join("")}
     </div>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="'WenQuanYi Zen Hei','Noto Sans TC',sans-serif">
+<defs>
+<radialGradient id="bg" cx="50%" cy="8%" r="120%">
+ <stop offset="0%" stop-color="#123a5c"/><stop offset="55%" stop-color="#0a2036"/><stop offset="100%" stop-color="#05101f"/>
+</radialGradient>
+<linearGradient id="amber" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd76a"/><stop offset="1" stop-color="#ff9f1c"/></linearGradient>
+<filter id="g1"><feGaussianBlur stdDeviation="8"/></filter>
+</defs>
+<rect width="1280" height="720" fill="url(#bg)"/>
+<rect x="10" y="10" width="1260" height="700" rx="30" fill="none" stroke="rgba(120,170,210,.28)" stroke-width="4"/>
+<text x="640" y="80" font-size="52" fill="#ffc93c" text-anchor="middle" font-weight="900">光的三原色</text><text x="640" y="132" font-size="34" fill="#9db8cf" text-anchor="middle" font-weight="700">紅 Red・綠 Green・藍 Blue</text><g transform="translate(340,430)">
+  <circle r="120" fill="#ff3b3b"/><circle r="120" fill="#ff3b3b" opacity=".5" transform="scale(1.25)"/>
+  <text y="185" font-size="46" fill="#eaf6ff" text-anchor="middle" font-weight="900">紅</text>
+  <text y="230" font-size="30" fill="#9db8cf" text-anchor="middle" font-weight="800">Red</text></g><g transform="translate(640,430)">
+  <circle r="120" fill="#2fd960"/><circle r="120" fill="#2fd960" opacity=".5" transform="scale(1.25)"/>
+  <text y="185" font-size="46" fill="#eaf6ff" text-anchor="middle" font-weight="900">綠</text>
+  <text y="230" font-size="30" fill="#9db8cf" text-anchor="middle" font-weight="800">Green</text></g><g transform="translate(940,430)">
+  <circle r="120" fill="#3b82ff"/><circle r="120" fill="#3b82ff" opacity=".5" transform="scale(1.25)"/>
+  <text y="185" font-size="46" fill="#eaf6ff" text-anchor="middle" font-weight="900">藍</text>
+  <text y="230" font-size="30" fill="#9db8cf" text-anchor="middle" font-weight="800">Blue</text></g>
+</svg>

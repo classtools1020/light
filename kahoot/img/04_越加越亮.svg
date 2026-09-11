@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="'WenQuanYi Zen Hei','Noto Sans TC',sans-serif">
+<defs>
+<radialGradient id="bg" cx="50%" cy="8%" r="120%">
+ <stop offset="0%" stop-color="#123a5c"/><stop offset="55%" stop-color="#0a2036"/><stop offset="100%" stop-color="#05101f"/>
+</radialGradient>
+<linearGradient id="amber" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd76a"/><stop offset="1" stop-color="#ff9f1c"/></linearGradient>
+
+</defs>
+<rect width="1280" height="720" fill="url(#bg)"/>
+<rect x="10" y="10" width="1260" height="700" rx="30" fill="none" stroke="rgba(120,170,210,.28)" stroke-width="4"/>
+<text x="640" y="80" font-size="52" fill="#ffc93c" text-anchor="middle" font-weight="900">光：越加越亮</text><text x="640" y="132" font-size="34" fill="#9db8cf" text-anchor="middle" font-weight="700">一盞 → 兩盞 → 三盞，越來越亮</text><g transform="translate(300,430)">
+   <circle r="70" fill="#fff7d6" opacity="0.35"/><circle r="52" fill="#fff2b0"/>
+   <text y="12" font-size="52" text-anchor="middle">💡</text>
+   <text y="150" font-size="40" fill="#ffc93c" text-anchor="middle" font-weight="900">1 盞</text></g><g transform="translate(640,430)">
+   <circle r="110" fill="#fff7d6" opacity="0.55"/><circle r="52" fill="#fff2b0"/>
+   <text y="12" font-size="52" text-anchor="middle">💡</text>
+   <text y="150" font-size="40" fill="#ffc93c" text-anchor="middle" font-weight="900">2 盞</text></g><g transform="translate(980,430)">
+   <circle r="150" fill="#fff7d6" opacity="0.85"/><circle r="52" fill="#fff2b0"/>
+   <text y="12" font-size="52" text-anchor="middle">💡</text>
+   <text y="150" font-size="40" fill="#ffc93c" text-anchor="middle" font-weight="900">3 盞＝白亮</text></g><line x1="400" y1="430" x2="504" y2="430" stroke="#42e0c8" stroke-width="10" stroke-linecap="round"/><polygon points="520,430 496,440 496,420" fill="#42e0c8"/><line x1="760" y1="430" x2="834" y2="430" stroke="#42e0c8" stroke-width="10" stroke-linecap="round"/><polygon points="850,430 826,440 826,420" fill="#42e0c8"/>
+</svg>

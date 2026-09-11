@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="'WenQuanYi Zen Hei','Noto Sans TC',sans-serif">
+<defs>
+<radialGradient id="bg" cx="50%" cy="8%" r="120%">
+ <stop offset="0%" stop-color="#123a5c"/><stop offset="55%" stop-color="#0a2036"/><stop offset="100%" stop-color="#05101f"/>
+</radialGradient>
+<linearGradient id="amber" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd76a"/><stop offset="1" stop-color="#ff9f1c"/></linearGradient>
+
+</defs>
+<rect width="1280" height="720" fill="url(#bg)"/>
+<rect x="10" y="10" width="1260" height="700" rx="30" fill="none" stroke="rgba(120,170,210,.28)" stroke-width="4"/>
+<text x="640" y="80" font-size="52" fill="#ffc93c" text-anchor="middle" font-weight="900">紅綠燈</text><text x="640" y="132" font-size="34" fill="#9db8cf" text-anchor="middle" font-weight="700">綠燈 → 可以安全走</text><rect x="540" y="150" width="200" height="440" rx="40" fill="#14202f" stroke="#3a4a63" stroke-width="10"/><circle cx="640" cy="240" r="62" fill="#5a1414"/><text x="640" y="255" font-size="28" fill="#8a3a3a" text-anchor="middle">紅</text><circle cx="640" cy="370" r="62" fill="#5a5014"/><text x="640" y="385" font-size="28" fill="#8a7a3a" text-anchor="middle">黃</text><circle cx="640" cy="500" r="62" fill="#2fd967"/><circle cx="640" cy="500" r="90" fill="#2fd967" opacity=".3"/><text x="640" y="515" font-size="30" fill="#06331a" text-anchor="middle" font-weight="900">綠</text><g transform="translate(930,430)"><circle cy="-70" r="26" fill="#eaf6ff"/><rect x="-14" y="-46" width="28" height="70" rx="12" fill="#42e0c8"/><line x1="-10" y1="24" x2="-24" y2="80" stroke="#42e0c8" stroke-width="14" stroke-linecap="round"/><line x1="10" y1="24" x2="26" y2="78" stroke="#42e0c8" stroke-width="14" stroke-linecap="round"/></g><rect x="860" y="600" width="30" height="14" fill="#eaf6ff" opacity=".8"/><rect x="906" y="600" width="30" height="14" fill="#eaf6ff" opacity=".8"/><rect x="952" y="600" width="30" height="14" fill="#eaf6ff" opacity=".8"/><rect x="998" y="600" width="30" height="14" fill="#eaf6ff" opacity=".8"/><rect x="1044" y="600" width="30" height="14" fill="#eaf6ff" opacity=".8"/>
+</svg>
