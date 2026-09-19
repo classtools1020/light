@@ -198,7 +198,19 @@
   .glowbar{height:24px;border-radius:12px;background:var(--line);overflow:hidden;box-shadow:inset 0 3px 4px rgba(0,0,0,.12)}
   .glowbar i{display:block;height:100%;border-radius:12px;background:linear-gradient(90deg,#ff6f61,#ffd86b,#5fd3bd);transition:width .5s cubic-bezier(.2,1.4,.4,1);width:40%;box-shadow:inset 0 -6px 0 rgba(0,0,0,.12)}
   .verdict{font-family:var(--disp);font-size:24px;font-weight:800;margin-top:8px;min-height:34px}
-  @media(max-width:640px){.mirror{grid-template-columns:1fr}}
+  @media(max-width:640px){
+    #v-mirror .card{overflow:visible}#v-mirror .card::after{display:none}
+    .mirror{grid-template-columns:44% 1fr;gap:10px;align-items:start}
+    .frame{position:sticky;top:calc(env(safe-area-inset-top,0px) + 84px);z-index:5;padding:5px;border-radius:20px}
+    .frame svg{max-width:100%}
+    .chips{gap:5px;margin:3px 0 8px}.chip{width:34px;height:34px;border-width:3px;font-size:14px}
+    #v-mirror .lead{font-size:15px}
+    .dimtxt{font-size:13px}.verdict{font-size:19px}.glowbar{height:18px}
+    .mascot{transition:opacity .3s,transform .3s}.mascot.hide{opacity:0;transform:translateY(20px)}
+    .mascot svg{width:54px;height:54px}.bubble{font-size:12px;max-width:150px;padding:6px 10px;margin-bottom:14px}
+    .snd{width:40px;height:40px;font-size:17px;right:10px;opacity:.85}
+    .hero{min-height:200px}.hero p{font-size:14px}
+  }
 
   /* sort game */
   .arena{position:relative;user-select:none;touch-action:none}
@@ -483,7 +495,7 @@ let mascotTimer=null;
 function mascotSay(text,mood="open",ms=2600){const b=$("#bubble");b.textContent=text;b.classList.add("show");
   ["mEyesOpen","mEyesHappy","mEyesStar"].forEach(id=>$("#"+id).hidden=true);$("#"+({open:"mEyesOpen",happy:"mEyesHappy",star:"mEyesStar"}[mood]||"mEyesOpen")).hidden=false;
   $("#mMouth").setAttribute("d",mood==="think"?"M44 66 Q50 63 56 66":mood==="star"?"M42 62 Q50 76 58 62":"M43 64 Q50 71 57 64");
-  clearTimeout(mascotTimer);mascotTimer=setTimeout(()=>{b.classList.remove("show");["mEyesHappy","mEyesStar"].forEach(id=>$("#"+id).hidden=true);$("#mEyesOpen").hidden=false;$("#mMouth").setAttribute("d","M43 64 Q50 71 57 64");},ms);}
+  document.querySelector(".mascot").classList.remove("hide");clearTimeout(mascotTimer);mascotTimer=setTimeout(()=>{b.classList.remove("show");if(matchMedia("(max-width:640px)").matches)document.querySelector(".mascot").classList.add("hide");["mEyesHappy","mEyesStar"].forEach(id=>$("#"+id).hidden=true);$("#mEyesOpen").hidden=false;$("#mMouth").setAttribute("d","M43 64 Q50 71 57 64");},ms);}
 
 /* ---------- 資料 ---------- */
 const SEASONS={
