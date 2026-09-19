@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f6f3ee">
+<title>四季色彩鑑定所｜你是春夏秋冬哪一種人？</title>
+<style>
+  :root{
+    --bg:#f6f3ee;--paper:#ffffff;--ink:#23272f;--dim:#6b7280;--line:#e5e1da;
+    --spring:#ff9f43;--summer:#5fa8d3;--autumn:#b5651d;--winter:#3b3f8f;
+    --accent:#ff6b6b;--ok:#2fb47c;--warn:#f4b942;
+    --body:"Noto Sans TC","Microsoft JhengHei","PingFang TC",system-ui,sans-serif;
+    --r:22px;
+  }
+  *{box-sizing:border-box}html,body{margin:0}
+  body{font-family:var(--body);background:var(--bg);color:var(--ink);min-height:100vh;-webkit-tap-highlight-color:transparent}
+  button{font-family:inherit;cursor:pointer}
+  .wrap{max-width:1000px;margin:0 auto;padding:18px 16px 70px}
+  header{text-align:center;padding:10px 0 6px}
+  .logo{font-size:64px;line-height:1;animation:float 3.5s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  h1{font-size:40px;margin:6px 0 2px;letter-spacing:2px}
+  h1 .s1{color:var(--spring)}h1 .s2{color:var(--summer)}h1 .s3{color:var(--autumn)}h1 .s4{color:var(--winter)}
+  .sub{font-size:19px;font-weight:900;color:var(--dim)}
+  .back{display:inline-block;color:var(--dim);text-decoration:none;font-weight:800;font-size:14px;margin-bottom:6px}
+
+  /* tabs */
+  .tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0 20px}
+  .tab{border:3px solid var(--line);background:var(--paper);border-radius:18px;padding:12px 6px;font-size:17px;font-weight:900;color:var(--ink);transition:.12s}
+  .tab .ic{font-size:30px;display:block;line-height:1;margin-bottom:4px}
+  .tab.on{border-color:var(--ink);background:var(--ink);color:#fff;transform:translateY(-2px)}
+  .tab:hover{transform:translateY(-2px)}
+  .view{display:none}.view.on{display:block;animation:in .25s ease}
+  @keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .card{background:var(--paper);border:3px solid var(--line);border-radius:var(--r);padding:22px;box-shadow:0 10px 26px rgba(0,0,0,.06);margin-bottom:16px}
+  .card h2{margin:0 0 8px;font-size:26px}
+  .card p{font-size:17px;line-height:1.75;margin:6px 0}
+  .lead{font-size:20px;font-weight:900}
+  .big{display:block;width:100%;border:none;border-radius:20px;padding:20px;font-size:26px;font-weight:900;color:#fff;
+    background:linear-gradient(135deg,#ff6b6b,#ff9f43 35%,#5fa8d3 70%,#3b3f8f);box-shadow:0 8px 0 rgba(0,0,0,.18);margin-top:10px}
+  .big:active{transform:translateY(4px);box-shadow:0 4px 0 rgba(0,0,0,.18)}
+  .btn{border:3px solid var(--ink);background:var(--paper);border-radius:14px;padding:12px 18px;font-size:18px;font-weight:900;color:var(--ink)}
+  .btn.primary{background:var(--ink);color:#fff}
+  .btn.ghost{border-color:var(--line);color:var(--dim)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .sp{justify-content:space-between}
+
+  /* progress */
+  .prog{display:flex;gap:6px;margin:4px 0 14px}
+  .prog i{flex:1;height:12px;border-radius:6px;background:var(--line)}
+  .prog i.done{background:var(--ok)}.prog i.now{background:var(--warn)}
+  .stepno{font-size:14px;font-weight:900;color:var(--dim);letter-spacing:.2em}
+  .q{font-size:28px;font-weight:900;margin:4px 0 6px;line-height:1.3}
+  .hint{font-size:16px;color:var(--dim);font-weight:800;background:#faf7f0;border-radius:12px;padding:10px 14px;margin:8px 0 14px}
+  .opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+  .opt{border:4px solid var(--line);border-radius:20px;background:var(--paper);padding:14px;text-align:center;font-size:20px;font-weight:900;color:var(--ink);transition:.12s;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+  .opt:hover{transform:translateY(-3px);border-color:#bbb}
+  .opt.pick{border-color:var(--ok);background:#effaf4}
+  .opt .pic{width:100%;height:84px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:40px}
+  .opt small{font-size:14px;color:var(--dim);font-weight:800}
+  .wrist{background:linear-gradient(180deg,#f3d3b8,#e9bf9c);position:relative;overflow:hidden}
+  .wrist i{position:absolute;left:12%;right:12%;height:5px;border-radius:5px;opacity:.75}
+  .wrist i:nth-child(1){top:30%;transform:rotate(-3deg)}.wrist i:nth-child(2){top:52%;transform:rotate(2deg)}.wrist i:nth-child(3){top:70%;left:30%;transform:rotate(-6deg)}
+  .v-green i{background:#4f8a5b}.v-blue i{background:#5460b8}
+  .v-mix i:nth-child(odd){background:#4f8a5b}.v-mix i:nth-child(even){background:#5460b8}
+  .metal{position:relative}
+  .metal span{display:inline-block;width:64px;height:64px;border-radius:50%;border:6px solid;box-shadow:inset 0 0 12px rgba(0,0,0,.15)}
+  .gold span{border-color:#e0b33c;background:radial-gradient(circle at 35% 35%,#fff3c4,#d9a326)}
+  .silver span{border-color:#b9c1cc;background:radial-gradient(circle at 35% 35%,#ffffff,#a9b2bd)}
+
+  /* camera */
+  .cam{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:4/3;background:#222;border-radius:20px;overflow:hidden;border:4px solid var(--line)}
+  .cam video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
+  .cam .drape{position:absolute;left:0;right:0;bottom:0;height:34%;display:flex}
+  .cam .drape div{flex:1;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;font-size:22px;font-weight:900;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.6)}
+  .cam .neck{position:absolute;left:0;right:0;bottom:34%;height:12px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.25))}
+  .cam .nocam{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:20px;gap:10px;text-align:center;padding:20px}
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:640px;margin:12px auto 0}
+  .pair button{border:4px solid var(--line);border-radius:16px;padding:14px;font-size:20px;font-weight:900;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.4)}
+  .pair button:hover{border-color:var(--ink)}
+
+  /* result */
+  .res{border-width:5px;text-align:center;overflow:hidden;position:relative}
+  .res .em{font-size:90px;line-height:1}
+  .res .season{font-size:46px;font-weight:900;margin:4px 0}
+  .res .nick{font-size:22px;font-weight:900;color:var(--dim)}
+  .res .why{text-align:left;background:#faf7f0;border-radius:16px;padding:14px 16px;margin:14px 0;font-size:17px;line-height:1.7}
+  .sw{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:10px;margin-top:10px}
+  .sw div{border-radius:14px;height:88px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;font-size:13px;font-weight:900;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6);border:2px solid rgba(0,0,0,.08)}
+  .sw.bad div{opacity:.9}
+  .sw.bad div{position:relative}.sw.bad div::before{content:"✕";position:absolute;top:8px;left:0;right:0;text-align:center;font-size:30px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.7)}
+  .tag{display:inline-block;border-radius:999px;padding:4px 14px;font-weight:900;color:#fff;font-size:15px;margin:4px 4px 0 0}
+  .badge{font-size:15px;font-weight:900;color:var(--dim)}
+  .axis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}
+  .axis>div{border-radius:14px;padding:10px;font-weight:900;font-size:16px;background:#faf7f0;text-align:center}
+  .meter{height:16px;border-radius:8px;background:linear-gradient(90deg,#5fa8d3,#eee 50%,#ff9f43);position:relative;margin:6px 0 2px}
+  .meter b{position:absolute;top:-6px;width:28px;height:28px;border-radius:50%;background:#fff;border:4px solid var(--ink);transform:translateX(-50%);transition:left .6s}
+  .meter.ld{background:linear-gradient(90deg,#fde2e4,#eee 50%,#2b2d42)}
+  .mlab{display:flex;justify-content:space-between;font-size:14px;font-weight:900;color:var(--dim)}
+
+  /* learn */
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+  .strip{display:flex;height:60px;border-radius:14px;overflow:hidden;margin:8px 0}
+  .strip div{flex:1;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5);cursor:pointer;transition:.12s}
+  .strip div:hover{flex:1.6}
+  .seasons{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+  .season-c{border-radius:18px;padding:16px;color:#fff;font-weight:900}
+  .season-c .t{font-size:26px}.season-c .d{font-size:15px;opacity:.95;line-height:1.6;margin-top:6px}
+  .season-c .dots{display:flex;gap:6px;margin-top:8px}.season-c .dots i{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.8)}
+  .light-demo{display:flex;align-items:center;justify-content:center;gap:10px;font-size:34px;flex-wrap:wrap;background:#1c1f26;border-radius:16px;padding:14px;color:#fff}
+  .light-demo .face{width:70px;height:70px;border-radius:50%;background:#f0c7a6;border:4px solid #fff}
+  .feedback{font-size:22px;font-weight:900;margin-top:10px;min-height:32px}
+
+  /* board */
+  table{width:100%;border-collapse:collapse;font-size:17px}
+  th,td{padding:10px 8px;border-bottom:2px solid var(--line);text-align:left}
+  th{font-size:14px;color:var(--dim);letter-spacing:.1em}
+  .bars{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:end;height:200px;margin:10px 0 4px}
+  .bar{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+  .bar i{width:70%;border-radius:12px 12px 4px 4px;transition:height .5s;min-height:6px}
+  .bar b{font-size:20px}.bar span{font-size:15px;font-weight:900}
+  .del{border:none;background:none;font-size:18px;cursor:pointer}
+
+  /* quiz */
+  .qopt{display:grid;gap:10px}
+  .qopt button{text-align:left;border:3px solid var(--line);background:var(--paper);border-radius:14px;padding:14px;font-size:19px;font-weight:900;color:var(--ink)}
+  .qopt button.ok{border-color:var(--ok);background:#effaf4}.qopt button.no{border-color:var(--accent);background:#fff1f1}
+
+  details{background:#fff8e6;border:2px dashed #e6c46b;border-radius:14px;padding:10px 14px;margin-top:14px}
+  summary{font-weight:900;cursor:pointer;font-size:17px}
+  details li{font-size:16px;line-height:1.7}
+  .conf{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}
+  .conf i{position:absolute;top:-20px;width:12px;height:18px;border-radius:3px;animation:fall 2.6s linear forwards}
+  @keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+  footer{text-align:center;margin-top:20px;font-size:13px;color:var(--dim);font-weight:700}
+  @media(max-width:640px){h1{font-size:30px}.tab{font-size:14px;padding:10px 4px}.tab .ic{font-size:24px}.q{font-size:23px}.res .season{font-size:36px}.card{padding:16px}}
+  @media print{.tabs,.back,footer,.noprint{display:none!important}.view{display:none}.view.on{display:block}body{background:#fff}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../02-color/index.html">← 回 任務三 光與顏色</a>
+  <header>
+    <div class="logo">🎨</div>
+    <h1><span class="s1">春</span><span class="s2">夏</span><span class="s3">秋</span><span class="s4">冬</span> 色彩鑑定所</h1>
+    <div class="sub">光照到你的皮膚，反射出來的顏色，決定你穿什麼最好看</div>
+  </header>
+
+  <div class="tabs noprint">
+    <button class="tab on" data-v="test"><span class="ic">🔍</span>開始鑑定</button>
+    <button class="tab" data-v="learn"><span class="ic">📖</span>色彩小學堂</button>
+    <button class="tab" data-v="quiz"><span class="ic">✏️</span>小測驗</button>
+    <button class="tab" data-v="board"><span class="ic">🏆</span>全班結果</button>
+  </div>
+
+  <!-- ================= 鑑定 ================= -->
+  <section class="view on" id="v-test">
+    <div id="test-root"></div>
+    <details class="noprint">
+      <summary>👩‍🏫 老師小抄（學生看不到也沒關係）</summary>
+      <ul>
+        <li><b>流程</b>：學生一個一個到電腦前。輸入名字 → 5 題看圖選 → 開相機「披布測試」→ 出結果 → 自動記到「全班結果」。</li>
+        <li><b>披布測試</b>：畫面下方會出現左右兩色「圍巾」，請全班一起當評審：「哪一邊讓他的臉比較亮、比較有精神？」，多數決。</li>
+        <li><b>科學連結</b>：白光照到皮膚 → 皮膚只反射某些顏色（選擇性反射）→ 反射黃橘光多的叫暖調，反射粉紅藍光多的叫冷調。衣服顏色會把光「反射」到臉上，所以顏色對了臉會亮。</li>
+        <li><b>安全與尊重</b>：沒有哪個季節比較好，四季都有自己的王牌色。不評論同學外表，只評論「顏色搭不搭」。</li>
+        <li><b>沒有相機</b>：可以按「跳過相機」，改拿真的彩色紙或衣服放在下巴下面看。</li>
+      </ul>
+    </details>
+  </section>
+
+  <!-- ================= 小學堂 ================= -->
+  <section class="view" id="v-learn">
+    <div class="card">
+      <h2>① 顏色是從哪裡來的？</h2>
+      <p class="lead">白光裡面藏著彩虹七色。東西「留下」一些光、「反射」一些光，我們看到的就是反射出來的那個顏色。</p>
+      <div class="light-demo">☀️ 白光 ➡ <span class="face"></span> ➡ 皮膚反射 <span id="skinLight" style="font-weight:900;color:#ffb86b">黃橘光多 = 暖調</span></div>
+      <p>你的皮膚也一樣！有人反射比較多<b style="color:#e08a2e">黃、橘</b>的光，叫<b>暖調</b>；有人反射比較多<b style="color:#5fa8d3">粉紅、藍</b>的光，叫<b>冷調</b>。這就是「選擇性反射」。</p>
+      <div class="row"><button class="btn" onclick="skinToggle()">🔁 切換看看暖調／冷調</button></div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h2>② 冷色 vs 暖色</h2>
+        <p>點顏色，它會告訴你自己是冷是暖。</p>
+        <div class="strip" id="strip"></div>
+        <div class="feedback" id="stripFb">👆 點一個顏色試試</div>
+        <p><b>暖色</b>：太陽、火、橘子 🔥　<b>冷色</b>：海、冰、薄荷 🧊</p>
+      </div>
+      <div class="card">
+        <h2>③ 明亮 vs 深沉</h2>
+        <p>同一個顏色，加白變<b>淺</b>，加黑變<b>深</b>。頭髮很黑、眼睛黑白分明的人，通常適合深一點、鮮明一點的顏色。</p>
+        <div class="strip" style="background:linear-gradient(90deg,#ffe3ec,#ff7a9c,#c2185b,#4a0020)"></div>
+        <div class="row"><span class="tag" style="background:#ff9fb8">淺・柔</span><span class="tag" style="background:#c2185b">深・濃</span></div>
+        <p>所以鑑定要看兩件事：<b>冷或暖</b>？<b>淺或深</b>？兩個答案合起來，就是你的季節。</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>④ 四季是怎麼分的？</h2>
+      <div class="seasons" id="seasonCards"></div>
+      <p style="margin-top:12px">💡 <b>沒有最好的季節，只有最適合你的顏色。</b>穿對顏色，臉會被「反射光」打亮；穿錯顏色，臉會看起來累累的。</p>
+    </div>
+  </section>
+
+  <!-- ================= 小測驗 ================= -->
+  <section class="view" id="v-quiz">
+    <div class="card" id="quiz-root"></div>
+  </section>
+
+  <!-- ================= 全班結果 ================= -->
+  <section class="view" id="v-board">
+    <div class="card">
+      <h2>🏆 全班色彩地圖</h2>
+      <p class="badge">結果存在這台電腦裡，換電腦不會帶著走。</p>
+      <div class="bars" id="bars"></div>
+      <div id="boardTbl"></div>
+      <div class="row noprint" style="margin-top:12px">
+        <button class="btn" onclick="window.print()">🖨 列印</button>
+        <button class="btn" onclick="exportCSV()">⬇ 下載名單 (CSV)</button>
+        <button class="btn ghost" onclick="clearBoard()">🗑 全部清除</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>竹東國中 自然科・任務三 光與顏色｜四季色彩鑑定所</footer>
+</div>
+<div class="conf" id="conf"></div>
+
+<script>
+/* ---------- 資料 ---------- */
+const SEASONS={
+  spring:{name:"春天人",emoji:"🌸",color:"#ff9f43",nick:"陽光水蜜桃",axis:"暖調＋明亮",
+    why:"你的皮膚反射比較多黃橘光（暖），而且整體感覺清爽明亮。像春天的陽光一樣，亮亮的暖色會讓你看起來超有精神！",
+    good:[["珊瑚橘","#ff7f50"],["水蜜桃","#ffb07c"],["鵝黃","#ffd166"],["嫩草綠","#8bd17c"],["土耳其藍","#4fc3d0"],["奶油白","#fff4d6"],["淺駝色","#d9b99b"],["亮珊瑚紅","#ff5a5f"]],
+    bad:[["純黑","#111111"],["灰藍","#6d7b8d"],["酒紅","#6b1d2a"],["冷灰","#9aa3ad"]],
+    tip:"穿奶油白比純白好看，黑色改成駝色或咖啡色，臉會更亮。"},
+  summer:{name:"夏天人",emoji:"🧊",color:"#5fa8d3",nick:"薄荷冰淇淋",axis:"冷調＋柔和",
+    why:"你的皮膚反射比較多粉紅、藍色的光（冷），整體感覺柔柔的、霧霧的。像夏天的冰淇淋一樣，清爽柔和的顏色最適合你！",
+    good:[["粉藍","#a7c7e7"],["薰衣草紫","#b39ddb"],["玫瑰粉","#f4a7b9"],["灰藍","#6d8fb3"],["薄荷綠","#a8e6cf"],["灰白","#eceff4"],["莓果紅","#c2185b"],["霧灰","#b0b8c1"]],
+    bad:[["橘色","#ff7f11"],["土黃","#c7a24a"],["磚紅","#b7410e"],["純黑","#111111"]],
+    tip:"純白改成灰白、橘色改成玫瑰粉，你會被稱讚「今天好清爽」。"},
+  autumn:{name:"秋天人",emoji:"🍁",color:"#b5651d",nick:"焦糖拿鐵",axis:"暖調＋深沉",
+    why:"你的皮膚反射比較多黃橘光（暖），而且頭髮眼睛顏色深、很有份量。像秋天的楓葉和落葉，濃濃的大地色最能襯出你！",
+    good:[["磚紅","#b7410e"],["芥末黃","#d4a017"],["橄欖綠","#6b8e23"],["焦糖咖啡","#8b5a2b"],["南瓜橘","#e07b39"],["墨綠","#2f5d3a"],["駝色","#c8a27a"],["紅棕","#8c2f39"]],
+    bad:[["粉紅","#f8a5c2"],["冰藍","#bfe3f5"],["純黑","#111111"],["螢光色","#39ff14"]],
+    tip:"黑色改成墨綠或咖啡，粉色改成磚紅，整個人會很有質感。"},
+  winter:{name:"冬天人",emoji:"❄️",color:"#3b3f8f",nick:"星空黑巧克力",axis:"冷調＋鮮明",
+    why:"你的皮膚反射比較多粉紅、藍色的光（冷），而且眼睛黑白分明、頭髮又黑又亮。像冬天的星空一樣，強烈對比的顏色最帥最美！",
+    good:[["純黑","#111111"],["純白","#ffffff"],["寶石藍","#1f4fbf"],["正紅","#d7263d"],["桃紅","#ff2d95"],["翡翠綠","#00a878"],["深紫","#5b2a86"],["冰藍","#bfe3f5"]],
+    bad:[["土黃","#c7a24a"],["橘色","#ff7f11"],["駝色","#c8a27a"],["米色","#e8dcc2"]],
+    tip:"你是少數穿純黑純白最好看的人！橘色和駝色離遠一點。"}
+};
+const QUESTIONS=[
+  {id:"vein",q:"看看你手腕內側的血管，是什麼顏色？",hint:"把手心翻上來，靠近白紙看。看不清楚沒關係，選第三個。",
+   opts:[{t:"偏綠色",pic:'<div class="pic wrist v-green"><i></i><i></i><i></i></div>',s:{w:2}},
+         {t:"偏藍或藍紫",pic:'<div class="pic wrist v-blue"><i></i><i></i><i></i></div>',s:{w:-2}},
+         {t:"綠藍都有／看不清楚",pic:'<div class="pic wrist v-mix"><i></i><i></i><i></i></div>',s:{}}]},
+  {id:"metal",q:"金色和銀色，哪一個放在你手上比較好看？",hint:"想像戴金戒指和銀戒指，哪個讓你的手看起來比較亮？老師桌上有真的可以拿來比。",
+   opts:[{t:"金色",pic:'<div class="pic metal gold"><span></span></div>',s:{w:2}},
+         {t:"銀色",pic:'<div class="pic metal silver"><span></span></div>',s:{w:-2}},
+         {t:"都差不多",pic:'<div class="pic metal" style="gap:8px"><span style="border-color:#e0b33c;background:#f2cf6e;width:44px;height:44px"></span><span style="border-color:#b9c1cc;background:#dfe4ea;width:44px;height:44px"></span></div>',s:{}}]},
+  {id:"sun",q:"夏天曬太陽，你的皮膚會怎樣？",hint:"想一想上次去海邊或體育課之後的樣子。",
+   opts:[{t:"先變紅，然後很快退掉",pic:'<div class="pic" style="background:#ffd6d6">🥵</div>',s:{w:-1}},
+         {t:"很容易變黑（小麥色）",pic:'<div class="pic" style="background:#f1d3b3">😎</div>',s:{w:1}},
+         {t:"變紅之後再變黑",pic:'<div class="pic" style="background:#f7e0c9">🙂</div>',s:{}}]},
+  {id:"hair",q:"你的頭髮是什麼顏色？",hint:"看自然的髮色，染過的看髮根。",
+   opts:[{t:"很黑、很亮",pic:'<div class="pic" style="background:#111">💇</div>',s:{d:2}},
+         {t:"深咖啡色",pic:'<div class="pic" style="background:#4a2e1a">💇</div>',s:{d:1}},
+         {t:"淺咖啡／偏黃偏紅",pic:'<div class="pic" style="background:#a0704a">💇</div>',s:{d:-2}}]},
+  {id:"eye",q:"你的眼睛，黑眼珠和眼白對比強不強？",hint:"跟旁邊的同學互看三秒（不要笑場）。",
+   opts:[{t:"很強！黑白分明",pic:'<div class="pic" style="background:#fff;font-size:44px">👁️</div>',s:{d:2}},
+         {t:"柔柔的，眼珠偏咖啡",pic:'<div class="pic" style="background:#f3e9dd;font-size:44px;opacity:.7">👁️</div>',s:{d:-2}},
+         {t:"普通",pic:'<div class="pic" style="background:#f6f3ee;font-size:44px;opacity:.85">👁️</div>',s:{}}]}
+];
+const DRAPES=[
+  {q:"哪一邊讓臉比較亮、比較有精神？",a:{t:"橘色",c:"#ff8c42",s:{w:3}},b:{t:"桃紅色",c:"#ff2d95",s:{w:-3}}},
+  {q:"哪一邊讓臉比較亮、比較有精神？",a:{t:"奶油黃",c:"#ffe08a",s:{w:2,d:-1}},b:{t:"冰藍色",c:"#9fd3f5",s:{w:-2,d:-1}}},
+  {q:"哪一邊看起來比較剛好、不會被衣服吃掉？",a:{t:"淺粉色",c:"#ffc9d9",s:{d:-3}},b:{t:"純黑色",c:"#111111",s:{d:3}}}
+];
+
+/* ---------- 狀態 ---------- */
+let state={name:"",cls:"",step:0,score:{w:0,d:0},answers:{},drape:0};
+const KEY="pc-board-v1";
+let stream=null;
+
+/* ---------- 工具 ---------- */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let actx=null;
+function beep(f=660,len=.12,type="sine"){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();o.type=type;o.frequency.value=f;g.gain.value=.08;o.connect(g);g.connect(actx.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,actx.currentTime+len);o.stop(actx.currentTime+len);}catch(e){}}
+function ding(){beep(660,.1);setTimeout(()=>beep(880,.15),110);}
+function fanfare(){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.25),i*120));}
+function confetti(){const box=$("#conf");box.innerHTML="";const cols=["#ff6b6b","#ff9f43","#5fa8d3","#3b3f8f","#2fb47c","#f4b942"];for(let i=0;i<90;i++){const s=document.createElement("i");s.style.left=Math.random()*100+"vw";s.style.background=cols[i%cols.length];s.style.animationDelay=Math.random()*.8+"s";s.style.animationDuration=(2+Math.random()*1.5)+"s";box.appendChild(s);}setTimeout(()=>box.innerHTML="",4000);}
+function stopCam(){if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}}
+
+/* ---------- 分頁 ---------- */
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x===b));
+  document.querySelectorAll(".view").forEach(v=>v.classList.toggle("on",v.id==="v-"+b.dataset.v));
+  if(b.dataset.v==="board")renderBoard();if(b.dataset.v!=="test")stopCam();window.scrollTo({top:0,behavior:"smooth"});
+});
+
+/* ---------- 鑑定流程 ---------- */
+function resetTest(){stopCam();state={name:"",cls:"",step:0,score:{w:0,d:0},answers:{},drape:0};renderTest();}
+function prog(){const total=QUESTIONS.length+DRAPES.length;let h='<div class="prog">';for(let i=0;i<total;i++){h+=`<i class="${i<state.step-1?"done":i===state.step-1?"now":""}"></i>`;}return h+"</div>";}
+function renderTest(){
+  const root=$("#test-root");
+  if(state.step===0){
+    root.innerHTML=`<div class="card">
+      <h2>🔍 你是春、夏、秋、冬哪一種人？</h2>
+      <p class="lead">只要 8 個小關卡，大約 3 分鐘，就能找出讓你「臉會發光」的顏色。</p>
+      <div class="axis"><div>🔥 暖調 ⟷ 🧊 冷調</div><div>🌤 淺・柔 ⟷ 🌑 深・濃</div></div>
+      <p>先告訴我你是誰：</p>
+      <div class="row"><input id="inName" placeholder="名字或綽號" style="flex:2;font-size:20px;padding:12px 14px;border:3px solid var(--line);border-radius:14px;font-family:inherit;font-weight:900;min-width:160px">
+      <select id="inCls" style="flex:1;font-size:18px;padding:12px;border:3px solid var(--line);border-radius:14px;font-family:inherit;font-weight:900"><option value="甲班">甲班</option><option value="乙班">乙班</option><option value="老師">老師</option><option value="其他">其他</option></select></div>
+      <button class="big" onclick="startTest()">🚀 開始鑑定！</button>
+      <p class="badge" style="margin-top:10px">小提醒：沒有哪個季節最好，每個季節都有自己的王牌色 ✨</p>
+    </div>`;
+    $("#inName").focus();$("#inName").onkeydown=e=>{if(e.key==="Enter")startTest();};
+    return;
+  }
+  const qi=state.step-1;
+  if(qi<QUESTIONS.length){
+    const Q=QUESTIONS[qi];
+    root.innerHTML=`<div class="card">${prog()}<div class="stepno">第 ${state.step} 關／${QUESTIONS.length+DRAPES.length} 關　${esc(state.name)}</div>
+      <div class="q">${esc(Q.q)}</div><div class="hint">💡 ${esc(Q.hint)}</div>
+      <div class="opts">${Q.opts.map((o,i)=>`<button class="opt" onclick="pick(${i})">${o.pic}<span>${esc(o.t)}</span></button>`).join("")}</div>
+      <div class="row sp" style="margin-top:14px"><button class="btn ghost" onclick="back()">← 上一關</button><span class="badge">點一個答案就會自動到下一關</span></div></div>`;
+    return;
+  }
+  const di=qi-QUESTIONS.length;
+  if(di<DRAPES.length){
+    const D=DRAPES[di];
+    root.innerHTML=`<div class="card">${prog()}<div class="stepno">第 ${state.step} 關／${QUESTIONS.length+DRAPES.length} 關　披布測試 ${di+1}/${DRAPES.length}</div>
+      <div class="q">📸 ${esc(D.q)}</div>
+      <div class="hint">請全班一起當評審！看下巴下面兩塊顏色，哪一邊讓 ${esc(state.name)} 的臉比較亮？多數決。</div>
+      <div class="cam" id="cam"><video id="vid" autoplay playsinline muted></video><div class="neck"></div>
+        <div class="drape"><div style="background:${D.a.c}">${esc(D.a.t)}</div><div style="background:${D.b.c}">${esc(D.b.t)}</div></div>
+        <div class="nocam" id="nocam" style="display:none">📷 相機還沒開<br><span style="font-size:15px;font-weight:800">按下面「開相機」，或直接拿真的彩色紙放在下巴下面比較</span><button class="btn primary" onclick="openCam()">📷 開相機</button></div></div>
+      <div class="pair"><button style="background:${D.a.c}" onclick="pickDrape('a')">👈 左邊：${esc(D.a.t)}</button><button style="background:${D.b.c}" onclick="pickDrape('b')">右邊：${esc(D.b.t)} 👉</button></div>
+      <div class="row sp" style="margin-top:14px"><button class="btn ghost" onclick="back()">← 上一關</button><button class="btn ghost" onclick="pickDrape(null)">看不出來，跳過 →</button></div></div>`;
+    openCam();return;
+  }
+  showResult();
+}
+function startTest(){const n=$("#inName").value.trim();if(!n){$("#inName").style.borderColor="var(--accent)";$("#inName").placeholder="先寫名字才能開始喔";return;}state.name=n;state.cls=$("#inCls").value;state.step=1;ding();renderTest();}
+function pick(i){const qi=state.step-1;const Q=QUESTIONS[qi];state.answers[Q.id]=i;document.querySelectorAll(".opt")[i].classList.add("pick");ding();setTimeout(()=>{state.step++;renderTest();},350);}
+function pickDrape(side){const di=state.step-1-QUESTIONS.length;state.answers["drape"+di]=side;ding();state.step++;renderTest();}
+function back(){if(state.step>1){state.step--;}else{state.step=0;}stopCam();renderTest();}
+async function openCam(){
+  const v=$("#vid"),nc=$("#nocam");if(!v)return;
+  if(stream){v.srcObject=stream;nc.style.display="none";return;}
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){nc.style.display="flex";nc.querySelector("button").style.display="none";return;}
+  try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user",width:{ideal:960},height:{ideal:720}},audio:false});v.srcObject=stream;nc.style.display="none";}
+  catch(e){nc.style.display="flex";}
+}
+function computeScore(){
+  const sc={w:0,d:0};
+  QUESTIONS.forEach((Q,i)=>{const a=state.answers[Q.id];if(a==null)return;const s=Q.opts[a].s;sc.w+=s.w||0;sc.d+=s.d||0;});
+  DRAPES.forEach((D,i)=>{const a=state.answers["drape"+i];if(!a)return;const s=D[a].s;sc.w+=s.w||0;sc.d+=s.d||0;});
+  return sc;
+}
+function seasonOf(sc){const warm=sc.w>=0,deep=sc.d>=0;return warm?(deep?"autumn":"spring"):(deep?"winter":"summer");}
+function showResult(){
+  stopCam();const sc=computeScore();const key=seasonOf(sc);const S=SEASONS[key];
+  state.score=sc;
+  const wpct=Math.round(50+Math.max(-10,Math.min(10,sc.w))*4.5),dpct=Math.round(50+Math.max(-10,Math.min(10,sc.d))*4.5);
+  const sure=(Math.abs(sc.w)+Math.abs(sc.d));
+  const conf=sure>=8?"很確定 💯":sure>=4?"蠻確定 👍":"有點猶豫，可以再用真的彩色紙比一比 🤔";
+  $("#test-root").innerHTML=`<div class="card res" style="border-color:${S.color}">
+      <div class="em">${S.emoji}</div>
+      <div class="badge">${esc(state.name)} 的鑑定結果</div>
+      <div class="season" style="color:${S.color}">你是 ${S.name}！</div>
+      <div class="nick">代表甜點：${S.nick}　｜　${S.axis}</div>
+      <div class="axis" style="margin-top:14px"><div><div class="mlab"><span>🧊 冷調</span><span>暖調 🔥</span></div><div class="meter"><b style="left:${wpct}%"></b></div></div>
+        <div><div class="mlab"><span>🌤 淺・柔</span><span>深・濃 🌑</span></div><div class="meter ld"><b style="left:${dpct}%"></b></div></div></div>
+      <div class="badge">鑑定信心：${conf}</div>
+      <div class="why">🔬 <b>為什麼？</b>${esc(S.why)}</div>
+      <h2 style="text-align:left">✅ 你的王牌色（穿這些臉會發光）</h2>
+      <div class="sw">${S.good.map(c=>`<div style="background:${c[1]};${c[1]==="#ffffff"||c[1]==="#fff4d6"||c[1]==="#eceff4"?"color:#333;text-shadow:none":""}">${c[0]}</div>`).join("")}</div>
+      <h2 style="text-align:left;margin-top:16px">⚠️ 小心色（會讓臉看起來累累的）</h2>
+      <div class="sw bad">${S.bad.map(c=>`<div style="background:${c[1]}">${c[0]}</div>`).join("")}</div>
+      <div class="why">👗 <b>穿搭小祕訣：</b>${esc(S.tip)}</div>
+      <div class="row noprint" style="justify-content:center;margin-top:10px">
+        <button class="btn primary" onclick="saveResult('${key}')" id="saveBtn">💾 存到全班結果</button>
+        <button class="btn" onclick="window.print()">🖨 列印我的色卡</button>
+        <button class="btn ghost" onclick="resetTest()">🔁 換下一位</button></div>
+    </div>`;
+  fanfare();confetti();window.scrollTo({top:0,behavior:"smooth"});
+}
+function loadBoard(){try{return JSON.parse(localStorage.getItem(KEY)||"[]");}catch(e){return [];}}
+function saveResult(key){const b=loadBoard();b.push({n:state.name,c:state.cls,s:key,w:state.score.w,d:state.score.d,t:new Date().toLocaleDateString("zh-TW")});try{localStorage.setItem(KEY,JSON.stringify(b));}catch(e){}const btn=$("#saveBtn");btn.textContent="✅ 已存好！";btn.disabled=true;ding();}
+
+/* ---------- 全班結果 ---------- */
+function renderBoard(){
+  const b=loadBoard();const cnt={spring:0,summer:0,autumn:0,winter:0};b.forEach(r=>cnt[r.s]++);const max=Math.max(1,...Object.values(cnt));
+  $("#bars").innerHTML=Object.keys(SEASONS).map(k=>`<div class="bar"><b>${cnt[k]}</b><i style="height:${cnt[k]/max*130}px;background:${SEASONS[k].color}"></i><span>${SEASONS[k].emoji} ${SEASONS[k].name}</span></div>`).join("");
+  $("#boardTbl").innerHTML=b.length?`<table><tr><th>#</th><th>名字</th><th>班級</th><th>季節</th><th>日期</th><th class="noprint"></th></tr>${b.map((r,i)=>`<tr><td>${i+1}</td><td><b>${esc(r.n)}</b></td><td>${esc(r.c)}</td><td><span class="tag" style="background:${SEASONS[r.s].color}">${SEASONS[r.s].emoji} ${SEASONS[r.s].name}</span></td><td>${esc(r.t)}</td><td class="noprint"><button class="del" onclick="delRow(${i})" title="刪除">🗑</button></td></tr>`).join("")}</table>`:`<p class="lead" style="text-align:center;color:var(--dim)">還沒有人鑑定，快去「開始鑑定」！</p>`;
+}
+function delRow(i){const b=loadBoard();b.splice(i,1);localStorage.setItem(KEY,JSON.stringify(b));renderBoard();}
+function clearBoard(){if(confirm("確定要清除全班結果嗎？（不能復原）")){localStorage.removeItem(KEY);renderBoard();}}
+function exportCSV(){const b=loadBoard();const rows=[["名字","班級","季節","冷暖分數","深淺分數","日期"],...b.map(r=>[r.n,r.c,SEASONS[r.s].name,r.w,r.d,r.t])];const csv="﻿"+rows.map(r=>r.map(x=>`"${String(x).replace(/"/g,'""')}"`).join(",")).join("\n");const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="四季色彩鑑定_全班結果.csv";a.click();}
+
+/* ---------- 小學堂 ---------- */
+let skinWarm=true;
+function skinToggle(){skinWarm=!skinWarm;const el=$("#skinLight");const face=document.querySelector(".light-demo .face");if(skinWarm){el.textContent="黃橘光多 = 暖調";el.style.color="#ffb86b";face.style.background="#f0c7a6";}else{el.textContent="粉紅藍光多 = 冷調";el.style.color="#9fd3f5";face.style.background="#f2cdd0";}}
+const STRIP=[["#ff3b30","暖"],["#ff8c42","暖"],["#ffd60a","暖"],["#8bd17c","中"],["#2ec4b6","冷"],["#3a86ff","冷"],["#8338ec","冷"],["#ff2d95","冷"]];
+$("#strip").innerHTML=STRIP.map((c,i)=>`<div style="background:${c[0]}" onclick="stripPick(${i})">?</div>`).join("");
+function stripPick(i){const c=STRIP[i];const fb=$("#stripFb");const m={"暖":"🔥 這是<b style='color:#e07b39'>暖色</b>！像太陽、火、橘子。","冷":"🧊 這是<b style='color:#3a86ff'>冷色</b>！像海、冰、藍莓。","中":"🌿 這是<b>中間色</b>，偏黃就暖、偏藍就冷，綠色最會變身！"};fb.innerHTML=m[c[1]];document.querySelectorAll("#strip div")[i].textContent=c[1];ding();}
+$("#seasonCards").innerHTML=Object.entries(SEASONS).map(([k,S])=>`<div class="season-c" style="background:${S.color}"><div class="t">${S.emoji} ${S.name}</div><div class="d">${S.axis}<br>代表甜點：${S.nick}</div><div class="dots">${S.good.slice(0,5).map(c=>`<i style="background:${c[1]}"></i>`).join("")}</div></div>`).join("");
+
+/* ---------- 小測驗 ---------- */
+const QUIZ=[
+  {q:"白光照到紅蘋果，蘋果為什麼看起來是紅色？",o:["蘋果把紅光反射出來，其他顏色留下來","蘋果自己會發紅光","蘋果把紅光吃掉了"],a:0,e:"對！這就是「選擇性反射」，皮膚也是一樣的道理。"},
+  {q:"下面哪一個是暖色？",o:["藍色","橘色","紫色"],a:1,e:"橘色像太陽和火，是暖色；藍色和紫色是冷色。"},
+  {q:"皮膚反射比較多黃、橘光的人，我們叫他？",o:["冷調","暖調","無調"],a:1,e:"反射黃橘光多 → 暖調；反射粉紅藍光多 → 冷調。"},
+  {q:"「冬天人」最適合下面哪一種顏色？",o:["土黃色","純黑＋純白","駝色"],a:1,e:"冬天人是冷調＋鮮明，黑白對比超適合他們！"},
+  {q:"為什麼穿對顏色，臉會看起來比較亮？",o:["衣服會發光","衣服把光反射到臉上","臉會變大"],a:1,e:"衣服的顏色會把光反射到臉上，顏色對了臉就被打亮。"},
+  {q:"下面哪句話是對的？",o:["春天人最好，其他季節都不好","每個季節都有自己的王牌色","只有冬天人可以穿黑色"],a:1,e:"沒有最好的季節，只有最適合你的顏色！"}
+];
+let qi2=0,qscore=0;
+function renderQuiz(){
+  const root=$("#quiz-root");
+  if(qi2>=QUIZ.length){root.innerHTML=`<h2>🎉 完成！</h2><p class="lead">你答對 ${qscore}／${QUIZ.length} 題${qscore===QUIZ.length?"，全對！你是色彩博士 🎓":qscore>=4?"，很棒！":"，再去小學堂複習一下 📖"}</p><button class="big" onclick="qi2=0;qscore=0;renderQuiz()">🔁 再玩一次</button>`;if(qscore===QUIZ.length){fanfare();confetti();}return;}
+  const Q=QUIZ[qi2];
+  root.innerHTML=`<div class="stepno">第 ${qi2+1} 題／${QUIZ.length} 題　得分 ${qscore}</div><div class="q">${esc(Q.q)}</div><div class="qopt">${Q.o.map((o,i)=>`<button onclick="answer(${i})">${["🅰","🅱","🅲"][i]}　${esc(o)}</button>`).join("")}</div><div class="feedback" id="qfb"></div>`;
+}
+function answer(i){const Q=QUIZ[qi2];const btns=document.querySelectorAll(".qopt button");btns.forEach(b=>b.disabled=true);btns[Q.a].classList.add("ok");
+  if(i===Q.a){qscore++;ding();$("#qfb").innerHTML="✅ 答對了！"+esc(Q.e);}else{btns[i].classList.add("no");beep(220,.25,"square");$("#qfb").innerHTML="❌ 再想想～ "+esc(Q.e);}
+  setTimeout(()=>{qi2++;renderQuiz();},2200);}
+renderQuiz();
+
+/* ---------- init ---------- */
+renderTest();
+window.addEventListener("beforeunload",stopCam);
+</script>
+</body>
+</html>
