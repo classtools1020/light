@@ -2,224 +2,336 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#f6f3ee">
-<title>四季色彩鑑定所｜你是春夏秋冬哪一種人？</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fff6ee">
+<title>四季色彩鑑定所</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Noto+Sans+TC:wght@500;700;900&display=swap">
 <style>
   :root{
-    --bg:#f6f3ee;--paper:#ffffff;--ink:#23272f;--dim:#6b7280;--line:#e5e1da;
-    --spring:#ff9f43;--summer:#5fa8d3;--autumn:#b5651d;--winter:#3b3f8f;
-    --accent:#ff6b6b;--ok:#2fb47c;--warn:#f4b942;
+    --bg:#fff6ee;--bg2:#ffeef3;--paper:#ffffff;--ink:#2b1d3a;--dim:#7a6a8a;--line:#f0dfe6;
+    --coral:#ff6f61;--mint:#5fd3bd;--sky:#7fb6f5;--butter:#ffd86b;--plum:#8c6bd8;
+    --spring:#ff9a5c;--summer:#7fa8e8;--autumn:#c47a3a;--winter:#4b4fbf;
+    --ok:#2fb47c;--shadow:rgba(120,70,120,.14);
+    --disp:"Baloo 2","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
     --body:"Noto Sans TC","Microsoft JhengHei","PingFang TC",system-ui,sans-serif;
-    --r:22px;
   }
-  *{box-sizing:border-box}html,body{margin:0}
-  body{font-family:var(--body);background:var(--bg);color:var(--ink);min-height:100vh;-webkit-tap-highlight-color:transparent}
-  button{font-family:inherit;cursor:pointer}
-  .wrap{max-width:1000px;margin:0 auto;padding:18px 16px 70px}
-  header{text-align:center;padding:10px 0 6px}
-  .logo{font-size:64px;line-height:1;animation:float 3.5s ease-in-out infinite}
-  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-  h1{font-size:40px;margin:6px 0 2px;letter-spacing:2px}
-  h1 .s1{color:var(--spring)}h1 .s2{color:var(--summer)}h1 .s3{color:var(--autumn)}h1 .s4{color:var(--winter)}
-  .sub{font-size:19px;font-weight:900;color:var(--dim)}
-  .back{display:inline-block;color:var(--dim);text-decoration:none;font-weight:800;font-size:14px;margin-bottom:6px}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1426;--bg2:#241a33;--paper:#2a2038;--ink:#f6eef8;--dim:#b9a9c9;--line:#3d3050;--shadow:rgba(0,0,0,.4)}}
+  :root[data-theme="dark"]{--bg:#1b1426;--bg2:#241a33;--paper:#2a2038;--ink:#f6eef8;--dim:#b9a9c9;--line:#3d3050;--shadow:rgba(0,0,0,.4)}
+  *{box-sizing:border-box}[hidden]{display:none!important}
+  body{margin:0;font-family:var(--body);color:var(--ink);background:linear-gradient(180deg,var(--bg),var(--bg2) 60%,var(--bg));min-height:100%;-webkit-tap-highlight-color:transparent}
+  button{font-family:inherit;cursor:pointer;color:inherit}
+  button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+  .wrap{max-width:1020px;margin:0 auto;padding-inline:16px;padding-block:14px 90px}
 
-  /* tabs */
-  .tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0 20px}
-  .tab{border:3px solid var(--line);background:var(--paper);border-radius:18px;padding:12px 6px;font-size:17px;font-weight:900;color:var(--ink);transition:.12s}
-  .tab .ic{font-size:30px;display:block;line-height:1;margin-bottom:4px}
-  .tab.on{border-color:var(--ink);background:var(--ink);color:#fff;transform:translateY(-2px)}
-  .tab:hover{transform:translateY(-2px)}
-  .view{display:none}.view.on{display:block;animation:in .25s ease}
-  @keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  /* hero */
+  .hero{position:relative;border-radius:32px;overflow:hidden;background:#1b1426;color:#fff;min-height:250px;box-shadow:0 24px 60px var(--shadow)}
+  .hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .hero .in{position:relative;padding:34px 28px 30px;text-align:center;background:radial-gradient(60% 90% at 50% 50%,rgba(27,20,38,.82),rgba(27,20,38,.35) 70%,transparent)}
+  .hero .kicker{font-family:var(--disp);font-weight:700;letter-spacing:.35em;font-size:13px;color:#ffd86b;text-transform:uppercase}
+  .hero h1{font-family:var(--disp);font-size:clamp(34px,7vw,60px);margin:6px 0 4px;line-height:1.1;letter-spacing:1px;text-wrap:balance}
+  .hero h1 span{display:inline-block;animation:bob 2.6s ease-in-out infinite}
+  .hero h1 .s1{color:#ff9a5c}.hero h1 .s2{color:#8fc1ff;animation-delay:.2s}.hero h1 .s3{color:#e0a060;animation-delay:.4s}.hero h1 .s4{color:#a9b4ff;animation-delay:.6s}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .hero p{margin:6px auto 0;max-width:34em;font-size:17px;font-weight:700;color:#e8ddf5;line-height:1.6}
+  .hero .cta{display:inline-flex;align-items:center;gap:10px;margin-top:16px;border:none;border-radius:999px;padding:14px 28px;font-family:var(--disp);font-size:22px;font-weight:800;color:#2b1d3a;
+    background:linear-gradient(135deg,#ffd86b,#ff9a5c 45%,#ff6f61);box-shadow:0 10px 0 rgba(0,0,0,.25),0 18px 40px rgba(255,111,97,.35);transition:transform .12s}
+  .hero .cta:hover{transform:translateY(-2px) scale(1.02)}.hero .cta:active{transform:translateY(6px);box-shadow:0 4px 0 rgba(0,0,0,.25)}
 
-  .card{background:var(--paper);border:3px solid var(--line);border-radius:var(--r);padding:22px;box-shadow:0 10px 26px rgba(0,0,0,.06);margin-bottom:16px}
-  .card h2{margin:0 0 8px;font-size:26px}
+  /* dock */
+  .dock{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:18px 0 20px;padding:6px;border-radius:999px;background:var(--paper);box-shadow:0 10px 30px var(--shadow);border:2px solid var(--line)}
+  .dock button{border:none;background:transparent;border-radius:999px;padding:10px 4px;font-size:15px;font-weight:900;color:var(--dim);display:flex;flex-direction:column;align-items:center;gap:2px;transition:.15s}
+  .dock button .ic{font-size:24px;line-height:1}
+  .dock button.on{background:var(--ink);color:var(--paper);transform:scale(1.03)}
+  .dock button:hover:not(.on){background:var(--bg2)}
+  .view{display:none}.view.on{display:block;animation:in .3s ease}
+  @keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+  /* cards */
+  .card{background:var(--paper);border-radius:28px;padding:24px;box-shadow:0 14px 40px var(--shadow);margin-bottom:18px;position:relative;overflow:hidden}
+  .card.tint::before{content:"";position:absolute;inset:0 0 auto 0;height:8px;background:linear-gradient(90deg,var(--coral),var(--butter),var(--mint),var(--sky),var(--plum))}
+  .card h2{font-family:var(--disp);margin:0 0 8px;font-size:28px;line-height:1.2}
   .card p{font-size:17px;line-height:1.75;margin:6px 0}
-  .lead{font-size:20px;font-weight:900}
-  .big{display:block;width:100%;border:none;border-radius:20px;padding:20px;font-size:26px;font-weight:900;color:#fff;
-    background:linear-gradient(135deg,#ff6b6b,#ff9f43 35%,#5fa8d3 70%,#3b3f8f);box-shadow:0 8px 0 rgba(0,0,0,.18);margin-top:10px}
-  .big:active{transform:translateY(4px);box-shadow:0 4px 0 rgba(0,0,0,.18)}
-  .btn{border:3px solid var(--ink);background:var(--paper);border-radius:14px;padding:12px 18px;font-size:18px;font-weight:900;color:var(--ink)}
-  .btn.primary{background:var(--ink);color:#fff}
+  .lead{font-size:19px;font-weight:900}
+  .dimtxt{color:var(--dim);font-weight:800;font-size:15px}
+  .btn{border:3px solid var(--ink);background:var(--paper);border-radius:999px;padding:12px 20px;font-size:17px;font-weight:900;transition:.12s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn.primary{background:var(--ink);color:var(--paper)}
   .btn.ghost{border-color:var(--line);color:var(--dim)}
-  .btn:disabled{opacity:.4;cursor:not-allowed}
-  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-  .sp{justify-content:space-between}
+  .btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+  .big{display:block;width:100%;border:none;border-radius:22px;padding:18px;font-family:var(--disp);font-size:26px;font-weight:800;color:#2b1d3a;
+    background:linear-gradient(135deg,#ffd86b,#ff9a5c 45%,#ff6f61);box-shadow:0 8px 0 rgba(0,0,0,.18);margin-top:12px;transition:transform .1s}
+  .big:active{transform:translateY(5px);box-shadow:0 3px 0 rgba(0,0,0,.18)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.sp{justify-content:space-between}
+  .field{flex:1;min-width:150px;font-size:19px;padding:13px 16px;border:3px solid var(--line);border-radius:18px;font-family:inherit;font-weight:900;background:var(--bg);color:var(--ink)}
+  .pill{display:inline-block;border-radius:999px;padding:4px 14px;font-weight:900;color:#fff;font-size:14px}
 
-  /* progress */
-  .prog{display:flex;gap:6px;margin:4px 0 14px}
-  .prog i{flex:1;height:12px;border-radius:6px;background:var(--line)}
-  .prog i.done{background:var(--ok)}.prog i.now{background:var(--warn)}
-  .stepno{font-size:14px;font-weight:900;color:var(--dim);letter-spacing:.2em}
-  .q{font-size:28px;font-weight:900;margin:4px 0 6px;line-height:1.3}
-  .hint{font-size:16px;color:var(--dim);font-weight:800;background:#faf7f0;border-radius:12px;padding:10px 14px;margin:8px 0 14px}
-  .opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
-  .opt{border:4px solid var(--line);border-radius:20px;background:var(--paper);padding:14px;text-align:center;font-size:20px;font-weight:900;color:var(--ink);transition:.12s;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
-  .opt:hover{transform:translateY(-3px);border-color:#bbb}
-  .opt.pick{border-color:var(--ok);background:#effaf4}
-  .opt .pic{width:100%;height:84px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:40px}
-  .opt small{font-size:14px;color:var(--dim);font-weight:800}
-  .wrist{background:linear-gradient(180deg,#f3d3b8,#e9bf9c);position:relative;overflow:hidden}
-  .wrist i{position:absolute;left:12%;right:12%;height:5px;border-radius:5px;opacity:.75}
+  /* test */
+  .prog{display:flex;gap:6px;margin:0 0 14px}
+  .prog i{flex:1;height:12px;border-radius:6px;background:var(--line);transition:.3s}
+  .prog i.done{background:var(--mint)}.prog i.now{background:var(--butter);box-shadow:0 0 0 4px rgba(255,216,107,.35)}
+  .stepno{font-family:var(--disp);font-size:14px;font-weight:700;color:var(--dim);letter-spacing:.2em}
+  .q{font-family:var(--disp);font-size:30px;font-weight:800;margin:4px 0 6px;line-height:1.25;text-wrap:balance}
+  .hint{font-size:16px;color:var(--dim);font-weight:800;background:var(--bg);border-radius:16px;padding:10px 14px;margin:8px 0 16px}
+  .opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+  .opt{border:4px solid var(--line);border-radius:24px;background:var(--paper);padding:14px;text-align:center;font-size:20px;font-weight:900;transition:.15s;min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+  .opt:hover{transform:translateY(-4px) rotate(-.5deg);border-color:var(--sky);box-shadow:0 12px 24px var(--shadow)}
+  .opt.pick{border-color:var(--ok);background:#effaf4;color:#1b3d2c;transform:scale(1.03)}
+  .opt .pic{width:100%;height:88px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:42px}
+  .wrist{background:linear-gradient(180deg,#f7d9bf,#eac29e);position:relative;overflow:hidden}
+  .wrist i{position:absolute;left:12%;right:12%;height:5px;border-radius:5px;opacity:.8}
   .wrist i:nth-child(1){top:30%;transform:rotate(-3deg)}.wrist i:nth-child(2){top:52%;transform:rotate(2deg)}.wrist i:nth-child(3){top:70%;left:30%;transform:rotate(-6deg)}
-  .v-green i{background:#4f8a5b}.v-blue i{background:#5460b8}
-  .v-mix i:nth-child(odd){background:#4f8a5b}.v-mix i:nth-child(even){background:#5460b8}
-  .metal{position:relative}
+  .v-green i{background:#4f8a5b}.v-blue i{background:#5460b8}.v-mix i:nth-child(odd){background:#4f8a5b}.v-mix i:nth-child(even){background:#5460b8}
   .metal span{display:inline-block;width:64px;height:64px;border-radius:50%;border:6px solid;box-shadow:inset 0 0 12px rgba(0,0,0,.15)}
   .gold span{border-color:#e0b33c;background:radial-gradient(circle at 35% 35%,#fff3c4,#d9a326)}
-  .silver span{border-color:#b9c1cc;background:radial-gradient(circle at 35% 35%,#ffffff,#a9b2bd)}
+  .silver span{border-color:#b9c1cc;background:radial-gradient(circle at 35% 35%,#fff,#a9b2bd)}
 
-  /* camera */
-  .cam{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:4/3;background:#222;border-radius:20px;overflow:hidden;border:4px solid var(--line)}
+  .cam{position:relative;width:100%;max-width:640px;margin:0 auto;aspect-ratio:4/3;background:#241a33;border-radius:24px;overflow:hidden;box-shadow:0 14px 40px var(--shadow)}
   .cam video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
   .cam .drape{position:absolute;left:0;right:0;bottom:0;height:34%;display:flex}
-  .cam .drape div{flex:1;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;font-size:22px;font-weight:900;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.6)}
-  .cam .neck{position:absolute;left:0;right:0;bottom:34%;height:12px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.25))}
-  .cam .nocam{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:20px;gap:10px;text-align:center;padding:20px}
+  .cam .drape div{flex:1;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;font-size:22px;font-weight:900;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.6);border-top-left-radius:40% 30%;border-top-right-radius:40% 30%}
+  .cam .nocam{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:19px;gap:10px;text-align:center;padding:20px;background:rgba(27,20,38,.85)}
   .pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:640px;margin:12px auto 0}
-  .pair button{border:4px solid var(--line);border-radius:16px;padding:14px;font-size:20px;font-weight:900;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.4)}
-  .pair button:hover{border-color:var(--ink)}
+  .pair button{border:4px solid transparent;border-radius:18px;padding:14px;font-size:20px;font-weight:900;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.4);transition:.12s}
+  .pair button:hover{transform:translateY(-3px);border-color:var(--ink)}
+  .booth{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-width:640px;margin:12px auto 0}
+  .booth button{border:4px solid transparent;border-radius:18px;padding:0;overflow:hidden;background:#000;position:relative;transition:.12s}
+  .booth button:hover{transform:scale(1.03);border-color:var(--ink)}
+  .booth canvas{width:100%;display:block}
+  .booth span{position:absolute;left:0;right:0;bottom:0;padding:6px;font-weight:900;color:#fff;background:rgba(0,0,0,.35);font-size:15px}
 
   /* result */
-  .res{border-width:5px;text-align:center;overflow:hidden;position:relative}
-  .res .em{font-size:90px;line-height:1}
-  .res .season{font-size:46px;font-weight:900;margin:4px 0}
-  .res .nick{font-size:22px;font-weight:900;color:var(--dim)}
-  .res .why{text-align:left;background:#faf7f0;border-radius:16px;padding:14px 16px;margin:14px 0;font-size:17px;line-height:1.7}
-  .sw{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:10px;margin-top:10px}
-  .sw div{border-radius:14px;height:88px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;font-size:13px;font-weight:900;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6);border:2px solid rgba(0,0,0,.08)}
-  .sw.bad div{opacity:.9}
-  .sw.bad div{position:relative}.sw.bad div::before{content:"✕";position:absolute;top:8px;left:0;right:0;text-align:center;font-size:30px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.7)}
-  .tag{display:inline-block;border-radius:999px;padding:4px 14px;font-weight:900;color:#fff;font-size:15px;margin:4px 4px 0 0}
-  .badge{font-size:15px;font-weight:900;color:var(--dim)}
-  .axis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}
-  .axis>div{border-radius:14px;padding:10px;font-weight:900;font-size:16px;background:#faf7f0;text-align:center}
-  .meter{height:16px;border-radius:8px;background:linear-gradient(90deg,#5fa8d3,#eee 50%,#ff9f43);position:relative;margin:6px 0 2px}
-  .meter b{position:absolute;top:-6px;width:28px;height:28px;border-radius:50%;background:#fff;border:4px solid var(--ink);transform:translateX(-50%);transition:left .6s}
-  .meter.ld{background:linear-gradient(90deg,#fde2e4,#eee 50%,#2b2d42)}
+  .res{text-align:center;padding-top:30px}
+  .res .em{font-size:96px;line-height:1;animation:pop .6s cubic-bezier(.2,1.6,.4,1)}
+  @keyframes pop{from{transform:scale(0) rotate(-30deg)}to{transform:none}}
+  .res .season{font-family:var(--disp);font-size:52px;font-weight:800;margin:2px 0;line-height:1.1}
+  .res .nick{font-size:21px;font-weight:900;color:var(--dim)}
+  .res .why{text-align:left;background:var(--bg);border-radius:20px;padding:14px 18px;margin:14px 0;font-size:17px;line-height:1.7}
+  .res h3{font-family:var(--disp);text-align:left;font-size:22px;margin:18px 0 6px}
+  .sw{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px}
+  .sw div{border-radius:18px;height:92px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;font-size:13px;font-weight:900;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6);
+    animation:flip .5s both;transform-origin:center;box-shadow:inset 0 -18px 30px rgba(0,0,0,.12)}
+  .sw div.lt{color:#333;text-shadow:none}
+  @keyframes flip{from{transform:rotateY(90deg) scale(.7);opacity:0}to{transform:none;opacity:1}}
+  .sw.bad div{position:relative;filter:saturate(.7)}
+  .sw.bad div::before{content:"✕";position:absolute;top:8px;left:0;right:0;text-align:center;font-size:30px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.7)}
+  .axis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+  .axis>div{border-radius:18px;padding:10px 12px;background:var(--bg)}
+  .meter{height:16px;border-radius:8px;background:linear-gradient(90deg,#7fb6f5,#f4eef2 50%,#ff9a5c);position:relative;margin:6px 0 2px}
+  .meter.ld{background:linear-gradient(90deg,#ffe3ec,#f4eef2 50%,#2b2d42)}
+  .meter b{position:absolute;top:-7px;width:30px;height:30px;border-radius:50%;background:#fff;border:4px solid var(--ink);transform:translateX(-50%);transition:left 1s cubic-bezier(.2,1.4,.4,1)}
   .mlab{display:flex;justify-content:space-between;font-size:14px;font-weight:900;color:var(--dim)}
 
   /* learn */
-  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
-  .strip{display:flex;height:60px;border-radius:14px;overflow:hidden;margin:8px 0}
-  .strip div{flex:1;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5);cursor:pointer;transition:.12s}
-  .strip div:hover{flex:1.6}
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px}
+  .strip{display:flex;height:64px;border-radius:18px;overflow:hidden;margin:8px 0}
+  .strip div{flex:1;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5);cursor:pointer;transition:.15s}
+  .strip div:hover{flex:1.8}
+  .feedback{font-size:21px;font-weight:900;margin-top:10px;min-height:32px}
   .seasons{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
-  .season-c{border-radius:18px;padding:16px;color:#fff;font-weight:900}
-  .season-c .t{font-size:26px}.season-c .d{font-size:15px;opacity:.95;line-height:1.6;margin-top:6px}
-  .season-c .dots{display:flex;gap:6px;margin-top:8px}.season-c .dots i{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.8)}
-  .light-demo{display:flex;align-items:center;justify-content:center;gap:10px;font-size:34px;flex-wrap:wrap;background:#1c1f26;border-radius:16px;padding:14px;color:#fff}
-  .light-demo .face{width:70px;height:70px;border-radius:50%;background:#f0c7a6;border:4px solid #fff}
-  .feedback{font-size:22px;font-weight:900;margin-top:10px;min-height:32px}
+  .season-c{border-radius:22px;padding:18px;color:#fff;font-weight:900;transition:.15s;cursor:pointer}
+  .season-c:hover{transform:translateY(-4px) rotate(-1deg)}
+  .season-c .t{font-family:var(--disp);font-size:26px}.season-c .d{font-size:15px;opacity:.95;line-height:1.6;margin-top:6px}
+  .season-c .dots{display:flex;gap:6px;margin-top:10px}.season-c .dots i{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.85)}
+  .lightlab{background:#1b1426;border-radius:22px;padding:16px;color:#fff}
+  .lightlab .stage{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;font-size:20px;font-weight:900}
+  .lightlab .face{width:80px;height:80px;border-radius:50%;border:4px solid #fff;transition:.3s}
+  .lightlab input[type=range]{width:100%;accent-color:var(--butter)}
+  .lightlab .beam{height:10px;flex:1;min-width:60px;border-radius:5px;background:linear-gradient(90deg,#fff,#ffd86b)}
+
+  /* mirror */
+  .mirror{display:grid;grid-template-columns:minmax(220px,1fr) minmax(240px,1.2fr);gap:18px;align-items:start}
+  .mirror svg{width:100%;max-width:300px;display:block;margin:0 auto;filter:drop-shadow(0 12px 24px var(--shadow))}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 12px}
+  .chip{width:44px;height:44px;border-radius:50%;border:4px solid var(--paper);box-shadow:0 0 0 2px var(--line);transition:.12s;padding:0}
+  .chip:hover{transform:scale(1.15)}.chip.on{box-shadow:0 0 0 4px var(--ink);transform:scale(1.15)}
+  .glowbar{height:22px;border-radius:11px;background:var(--line);overflow:hidden}
+  .glowbar i{display:block;height:100%;border-radius:11px;background:linear-gradient(90deg,#ff6f61,#ffd86b,#5fd3bd);transition:width .5s;width:40%}
+  .verdict{font-family:var(--disp);font-size:24px;font-weight:800;margin-top:8px;min-height:34px}
+  @media(max-width:640px){.mirror{grid-template-columns:1fr}}
+
+  /* sort game */
+  .arena{position:relative;user-select:none;touch-action:none}
+  .buckets{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+  .bucket{border-radius:24px;min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--disp);font-size:26px;font-weight:800;color:#fff;transition:.15s;border:4px dashed rgba(255,255,255,.5)}
+  .bucket.hot{background:linear-gradient(160deg,#ff6f61,#ff9a5c)}.bucket.cold{background:linear-gradient(160deg,#7fb6f5,#5fd3bd)}
+  .bucket.over{transform:scale(1.04);border-style:solid}
+  .bucket small{font-size:14px;font-weight:900;opacity:.9}
+  .pool{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;min-height:90px;padding:10px;border-radius:20px;background:var(--bg)}
+  .blob{width:64px;height:64px;border-radius:50%;box-shadow:0 8px 18px rgba(0,0,0,.2);cursor:grab;display:flex;align-items:center;justify-content:center;font-size:26px;touch-action:none;transition:transform .1s}
+  .blob.drag{position:fixed;z-index:99;pointer-events:none;transform:scale(1.2);cursor:grabbing}
+  .scoreline{display:flex;gap:14px;justify-content:center;font-family:var(--disp);font-size:20px;font-weight:800;margin-bottom:10px;flex-wrap:wrap}
+  .scoreline span{background:var(--bg);border-radius:999px;padding:6px 16px}
 
   /* board */
   table{width:100%;border-collapse:collapse;font-size:17px}
   th,td{padding:10px 8px;border-bottom:2px solid var(--line);text-align:left}
-  th{font-size:14px;color:var(--dim);letter-spacing:.1em}
+  th{font-size:13px;color:var(--dim);letter-spacing:.1em}
   .bars{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:end;height:200px;margin:10px 0 4px}
   .bar{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
-  .bar i{width:70%;border-radius:12px 12px 4px 4px;transition:height .5s;min-height:6px}
-  .bar b{font-size:20px}.bar span{font-size:15px;font-weight:900}
+  .bar i{width:70%;border-radius:16px 16px 6px 6px;transition:height .6s;min-height:6px}
+  .bar b{font-family:var(--disp);font-size:24px}.bar span{font-size:14px;font-weight:900}
   .del{border:none;background:none;font-size:18px;cursor:pointer}
 
   /* quiz */
   .qopt{display:grid;gap:10px}
-  .qopt button{text-align:left;border:3px solid var(--line);background:var(--paper);border-radius:14px;padding:14px;font-size:19px;font-weight:900;color:var(--ink)}
-  .qopt button.ok{border-color:var(--ok);background:#effaf4}.qopt button.no{border-color:var(--accent);background:#fff1f1}
+  .qopt button{text-align:left;border:3px solid var(--line);background:var(--paper);border-radius:18px;padding:14px 16px;font-size:19px;font-weight:900;transition:.12s}
+  .qopt button:hover{border-color:var(--sky);transform:translateX(4px)}
+  .qopt button.ok{border-color:var(--ok);background:#effaf4;color:#1b3d2c}.qopt button.no{border-color:var(--coral);background:#fff1f0;color:#5a1d18}
 
-  details{background:#fff8e6;border:2px dashed #e6c46b;border-radius:14px;padding:10px 14px;margin-top:14px}
+  details{background:var(--bg);border:2px dashed var(--butter);border-radius:18px;padding:10px 16px;margin-top:14px}
   summary{font-weight:900;cursor:pointer;font-size:17px}
   details li{font-size:16px;line-height:1.7}
   .conf{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}
   .conf i{position:absolute;top:-20px;width:12px;height:18px;border-radius:3px;animation:fall 2.6s linear forwards}
   @keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
-  footer{text-align:center;margin-top:20px;font-size:13px;color:var(--dim);font-weight:700}
-  @media(max-width:640px){h1{font-size:30px}.tab{font-size:14px;padding:10px 4px}.tab .ic{font-size:24px}.q{font-size:23px}.res .season{font-size:36px}.card{padding:16px}}
-  @media print{.tabs,.back,footer,.noprint{display:none!important}.view{display:none}.view.on{display:block}body{background:#fff}}
+  footer{text-align:center;margin-top:22px;font-size:13px;color:var(--dim);font-weight:700}
+  .noprint{}
+  @media(max-width:640px){.dock button{font-size:12px}.dock button .ic{font-size:21px}.q{font-size:24px}.res .season{font-size:40px}.card{padding:18px}.hero .in{padding:26px 16px}}
+  @media print{.dock,.hero,footer,.noprint,details{display:none!important}.view{display:none}.view.on{display:block}body{background:#fff}}
 </style>
 </head>
 <body>
+<div class="wrap" style="padding-block:10px 0"><a href="../02-color/index.html" style="color:#7a6a8a;font-weight:800;font-size:14px;text-decoration:none">← 回 任務三 光與顏色</a></div>
+
 <div class="wrap">
-  <a class="back" href="../02-color/index.html">← 回 任務三 光與顏色</a>
-  <header>
-    <div class="logo">🎨</div>
-    <h1><span class="s1">春</span><span class="s2">夏</span><span class="s3">秋</span><span class="s4">冬</span> 色彩鑑定所</h1>
-    <div class="sub">光照到你的皮膚，反射出來的顏色，決定你穿什麼最好看</div>
-  </header>
+  <section class="hero" id="hero">
+    <canvas id="prism"></canvas>
+    <div class="in">
+      <div class="kicker">Light · Color · You</div>
+      <h1><span class="s1">春</span><span class="s2">夏</span><span class="s3">秋</span><span class="s4">冬</span> 色彩鑑定所</h1>
+      <p>白光照到你的皮膚，反射出來的光決定你是哪一季的人。<br>三分鐘找到讓你「臉會發光」的王牌色。</p>
+      <button class="cta" onclick="goTab('test');document.getElementById('inName')&&document.getElementById('inName').focus()">🔍 開始鑑定</button>
+    </div>
+  </section>
 
-  <div class="tabs noprint">
-    <button class="tab on" data-v="test"><span class="ic">🔍</span>開始鑑定</button>
-    <button class="tab" data-v="learn"><span class="ic">📖</span>色彩小學堂</button>
-    <button class="tab" data-v="quiz"><span class="ic">✏️</span>小測驗</button>
-    <button class="tab" data-v="board"><span class="ic">🏆</span>全班結果</button>
-  </div>
+  <nav class="dock noprint" id="dock">
+    <button class="on" data-v="test"><span class="ic">🔍</span>鑑定</button>
+    <button data-v="mirror"><span class="ic">🪞</span>換裝魔鏡</button>
+    <button data-v="game"><span class="ic">🔥</span>冷暖挑戰</button>
+    <button data-v="learn"><span class="ic">📖</span>小學堂</button>
+    <button data-v="board"><span class="ic">🏆</span>全班</button>
+  </nav>
 
-  <!-- ================= 鑑定 ================= -->
+  <!-- ===== 鑑定 ===== -->
   <section class="view on" id="v-test">
     <div id="test-root"></div>
     <details class="noprint">
-      <summary>👩‍🏫 老師小抄（學生看不到也沒關係）</summary>
+      <summary>👩‍🏫 老師小抄</summary>
       <ul>
-        <li><b>流程</b>：學生一個一個到電腦前。輸入名字 → 5 題看圖選 → 開相機「披布測試」→ 出結果 → 自動記到「全班結果」。</li>
-        <li><b>披布測試</b>：畫面下方會出現左右兩色「圍巾」，請全班一起當評審：「哪一邊讓他的臉比較亮、比較有精神？」，多數決。</li>
-        <li><b>科學連結</b>：白光照到皮膚 → 皮膚只反射某些顏色（選擇性反射）→ 反射黃橘光多的叫暖調，反射粉紅藍光多的叫冷調。衣服顏色會把光「反射」到臉上，所以顏色對了臉會亮。</li>
-        <li><b>安全與尊重</b>：沒有哪個季節比較好，四季都有自己的王牌色。不評論同學外表，只評論「顏色搭不搭」。</li>
-        <li><b>沒有相機</b>：可以按「跳過相機」，改拿真的彩色紙或衣服放在下巴下面看。</li>
+        <li><b>流程</b>：學生一個一個到電腦前。輸入名字 → 5 題看圖選 → 開相機「披布測試」3 組 → 「四季照相亭」拍一張選最好看 → 出結果 → 存到全班。</li>
+        <li><b>披布測試台詞</b>：「全班當評審！哪一邊讓他的臉比較亮、比較有精神？三、二、一，指！」多數決。</li>
+        <li><b>科學連結</b>：白光照到皮膚 → 皮膚只反射某些顏色（選擇性反射）→ 反射黃橘光多叫暖調，反射粉紅藍光多叫冷調。衣服顏色會把光反射到臉上，顏色對了臉會亮。</li>
+        <li><b>尊重原則</b>：沒有哪個季節比較好，四季都有王牌色。只評「顏色搭不搭」，不評外表。</li>
+        <li><b>沒有相機</b>：按「跳過」，改拿真的色紙放下巴下面比。</li>
       </ul>
     </details>
   </section>
 
-  <!-- ================= 小學堂 ================= -->
-  <section class="view" id="v-learn">
-    <div class="card">
-      <h2>① 顏色是從哪裡來的？</h2>
-      <p class="lead">白光裡面藏著彩虹七色。東西「留下」一些光、「反射」一些光，我們看到的就是反射出來的那個顏色。</p>
-      <div class="light-demo">☀️ 白光 ➡ <span class="face"></span> ➡ 皮膚反射 <span id="skinLight" style="font-weight:900;color:#ffb86b">黃橘光多 = 暖調</span></div>
-      <p>你的皮膚也一樣！有人反射比較多<b style="color:#e08a2e">黃、橘</b>的光，叫<b>暖調</b>；有人反射比較多<b style="color:#5fa8d3">粉紅、藍</b>的光，叫<b>冷調</b>。這就是「選擇性反射」。</p>
-      <div class="row"><button class="btn" onclick="skinToggle()">🔁 切換看看暖調／冷調</button></div>
+  <!-- ===== 換裝魔鏡 ===== -->
+  <section class="view" id="v-mirror">
+    <div class="card tint">
+      <h2>🪞 換裝魔鏡</h2>
+      <p class="lead">幫小模特兒挑膚色和頭髮，再換衣服顏色。看臉會不會「發光」！</p>
+      <div class="mirror">
+        <div>
+          <svg viewBox="0 0 300 360" id="avatar" aria-label="小模特兒">
+            <defs>
+              <filter id="blur"><feGaussianBlur stdDeviation="10"/></filter>
+              <filter id="glow"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              <radialGradient id="shine" cx="50%" cy="40%" r="60%"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+            </defs>
+            <rect x="0" y="0" width="300" height="360" rx="40" fill="#f4eef2" id="avBg"/>
+            <path id="avShirt" d="M60 360 L60 290 Q60 240 110 232 L150 250 L190 232 Q240 240 240 290 L240 360 Z" fill="#ff6f61"/>
+            <ellipse id="avReflect" cx="150" cy="205" rx="70" ry="30" fill="#ff6f61" opacity=".35" filter="url(#blur)"/>
+            <rect id="avNeck" x="128" y="180" width="44" height="60" rx="18" fill="#f3d3c9"/>
+            <ellipse id="avFace" cx="150" cy="140" rx="70" ry="80" fill="#f3d3c9"/>
+            <ellipse cx="150" cy="120" rx="70" ry="60" fill="url(#shine)"/>
+            <path id="avHair" d="M80 130 Q75 50 150 48 Q225 50 220 130 Q205 90 150 90 Q95 90 80 130 Z" fill="#2b1d3a"/>
+            <g id="avEyes"><circle cx="122" cy="140" r="7" fill="#2b1d3a"/><circle cx="178" cy="140" r="7" fill="#2b1d3a"/><circle cx="124" cy="137" r="2.5" fill="#fff"/><circle cx="180" cy="137" r="2.5" fill="#fff"/></g>
+            <ellipse id="avBlushL" cx="108" cy="165" rx="12" ry="7" fill="#ff8a8a" opacity=".35"/><ellipse id="avBlushR" cx="192" cy="165" rx="12" ry="7" fill="#ff8a8a" opacity=".35"/>
+            <path id="avMouth" d="M132 178 Q150 196 168 178" stroke="#a04a4a" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <text id="avSpark" x="230" y="70" font-size="34" opacity="0">✨</text>
+          </svg>
+        </div>
+        <div>
+          <div class="dimtxt">① 膚色（點一個）</div>
+          <div class="chips" id="skinChips"></div>
+          <div class="dimtxt">② 頭髮</div>
+          <div class="chips" id="hairChips"></div>
+          <div class="dimtxt">③ 換衣服！</div>
+          <div class="chips" id="shirtChips"></div>
+          <div class="dimtxt">臉的亮度</div>
+          <div class="glowbar"><i id="glowFill"></i></div>
+          <div class="verdict" id="verdict">換件衣服看看 👆</div>
+          <p class="dimtxt" id="mirrorWhy">衣服會把光反射到臉上。顏色跟皮膚的冷暖、深淺對上，臉就亮；對不上，臉就悶。</p>
+        </div>
+      </div>
     </div>
+  </section>
 
+  <!-- ===== 冷暖挑戰 ===== -->
+  <section class="view" id="v-game">
+    <div class="card tint">
+      <h2>🔥🧊 冷暖分類大挑戰</h2>
+      <p class="lead">把顏色球拖到對的桶子！暖色進火桶、冷色進冰桶。30 秒，看你能分幾顆。</p>
+      <div class="scoreline"><span>⏱ <b id="gTime">30</b> 秒</span><span>⭐ <b id="gScore">0</b> 分</span><span>🔥 連續 <b id="gCombo">0</b></span><span>🏅 最高 <b id="gBest">0</b></span></div>
+      <div class="arena">
+        <div class="buckets"><div class="bucket hot" data-k="w">🔥 暖色桶<small>太陽・火・橘子</small></div><div class="bucket cold" data-k="c">🧊 冷色桶<small>海・冰・薄荷</small></div></div>
+        <div class="pool" id="pool"></div>
+      </div>
+      <div class="row" style="justify-content:center;margin-top:14px"><button class="btn primary" id="gStart" onclick="startGame()">▶ 開始挑戰</button></div>
+      <div class="feedback" id="gFb" style="text-align:center"></div>
+    </div>
+  </section>
+
+  <!-- ===== 小學堂 ===== -->
+  <section class="view" id="v-learn">
+    <div class="card tint">
+      <h2>① 顏色是從哪裡來的？</h2>
+      <p class="lead">白光裡藏著彩虹七色。東西「吃掉」一些光、「反射」一些光，我們看到的就是反射出來的那個顏色。</p>
+      <div class="lightlab">
+        <div class="stage">☀️ 白光 <i class="beam"></i> <span class="face" id="labFace"></span> <i class="beam" id="labBeam"></i> <span id="labTxt">皮膚反射出來的光</span></div>
+        <p style="margin:12px 0 4px;font-weight:900">拉一拉：這個人的皮膚偏哪一種？</p>
+        <input type="range" id="labRange" min="0" max="100" value="70" aria-label="膚色冷暖">
+        <div class="mlab" style="color:#cdbfe0"><span>🧊 反射粉紅藍光多 = 冷調</span><span>暖調 = 反射黃橘光多 🔥</span></div>
+      </div>
+      <p>你的皮膚也一樣！反射比較多<b style="color:#e08a2e">黃、橘</b>光的人叫<b>暖調</b>；反射比較多<b style="color:#7fb6f5">粉紅、藍</b>光的人叫<b>冷調</b>。這就是「選擇性反射」。</p>
+    </div>
     <div class="grid2">
       <div class="card">
         <h2>② 冷色 vs 暖色</h2>
         <p>點顏色，它會告訴你自己是冷是暖。</p>
         <div class="strip" id="strip"></div>
         <div class="feedback" id="stripFb">👆 點一個顏色試試</div>
-        <p><b>暖色</b>：太陽、火、橘子 🔥　<b>冷色</b>：海、冰、薄荷 🧊</p>
       </div>
       <div class="card">
-        <h2>③ 明亮 vs 深沉</h2>
+        <h2>③ 淺 vs 深</h2>
         <p>同一個顏色，加白變<b>淺</b>，加黑變<b>深</b>。頭髮很黑、眼睛黑白分明的人，通常適合深一點、鮮明一點的顏色。</p>
         <div class="strip" style="background:linear-gradient(90deg,#ffe3ec,#ff7a9c,#c2185b,#4a0020)"></div>
-        <div class="row"><span class="tag" style="background:#ff9fb8">淺・柔</span><span class="tag" style="background:#c2185b">深・濃</span></div>
-        <p>所以鑑定要看兩件事：<b>冷或暖</b>？<b>淺或深</b>？兩個答案合起來，就是你的季節。</p>
+        <p>鑑定就是看兩件事：<b>冷或暖</b>？<b>淺或深</b>？兩個答案合起來，就是你的季節。</p>
       </div>
     </div>
-
     <div class="card">
-      <h2>④ 四季是怎麼分的？</h2>
+      <h2>④ 四季是怎麼分的？（點卡片看王牌色）</h2>
       <div class="seasons" id="seasonCards"></div>
-      <p style="margin-top:12px">💡 <b>沒有最好的季節，只有最適合你的顏色。</b>穿對顏色，臉會被「反射光」打亮；穿錯顏色，臉會看起來累累的。</p>
+      <div id="seasonDetail"></div>
+      <p style="margin-top:12px">💡 <b>沒有最好的季節，只有最適合你的顏色。</b></p>
     </div>
-  </section>
-
-  <!-- ================= 小測驗 ================= -->
-  <section class="view" id="v-quiz">
     <div class="card" id="quiz-root"></div>
   </section>
 
-  <!-- ================= 全班結果 ================= -->
+  <!-- ===== 全班 ===== -->
   <section class="view" id="v-board">
-    <div class="card">
+    <div class="card tint">
       <h2>🏆 全班色彩地圖</h2>
-      <p class="badge">結果存在這台電腦裡，換電腦不會帶著走。</p>
+      <p class="dimtxt">結果存在這台電腦的瀏覽器裡。</p>
       <div class="bars" id="bars"></div>
       <div id="boardTbl"></div>
       <div class="row noprint" style="margin-top:12px">
         <button class="btn" onclick="window.print()">🖨 列印</button>
-        <button class="btn" onclick="exportCSV()">⬇ 下載名單 (CSV)</button>
         <button class="btn ghost" onclick="clearBoard()">🗑 全部清除</button>
       </div>
     </div>
@@ -232,210 +344,264 @@
 <script>
 /* ---------- 資料 ---------- */
 const SEASONS={
-  spring:{name:"春天人",emoji:"🌸",color:"#ff9f43",nick:"陽光水蜜桃",axis:"暖調＋明亮",
-    why:"你的皮膚反射比較多黃橘光（暖），而且整體感覺清爽明亮。像春天的陽光一樣，亮亮的暖色會讓你看起來超有精神！",
+  spring:{name:"春天人",emoji:"🌸",color:"#ff9a5c",nick:"陽光水蜜桃",axis:"暖調＋明亮",drape:"#ff8a5b",
+    why:"你的皮膚反射比較多黃橘光（暖），整體感覺清爽明亮。像春天的陽光，亮亮的暖色會讓你看起來超有精神！",
     good:[["珊瑚橘","#ff7f50"],["水蜜桃","#ffb07c"],["鵝黃","#ffd166"],["嫩草綠","#8bd17c"],["土耳其藍","#4fc3d0"],["奶油白","#fff4d6"],["淺駝色","#d9b99b"],["亮珊瑚紅","#ff5a5f"]],
     bad:[["純黑","#111111"],["灰藍","#6d7b8d"],["酒紅","#6b1d2a"],["冷灰","#9aa3ad"]],
     tip:"穿奶油白比純白好看，黑色改成駝色或咖啡色，臉會更亮。"},
-  summer:{name:"夏天人",emoji:"🧊",color:"#5fa8d3",nick:"薄荷冰淇淋",axis:"冷調＋柔和",
-    why:"你的皮膚反射比較多粉紅、藍色的光（冷），整體感覺柔柔的、霧霧的。像夏天的冰淇淋一樣，清爽柔和的顏色最適合你！",
+  summer:{name:"夏天人",emoji:"🧊",color:"#7fa8e8",nick:"薄荷冰淇淋",axis:"冷調＋柔和",drape:"#b39ddb",
+    why:"你的皮膚反射比較多粉紅、藍色的光（冷），整體感覺柔柔的、霧霧的。像夏天的冰淇淋，清爽柔和的顏色最適合你！",
     good:[["粉藍","#a7c7e7"],["薰衣草紫","#b39ddb"],["玫瑰粉","#f4a7b9"],["灰藍","#6d8fb3"],["薄荷綠","#a8e6cf"],["灰白","#eceff4"],["莓果紅","#c2185b"],["霧灰","#b0b8c1"]],
     bad:[["橘色","#ff7f11"],["土黃","#c7a24a"],["磚紅","#b7410e"],["純黑","#111111"]],
     tip:"純白改成灰白、橘色改成玫瑰粉，你會被稱讚「今天好清爽」。"},
-  autumn:{name:"秋天人",emoji:"🍁",color:"#b5651d",nick:"焦糖拿鐵",axis:"暖調＋深沉",
-    why:"你的皮膚反射比較多黃橘光（暖），而且頭髮眼睛顏色深、很有份量。像秋天的楓葉和落葉，濃濃的大地色最能襯出你！",
+  autumn:{name:"秋天人",emoji:"🍁",color:"#c47a3a",nick:"焦糖拿鐵",axis:"暖調＋深沉",drape:"#8b6b2b",
+    why:"你的皮膚反射比較多黃橘光（暖），而且頭髮眼睛顏色深、很有份量。像秋天的楓葉，濃濃的大地色最能襯出你！",
     good:[["磚紅","#b7410e"],["芥末黃","#d4a017"],["橄欖綠","#6b8e23"],["焦糖咖啡","#8b5a2b"],["南瓜橘","#e07b39"],["墨綠","#2f5d3a"],["駝色","#c8a27a"],["紅棕","#8c2f39"]],
-    bad:[["粉紅","#f8a5c2"],["冰藍","#bfe3f5"],["純黑","#111111"],["螢光色","#39ff14"]],
+    bad:[["粉紅","#f8a5c2"],["冰藍","#bfe3f5"],["純黑","#111111"],["螢光綠","#39ff14"]],
     tip:"黑色改成墨綠或咖啡，粉色改成磚紅，整個人會很有質感。"},
-  winter:{name:"冬天人",emoji:"❄️",color:"#3b3f8f",nick:"星空黑巧克力",axis:"冷調＋鮮明",
-    why:"你的皮膚反射比較多粉紅、藍色的光（冷），而且眼睛黑白分明、頭髮又黑又亮。像冬天的星空一樣，強烈對比的顏色最帥最美！",
+  winter:{name:"冬天人",emoji:"❄️",color:"#4b4fbf",nick:"星空黑巧克力",axis:"冷調＋鮮明",drape:"#1f4fbf",
+    why:"你的皮膚反射比較多粉紅、藍色的光（冷），而且眼睛黑白分明、頭髮又黑又亮。像冬天的星空，強烈對比的顏色最帥最美！",
     good:[["純黑","#111111"],["純白","#ffffff"],["寶石藍","#1f4fbf"],["正紅","#d7263d"],["桃紅","#ff2d95"],["翡翠綠","#00a878"],["深紫","#5b2a86"],["冰藍","#bfe3f5"]],
     bad:[["土黃","#c7a24a"],["橘色","#ff7f11"],["駝色","#c8a27a"],["米色","#e8dcc2"]],
     tip:"你是少數穿純黑純白最好看的人！橘色和駝色離遠一點。"}
 };
+const SEASON_SCORE={spring:{w:2,d:-2},summer:{w:-2,d:-2},autumn:{w:2,d:2},winter:{w:-2,d:2}};
 const QUESTIONS=[
-  {id:"vein",q:"看看你手腕內側的血管，是什麼顏色？",hint:"把手心翻上來，靠近白紙看。看不清楚沒關係，選第三個。",
-   opts:[{t:"偏綠色",pic:'<div class="pic wrist v-green"><i></i><i></i><i></i></div>',s:{w:2}},
-         {t:"偏藍或藍紫",pic:'<div class="pic wrist v-blue"><i></i><i></i><i></i></div>',s:{w:-2}},
-         {t:"綠藍都有／看不清楚",pic:'<div class="pic wrist v-mix"><i></i><i></i><i></i></div>',s:{}}]},
-  {id:"metal",q:"金色和銀色，哪一個放在你手上比較好看？",hint:"想像戴金戒指和銀戒指，哪個讓你的手看起來比較亮？老師桌上有真的可以拿來比。",
-   opts:[{t:"金色",pic:'<div class="pic metal gold"><span></span></div>',s:{w:2}},
-         {t:"銀色",pic:'<div class="pic metal silver"><span></span></div>',s:{w:-2}},
-         {t:"都差不多",pic:'<div class="pic metal" style="gap:8px"><span style="border-color:#e0b33c;background:#f2cf6e;width:44px;height:44px"></span><span style="border-color:#b9c1cc;background:#dfe4ea;width:44px;height:44px"></span></div>',s:{}}]},
-  {id:"sun",q:"夏天曬太陽，你的皮膚會怎樣？",hint:"想一想上次去海邊或體育課之後的樣子。",
-   opts:[{t:"先變紅，然後很快退掉",pic:'<div class="pic" style="background:#ffd6d6">🥵</div>',s:{w:-1}},
-         {t:"很容易變黑（小麥色）",pic:'<div class="pic" style="background:#f1d3b3">😎</div>',s:{w:1}},
-         {t:"變紅之後再變黑",pic:'<div class="pic" style="background:#f7e0c9">🙂</div>',s:{}}]},
+  {id:"vein",q:"看看你手腕內側的血管，是什麼顏色？",hint:"手心翻上來，靠近白紙看。看不清楚沒關係，選第三個。",
+   opts:[{t:"偏綠色",pic:'<div class="pic wrist v-green"><i></i><i></i><i></i></div>',s:{w:2}},{t:"偏藍或藍紫",pic:'<div class="pic wrist v-blue"><i></i><i></i><i></i></div>',s:{w:-2}},{t:"綠藍都有／看不清楚",pic:'<div class="pic wrist v-mix"><i></i><i></i><i></i></div>',s:{}}]},
+  {id:"metal",q:"金色和銀色，哪一個放在你手上比較好看？",hint:"想像戴金戒指和銀戒指，哪個讓你的手看起來比較亮？",
+   opts:[{t:"金色",pic:'<div class="pic metal gold"><span></span></div>',s:{w:2}},{t:"銀色",pic:'<div class="pic metal silver"><span></span></div>',s:{w:-2}},{t:"都差不多",pic:'<div class="pic metal" style="gap:8px"><span style="border-color:#e0b33c;background:#f2cf6e;width:44px;height:44px"></span><span style="border-color:#b9c1cc;background:#dfe4ea;width:44px;height:44px"></span></div>',s:{}}]},
+  {id:"sun",q:"夏天曬太陽，你的皮膚會怎樣？",hint:"想一想上次體育課或去海邊之後。",
+   opts:[{t:"先變紅，很快退掉",pic:'<div class="pic" style="background:#ffd6d6">🥵</div>',s:{w:-1}},{t:"很容易變黑",pic:'<div class="pic" style="background:#f1d3b3">😎</div>',s:{w:1}},{t:"變紅之後再變黑",pic:'<div class="pic" style="background:#f7e0c9">🙂</div>',s:{}}]},
   {id:"hair",q:"你的頭髮是什麼顏色？",hint:"看自然的髮色，染過的看髮根。",
-   opts:[{t:"很黑、很亮",pic:'<div class="pic" style="background:#111">💇</div>',s:{d:2}},
-         {t:"深咖啡色",pic:'<div class="pic" style="background:#4a2e1a">💇</div>',s:{d:1}},
-         {t:"淺咖啡／偏黃偏紅",pic:'<div class="pic" style="background:#a0704a">💇</div>',s:{d:-2}}]},
+   opts:[{t:"很黑、很亮",pic:'<div class="pic" style="background:#111">💇</div>',s:{d:2}},{t:"深咖啡色",pic:'<div class="pic" style="background:#4a2e1a">💇</div>',s:{d:1}},{t:"淺咖啡／偏黃偏紅",pic:'<div class="pic" style="background:#a0704a">💇</div>',s:{d:-2}}]},
   {id:"eye",q:"你的眼睛，黑眼珠和眼白對比強不強？",hint:"跟旁邊的同學互看三秒（不要笑場）。",
-   opts:[{t:"很強！黑白分明",pic:'<div class="pic" style="background:#fff;font-size:44px">👁️</div>',s:{d:2}},
-         {t:"柔柔的，眼珠偏咖啡",pic:'<div class="pic" style="background:#f3e9dd;font-size:44px;opacity:.7">👁️</div>',s:{d:-2}},
-         {t:"普通",pic:'<div class="pic" style="background:#f6f3ee;font-size:44px;opacity:.85">👁️</div>',s:{}}]}
+   opts:[{t:"很強！黑白分明",pic:'<div class="pic" style="background:#fff;font-size:44px">👁️</div>',s:{d:2}},{t:"柔柔的，眼珠偏咖啡",pic:'<div class="pic" style="background:#f3e9dd;font-size:44px;opacity:.7">👁️</div>',s:{d:-2}},{t:"普通",pic:'<div class="pic" style="background:#f4eef2;font-size:44px;opacity:.85">👁️</div>',s:{}}]}
 ];
 const DRAPES=[
-  {q:"哪一邊讓臉比較亮、比較有精神？",a:{t:"橘色",c:"#ff8c42",s:{w:3}},b:{t:"桃紅色",c:"#ff2d95",s:{w:-3}}},
-  {q:"哪一邊讓臉比較亮、比較有精神？",a:{t:"奶油黃",c:"#ffe08a",s:{w:2,d:-1}},b:{t:"冰藍色",c:"#9fd3f5",s:{w:-2,d:-1}}},
-  {q:"哪一邊看起來比較剛好、不會被衣服吃掉？",a:{t:"淺粉色",c:"#ffc9d9",s:{d:-3}},b:{t:"純黑色",c:"#111111",s:{d:3}}}
+  {a:{t:"橘色",c:"#ff8c42",s:{w:3}},b:{t:"桃紅色",c:"#ff2d95",s:{w:-3}}},
+  {a:{t:"奶油黃",c:"#ffe08a",s:{w:2,d:-1}},b:{t:"冰藍色",c:"#9fd3f5",s:{w:-2,d:-1}}},
+  {a:{t:"淺粉色",c:"#ffc9d9",s:{d:-3}},b:{t:"純黑色",c:"#111111",s:{d:3}}}
 ];
+const TOTAL=QUESTIONS.length+DRAPES.length+1;
 
-/* ---------- 狀態 ---------- */
-let state={name:"",cls:"",step:0,score:{w:0,d:0},answers:{},drape:0};
-const KEY="pc-board-v1";
-let stream=null;
-
-/* ---------- 工具 ---------- */
+/* ---------- 狀態／工具 ---------- */
+let state={name:"",cls:"",step:0,score:{w:0,d:0},answers:{},boothShot:null};
+const KEY="pc-board-v2";let stream=null;
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let actx=null;
-function beep(f=660,len=.12,type="sine"){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();o.type=type;o.frequency.value=f;g.gain.value=.08;o.connect(g);g.connect(actx.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,actx.currentTime+len);o.stop(actx.currentTime+len);}catch(e){}}
+function beep(f=660,len=.12,type="sine",g0=.08){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();o.type=type;o.frequency.value=f;g.gain.value=g0;o.connect(g);g.connect(actx.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,actx.currentTime+len);o.stop(actx.currentTime+len);}catch(e){}}
 function ding(){beep(660,.1);setTimeout(()=>beep(880,.15),110);}
+function buzz(){beep(200,.25,"square",.05);}
 function fanfare(){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.25),i*120));}
-function confetti(){const box=$("#conf");box.innerHTML="";const cols=["#ff6b6b","#ff9f43","#5fa8d3","#3b3f8f","#2fb47c","#f4b942"];for(let i=0;i<90;i++){const s=document.createElement("i");s.style.left=Math.random()*100+"vw";s.style.background=cols[i%cols.length];s.style.animationDelay=Math.random()*.8+"s";s.style.animationDuration=(2+Math.random()*1.5)+"s";box.appendChild(s);}setTimeout(()=>box.innerHTML="",4000);}
+function confetti(){const box=$("#conf");box.innerHTML="";const cols=["#ff6f61","#ffd86b","#5fd3bd","#7fb6f5","#8c6bd8","#ff9a5c"];for(let i=0;i<100;i++){const s=document.createElement("i");s.style.left=Math.random()*100+"vw";s.style.background=cols[i%cols.length];s.style.animationDelay=Math.random()*.8+"s";s.style.animationDuration=(2+Math.random()*1.5)+"s";box.appendChild(s);}setTimeout(()=>box.innerHTML="",4200);}
 function stopCam(){if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}}
+function store(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+function load(k,d){try{return JSON.parse(localStorage.getItem(k))??d;}catch(e){return d;}}
+
+/* ---------- 三稜鏡動畫 ---------- */
+(function(){
+  const c=$("#prism"),x=c.getContext("2d");let W,H,t=0,mx=.5,my=.5;
+  const bubbles=Array.from({length:18},(_,i)=>({x:Math.random(),y:Math.random(),r:8+Math.random()*22,h:i*20,s:.2+Math.random()*.5}));
+  function size(){W=c.width=c.clientWidth*devicePixelRatio;H=c.height=c.clientHeight*devicePixelRatio;}
+  size();addEventListener("resize",size);
+  $("#hero").addEventListener("pointermove",e=>{const r=c.getBoundingClientRect();mx=(e.clientX-r.left)/r.width;my=(e.clientY-r.top)/r.height;});
+  const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  function draw(){
+    x.clearRect(0,0,W,H);const d=devicePixelRatio;
+    // bubbles
+    bubbles.forEach(b=>{b.y-=b.s*.0015;if(b.y<-.1)b.y=1.1;const bx=(b.x+(mx-.5)*.04*b.s*3)*W,by=b.y*H;
+      const g=x.createRadialGradient(bx-b.r*d*.3,by-b.r*d*.3,1,bx,by,b.r*d);g.addColorStop(0,`hsla(${b.h},90%,80%,.9)`);g.addColorStop(1,`hsla(${b.h},90%,60%,.15)`);x.fillStyle=g;x.beginPath();x.arc(bx,by,b.r*d,0,7);x.fill();});
+    // prism
+    const px=W*.2,py=H*.55,ps=Math.min(W,H)*.3;
+    x.save();x.globalCompositeOperation="lighter";
+    // white beam in
+    x.strokeStyle="rgba(255,255,255,.9)";x.lineWidth=4*d;x.beginPath();x.moveTo(0,py+ps*.1);x.lineTo(px-ps*.35,py+ps*.05);x.stroke();
+    // rainbow out
+    const cols=["#ff4d4d","#ff9a2e","#ffe14d","#5cd65c","#4dc3ff","#6b6bff","#c86bff"];
+    cols.forEach((col,i)=>{const a=(i-3)*.07+Math.sin(t*.01)*.02+(mx-.5)*.15;x.strokeStyle=col;x.globalAlpha=.85;x.lineWidth=3.5*d;x.beginPath();x.moveTo(px+ps*.35,py);x.lineTo(W,py+Math.tan(a)*(W-px)+(i-3)*14*d);x.stroke();});
+    x.restore();
+    x.fillStyle="rgba(255,255,255,.14)";x.strokeStyle="rgba(255,255,255,.7)";x.lineWidth=3*d;x.beginPath();x.moveTo(px,py-ps*.5);x.lineTo(px+ps*.45,py+ps*.35);x.lineTo(px-ps*.45,py+ps*.35);x.closePath();x.fill();x.stroke();
+    t++;if(!reduce)requestAnimationFrame(draw);
+  }
+  draw();
+})();
 
 /* ---------- 分頁 ---------- */
-document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
-  document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x===b));
-  document.querySelectorAll(".view").forEach(v=>v.classList.toggle("on",v.id==="v-"+b.dataset.v));
-  if(b.dataset.v==="board")renderBoard();if(b.dataset.v!=="test")stopCam();window.scrollTo({top:0,behavior:"smooth"});
-});
+function goTab(v){document.querySelectorAll("#dock button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));document.querySelectorAll(".view").forEach(s=>s.classList.toggle("on",s.id==="v-"+v));if(v==="board")renderBoard();if(v!=="test")stopCam();$("#dock").scrollIntoView({behavior:"smooth",block:"start"});}
+document.querySelectorAll("#dock button").forEach(b=>b.onclick=()=>goTab(b.dataset.v));
 
-/* ---------- 鑑定流程 ---------- */
-function resetTest(){stopCam();state={name:"",cls:"",step:0,score:{w:0,d:0},answers:{},drape:0};renderTest();}
-function prog(){const total=QUESTIONS.length+DRAPES.length;let h='<div class="prog">';for(let i=0;i<total;i++){h+=`<i class="${i<state.step-1?"done":i===state.step-1?"now":""}"></i>`;}return h+"</div>";}
+/* ---------- 鑑定 ---------- */
+function resetTest(){stopCam();state={name:"",cls:"",step:0,score:{w:0,d:0},answers:{},boothShot:null};renderTest();}
+function prog(){let h='<div class="prog">';for(let i=0;i<TOTAL;i++)h+=`<i class="${i<state.step-1?"done":i===state.step-1?"now":""}"></i>`;return h+"</div>";}
 function renderTest(){
   const root=$("#test-root");
   if(state.step===0){
-    root.innerHTML=`<div class="card">
-      <h2>🔍 你是春、夏、秋、冬哪一種人？</h2>
-      <p class="lead">只要 8 個小關卡，大約 3 分鐘，就能找出讓你「臉會發光」的顏色。</p>
-      <div class="axis"><div>🔥 暖調 ⟷ 🧊 冷調</div><div>🌤 淺・柔 ⟷ 🌑 深・濃</div></div>
-      <p>先告訴我你是誰：</p>
-      <div class="row"><input id="inName" placeholder="名字或綽號" style="flex:2;font-size:20px;padding:12px 14px;border:3px solid var(--line);border-radius:14px;font-family:inherit;font-weight:900;min-width:160px">
-      <select id="inCls" style="flex:1;font-size:18px;padding:12px;border:3px solid var(--line);border-radius:14px;font-family:inherit;font-weight:900"><option value="甲班">甲班</option><option value="乙班">乙班</option><option value="老師">老師</option><option value="其他">其他</option></select></div>
+    root.innerHTML=`<div class="card tint"><h2>你是春、夏、秋、冬哪一種人？</h2>
+      <p class="lead">${TOTAL} 個小關卡，大約 3 分鐘。全班一起當評審！</p>
+      <div class="axis"><div style="text-align:center;font-weight:900">🔥 暖調 ⟷ 🧊 冷調</div><div style="text-align:center;font-weight:900">🌤 淺・柔 ⟷ 🌑 深・濃</div></div>
+      <div class="row"><input class="field" id="inName" placeholder="名字或綽號" style="flex:2" autocomplete="off">
+      <select class="field" id="inCls"><option value="甲班">甲班</option><option value="乙班">乙班</option><option value="老師">老師</option><option value="其他">其他</option></select></div>
       <button class="big" onclick="startTest()">🚀 開始鑑定！</button>
-      <p class="badge" style="margin-top:10px">小提醒：沒有哪個季節最好，每個季節都有自己的王牌色 ✨</p>
-    </div>`;
-    $("#inName").focus();$("#inName").onkeydown=e=>{if(e.key==="Enter")startTest();};
-    return;
+      <p class="dimtxt" style="margin-top:10px;text-align:center">沒有哪個季節最好，每個季節都有自己的王牌色 ✨</p></div>`;
+    $("#inName").onkeydown=e=>{if(e.key==="Enter")startTest();};return;
   }
   const qi=state.step-1;
-  if(qi<QUESTIONS.length){
-    const Q=QUESTIONS[qi];
-    root.innerHTML=`<div class="card">${prog()}<div class="stepno">第 ${state.step} 關／${QUESTIONS.length+DRAPES.length} 關　${esc(state.name)}</div>
-      <div class="q">${esc(Q.q)}</div><div class="hint">💡 ${esc(Q.hint)}</div>
+  if(qi<QUESTIONS.length){const Q=QUESTIONS[qi];
+    root.innerHTML=`<div class="card">${prog()}<div class="stepno">第 ${state.step} 關／${TOTAL}　${esc(state.name)}</div><div class="q">${esc(Q.q)}</div><div class="hint">💡 ${esc(Q.hint)}</div>
       <div class="opts">${Q.opts.map((o,i)=>`<button class="opt" onclick="pick(${i})">${o.pic}<span>${esc(o.t)}</span></button>`).join("")}</div>
-      <div class="row sp" style="margin-top:14px"><button class="btn ghost" onclick="back()">← 上一關</button><span class="badge">點一個答案就會自動到下一關</span></div></div>`;
-    return;
-  }
+      <div class="row sp" style="margin-top:14px"><button class="btn ghost" onclick="back()">← 上一關</button><span class="dimtxt">點答案自動到下一關</span></div></div>`;return;}
   const di=qi-QUESTIONS.length;
-  if(di<DRAPES.length){
-    const D=DRAPES[di];
-    root.innerHTML=`<div class="card">${prog()}<div class="stepno">第 ${state.step} 關／${QUESTIONS.length+DRAPES.length} 關　披布測試 ${di+1}/${DRAPES.length}</div>
-      <div class="q">📸 ${esc(D.q)}</div>
-      <div class="hint">請全班一起當評審！看下巴下面兩塊顏色，哪一邊讓 ${esc(state.name)} 的臉比較亮？多數決。</div>
-      <div class="cam" id="cam"><video id="vid" autoplay playsinline muted></video><div class="neck"></div>
-        <div class="drape"><div style="background:${D.a.c}">${esc(D.a.t)}</div><div style="background:${D.b.c}">${esc(D.b.t)}</div></div>
-        <div class="nocam" id="nocam" style="display:none">📷 相機還沒開<br><span style="font-size:15px;font-weight:800">按下面「開相機」，或直接拿真的彩色紙放在下巴下面比較</span><button class="btn primary" onclick="openCam()">📷 開相機</button></div></div>
-      <div class="pair"><button style="background:${D.a.c}" onclick="pickDrape('a')">👈 左邊：${esc(D.a.t)}</button><button style="background:${D.b.c}" onclick="pickDrape('b')">右邊：${esc(D.b.t)} 👉</button></div>
+  if(di<DRAPES.length){const D=DRAPES[di];
+    root.innerHTML=`<div class="card">${prog()}<div class="stepno">第 ${state.step} 關／${TOTAL}　披布測試 ${di+1}/${DRAPES.length}</div>
+      <div class="q">📸 哪一邊讓 ${esc(state.name)} 的臉比較亮、比較有精神？</div><div class="hint">全班一起當評審！看下巴下面兩塊顏色。三、二、一，指！</div>
+      <div class="cam"><video id="vid" autoplay playsinline muted></video>
+        <div class="drape"><div style="background:${D.a.c}">${D.a.t}</div><div style="background:${D.b.c}">${D.b.t}</div></div>
+        <div class="nocam" id="nocam" hidden>📷 相機還沒開<span class="dimtxt" style="color:#cdbfe0">按「開相機」，或拿真的色紙放在下巴下面比</span><button class="btn primary" onclick="openCam()">📷 開相機</button></div></div>
+      <div class="pair"><button style="background:${D.a.c}" onclick="pickDrape('a')">👈 左邊 ${D.a.t}</button><button style="background:${D.b.c}" onclick="pickDrape('b')">右邊 ${D.b.t} 👉</button></div>
       <div class="row sp" style="margin-top:14px"><button class="btn ghost" onclick="back()">← 上一關</button><button class="btn ghost" onclick="pickDrape(null)">看不出來，跳過 →</button></div></div>`;
-    openCam();return;
-  }
+    openCam();return;}
+  if(di===DRAPES.length){ // photo booth
+    root.innerHTML=`<div class="card">${prog()}<div class="stepno">第 ${state.step} 關／${TOTAL}　四季照相亭</div>
+      <div class="q">📷 拍一張！四季各披一條圍巾，哪一張最好看？</div><div class="hint">按「拍照」定格，再點你們覺得臉最亮的那一張。</div>
+      <div id="boothLive"><div class="cam"><video id="vid" autoplay playsinline muted></video><div class="nocam" id="nocam" hidden>📷 相機還沒開<button class="btn primary" onclick="openCam()">📷 開相機</button></div></div>
+        <div class="row" style="justify-content:center;margin-top:12px"><button class="btn primary" onclick="snap()">📸 拍照</button><button class="btn ghost" onclick="pickBooth(null)">跳過 →</button></div></div>
+      <div id="boothGrid" hidden></div>
+      <div class="row sp" style="margin-top:14px"><button class="btn ghost" onclick="back()">← 上一關</button></div></div>`;
+    openCam();return;}
   showResult();
 }
-function startTest(){const n=$("#inName").value.trim();if(!n){$("#inName").style.borderColor="var(--accent)";$("#inName").placeholder="先寫名字才能開始喔";return;}state.name=n;state.cls=$("#inCls").value;state.step=1;ding();renderTest();}
-function pick(i){const qi=state.step-1;const Q=QUESTIONS[qi];state.answers[Q.id]=i;document.querySelectorAll(".opt")[i].classList.add("pick");ding();setTimeout(()=>{state.step++;renderTest();},350);}
-function pickDrape(side){const di=state.step-1-QUESTIONS.length;state.answers["drape"+di]=side;ding();state.step++;renderTest();}
-function back(){if(state.step>1){state.step--;}else{state.step=0;}stopCam();renderTest();}
-async function openCam(){
-  const v=$("#vid"),nc=$("#nocam");if(!v)return;
-  if(stream){v.srcObject=stream;nc.style.display="none";return;}
-  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){nc.style.display="flex";nc.querySelector("button").style.display="none";return;}
-  try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user",width:{ideal:960},height:{ideal:720}},audio:false});v.srcObject=stream;nc.style.display="none";}
-  catch(e){nc.style.display="flex";}
-}
-function computeScore(){
-  const sc={w:0,d:0};
-  QUESTIONS.forEach((Q,i)=>{const a=state.answers[Q.id];if(a==null)return;const s=Q.opts[a].s;sc.w+=s.w||0;sc.d+=s.d||0;});
-  DRAPES.forEach((D,i)=>{const a=state.answers["drape"+i];if(!a)return;const s=D[a].s;sc.w+=s.w||0;sc.d+=s.d||0;});
-  return sc;
-}
-function seasonOf(sc){const warm=sc.w>=0,deep=sc.d>=0;return warm?(deep?"autumn":"spring"):(deep?"winter":"summer");}
-function showResult(){
-  stopCam();const sc=computeScore();const key=seasonOf(sc);const S=SEASONS[key];
-  state.score=sc;
-  const wpct=Math.round(50+Math.max(-10,Math.min(10,sc.w))*4.5),dpct=Math.round(50+Math.max(-10,Math.min(10,sc.d))*4.5);
-  const sure=(Math.abs(sc.w)+Math.abs(sc.d));
-  const conf=sure>=8?"很確定 💯":sure>=4?"蠻確定 👍":"有點猶豫，可以再用真的彩色紙比一比 🤔";
-  $("#test-root").innerHTML=`<div class="card res" style="border-color:${S.color}">
-      <div class="em">${S.emoji}</div>
-      <div class="badge">${esc(state.name)} 的鑑定結果</div>
-      <div class="season" style="color:${S.color}">你是 ${S.name}！</div>
-      <div class="nick">代表甜點：${S.nick}　｜　${S.axis}</div>
-      <div class="axis" style="margin-top:14px"><div><div class="mlab"><span>🧊 冷調</span><span>暖調 🔥</span></div><div class="meter"><b style="left:${wpct}%"></b></div></div>
-        <div><div class="mlab"><span>🌤 淺・柔</span><span>深・濃 🌑</span></div><div class="meter ld"><b style="left:${dpct}%"></b></div></div></div>
-      <div class="badge">鑑定信心：${conf}</div>
+function startTest(){const n=$("#inName").value.trim();if(!n){$("#inName").style.borderColor="var(--coral)";$("#inName").placeholder="先寫名字才能開始喔";buzz();return;}state.name=n;state.cls=$("#inCls").value;state.step=1;ding();renderTest();}
+function pick(i){const Q=QUESTIONS[state.step-1];state.answers[Q.id]=i;document.querySelectorAll(".opt")[i].classList.add("pick");ding();setTimeout(()=>{state.step++;renderTest();},380);}
+function pickDrape(side){state.answers["drape"+(state.step-1-QUESTIONS.length)]=side;ding();state.step++;renderTest();}
+function back(){state.step=Math.max(0,state.step-1);stopCam();renderTest();}
+async function openCam(){const v=$("#vid"),nc=$("#nocam");if(!v)return;
+  if(stream){v.srcObject=stream;nc.hidden=true;return;}
+  if(!navigator.mediaDevices?.getUserMedia){nc.hidden=false;nc.querySelector("button").hidden=true;return;}
+  try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user",width:{ideal:960},height:{ideal:720}},audio:false});v.srcObject=stream;nc.hidden=true;}catch(e){nc.hidden=false;}}
+function snap(){const v=$("#vid");if(!v||!v.videoWidth){buzz();return;}
+  const w=320,h=240;const grid=$("#boothGrid");grid.innerHTML='<div class="booth"></div>';const box=grid.firstChild;
+  Object.entries(SEASONS).forEach(([k,S])=>{const b=document.createElement("button");b.onclick=()=>pickBooth(k);const c=document.createElement("canvas");c.width=w;c.height=h;const x=c.getContext("2d");
+    x.save();x.translate(w,0);x.scale(-1,1);x.drawImage(v,0,0,w,h);x.restore();
+    x.fillStyle=S.drape;x.beginPath();x.moveTo(0,h);x.lineTo(0,h*.72);x.quadraticCurveTo(w*.5,h*.55,w,h*.72);x.lineTo(w,h);x.closePath();x.fill();
+    b.appendChild(c);const s=document.createElement("span");s.textContent=S.emoji+" "+S.name+"的圍巾";b.appendChild(s);box.appendChild(b);});
+  $("#boothLive").hidden=true;grid.hidden=false;beep(1200,.08);}
+function pickBooth(k){state.answers.booth=k;ding();state.step++;renderTest();}
+function computeScore(){const sc={w:0,d:0};
+  QUESTIONS.forEach(Q=>{const a=state.answers[Q.id];if(a==null)return;sc.w+=Q.opts[a].s.w||0;sc.d+=Q.opts[a].s.d||0;});
+  DRAPES.forEach((D,i)=>{const a=state.answers["drape"+i];if(!a)return;sc.w+=D[a].s.w||0;sc.d+=D[a].s.d||0;});
+  if(state.answers.booth){sc.w+=SEASON_SCORE[state.answers.booth].w;sc.d+=SEASON_SCORE[state.answers.booth].d;}
+  return sc;}
+const seasonOf=sc=>sc.w>=0?(sc.d>=0?"autumn":"spring"):(sc.d>=0?"winter":"summer");
+function showResult(){stopCam();const sc=computeScore();const key=seasonOf(sc);const S=SEASONS[key];state.score=sc;
+  const pct=v=>Math.round(50+Math.max(-11,Math.min(11,v))*4.2);const sure=Math.abs(sc.w)+Math.abs(sc.d);
+  const conf=sure>=9?"很確定 💯":sure>=5?"蠻確定 👍":"有點猶豫，再拿真的色紙比一比 🤔";
+  $("#test-root").innerHTML=`<div class="card res" style="box-shadow:0 0 0 6px ${S.color}, 0 20px 50px var(--shadow)">
+      <div class="em">${S.emoji}</div><div class="dimtxt">${esc(state.name)} 的鑑定結果</div>
+      <div class="season" style="color:${S.color}">你是 ${S.name}！</div><div class="nick">代表甜點：${S.nick}　｜　${S.axis}</div>
+      <div class="axis"><div><div class="mlab"><span>🧊 冷調</span><span>暖調 🔥</span></div><div class="meter"><b style="left:50%" id="mW"></b></div></div>
+        <div><div class="mlab"><span>🌤 淺・柔</span><span>深・濃 🌑</span></div><div class="meter ld"><b style="left:50%" id="mD"></b></div></div></div>
+      <div class="dimtxt">鑑定信心：${conf}</div>
       <div class="why">🔬 <b>為什麼？</b>${esc(S.why)}</div>
-      <h2 style="text-align:left">✅ 你的王牌色（穿這些臉會發光）</h2>
-      <div class="sw">${S.good.map(c=>`<div style="background:${c[1]};${c[1]==="#ffffff"||c[1]==="#fff4d6"||c[1]==="#eceff4"?"color:#333;text-shadow:none":""}">${c[0]}</div>`).join("")}</div>
-      <h2 style="text-align:left;margin-top:16px">⚠️ 小心色（會讓臉看起來累累的）</h2>
-      <div class="sw bad">${S.bad.map(c=>`<div style="background:${c[1]}">${c[0]}</div>`).join("")}</div>
+      <h3>✅ 你的王牌色（穿這些臉會發光）</h3>
+      <div class="sw">${S.good.map((c,i)=>`<div class="${["#ffffff","#fff4d6","#eceff4","#bfe3f5"].includes(c[1])?"lt":""}" style="background:${c[1]};animation-delay:${.1+i*.1}s">${c[0]}</div>`).join("")}</div>
+      <h3>⚠️ 小心色（會讓臉看起來累累的）</h3>
+      <div class="sw bad">${S.bad.map((c,i)=>`<div style="background:${c[1]};animation-delay:${1+i*.1}s">${c[0]}</div>`).join("")}</div>
       <div class="why">👗 <b>穿搭小祕訣：</b>${esc(S.tip)}</div>
       <div class="row noprint" style="justify-content:center;margin-top:10px">
         <button class="btn primary" onclick="saveResult('${key}')" id="saveBtn">💾 存到全班結果</button>
-        <button class="btn" onclick="window.print()">🖨 列印我的色卡</button>
-        <button class="btn ghost" onclick="resetTest()">🔁 換下一位</button></div>
-    </div>`;
-  fanfare();confetti();window.scrollTo({top:0,behavior:"smooth"});
-}
-function loadBoard(){try{return JSON.parse(localStorage.getItem(KEY)||"[]");}catch(e){return [];}}
-function saveResult(key){const b=loadBoard();b.push({n:state.name,c:state.cls,s:key,w:state.score.w,d:state.score.d,t:new Date().toLocaleDateString("zh-TW")});try{localStorage.setItem(KEY,JSON.stringify(b));}catch(e){}const btn=$("#saveBtn");btn.textContent="✅ 已存好！";btn.disabled=true;ding();}
+        <button class="btn" onclick="tryOn('${key}')">🪞 去魔鏡穿穿看</button>
+        <button class="btn" onclick="window.print()">🖨 列印色卡</button>
+        <button class="btn ghost" onclick="resetTest()">🔁 換下一位</button></div></div>`;
+  requestAnimationFrame(()=>{setTimeout(()=>{$("#mW").style.left=pct(sc.w)+"%";$("#mD").style.left=pct(sc.d)+"%";},100);});
+  fanfare();confetti();$("#dock").scrollIntoView({behavior:"smooth"});}
+function saveResult(key){const b=load(KEY,[]);b.push({n:state.name,c:state.cls,s:key,t:new Date().toLocaleDateString("zh-TW")});store(KEY,b);const btn=$("#saveBtn");btn.textContent="✅ 已存好！";btn.disabled=true;ding();}
+function tryOn(key){const pre={spring:[0,2],summer:[1,2],autumn:[2,0],winter:[3,0]}[key];setSkin(pre[0]);setHair(pre[1]);setShirt(SEASONS[key].good[0][1]);goTab("mirror");}
 
-/* ---------- 全班結果 ---------- */
-function renderBoard(){
-  const b=loadBoard();const cnt={spring:0,summer:0,autumn:0,winter:0};b.forEach(r=>cnt[r.s]++);const max=Math.max(1,...Object.values(cnt));
+/* ---------- 全班 ---------- */
+function renderBoard(){const b=load(KEY,[]);const cnt={spring:0,summer:0,autumn:0,winter:0};b.forEach(r=>cnt[r.s]++);const max=Math.max(1,...Object.values(cnt));
   $("#bars").innerHTML=Object.keys(SEASONS).map(k=>`<div class="bar"><b>${cnt[k]}</b><i style="height:${cnt[k]/max*130}px;background:${SEASONS[k].color}"></i><span>${SEASONS[k].emoji} ${SEASONS[k].name}</span></div>`).join("");
-  $("#boardTbl").innerHTML=b.length?`<table><tr><th>#</th><th>名字</th><th>班級</th><th>季節</th><th>日期</th><th class="noprint"></th></tr>${b.map((r,i)=>`<tr><td>${i+1}</td><td><b>${esc(r.n)}</b></td><td>${esc(r.c)}</td><td><span class="tag" style="background:${SEASONS[r.s].color}">${SEASONS[r.s].emoji} ${SEASONS[r.s].name}</span></td><td>${esc(r.t)}</td><td class="noprint"><button class="del" onclick="delRow(${i})" title="刪除">🗑</button></td></tr>`).join("")}</table>`:`<p class="lead" style="text-align:center;color:var(--dim)">還沒有人鑑定，快去「開始鑑定」！</p>`;
-}
-function delRow(i){const b=loadBoard();b.splice(i,1);localStorage.setItem(KEY,JSON.stringify(b));renderBoard();}
-function clearBoard(){if(confirm("確定要清除全班結果嗎？（不能復原）")){localStorage.removeItem(KEY);renderBoard();}}
-function exportCSV(){const b=loadBoard();const rows=[["名字","班級","季節","冷暖分數","深淺分數","日期"],...b.map(r=>[r.n,r.c,SEASONS[r.s].name,r.w,r.d,r.t])];const csv="﻿"+rows.map(r=>r.map(x=>`"${String(x).replace(/"/g,'""')}"`).join(",")).join("\n");const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="四季色彩鑑定_全班結果.csv";a.click();}
+  $("#boardTbl").innerHTML=b.length?`<div style="overflow-x:auto"><table><tr><th>#</th><th>名字</th><th>班級</th><th>季節</th><th>日期</th><th class="noprint"></th></tr>${b.map((r,i)=>`<tr><td>${i+1}</td><td><b>${esc(r.n)}</b></td><td>${esc(r.c)}</td><td><span class="pill" style="background:${SEASONS[r.s].color}">${SEASONS[r.s].emoji} ${SEASONS[r.s].name}</span></td><td>${esc(r.t)}</td><td class="noprint"><button class="del" onclick="delRow(${i})" title="刪除">🗑</button></td></tr>`).join("")}</table></div>`:`<p class="lead" style="text-align:center;color:var(--dim)">還沒有人鑑定，快去「鑑定」！</p>`;}
+function delRow(i){const b=load(KEY,[]);b.splice(i,1);store(KEY,b);renderBoard();}
+function clearBoard(){if(confirm("確定要清除全班結果嗎？（不能復原）")){store(KEY,[]);renderBoard();}}
+
+/* ---------- 換裝魔鏡 ---------- */
+const SKINS=[{c:"#f6d2b8",w:1,d:-1,n:"暖・淺"},{c:"#f3d3c9",w:-1,d:-1,n:"冷・淺"},{c:"#c68b5b",w:1,d:1,n:"暖・深"},{c:"#b8836f",w:-1,d:1,n:"冷・深"}];
+const HAIRS=[{c:"#1a1a1a",d:1},{c:"#4a2e1a",d:0},{c:"#a0704a",d:-1}];
+const SHIRTS=["#ff7f50","#ffd166","#8bd17c","#a7c7e7","#b39ddb","#f4a7b9","#b7410e","#6b8e23","#8b5a2b","#111111","#ffffff","#1f4fbf","#d7263d","#ff2d95","#c8a27a","#eceff4"];
+let mSkin=0,mHair=0,mShirt="#ff7f50";
+function hexRgb(h){h=h.replace("#","");if(h.length===3)h=h.split("").map(c=>c+c).join("");const n=parseInt(h,16);return [n>>16&255,n>>8&255,n&255];}
+function warmth(hex){const [r,g,b]=hexRgb(hex);const max=Math.max(r,g,b),min=Math.min(r,g,b);if(max-min<25)return 0;let h;if(max===r)h=((g-b)/(max-min))%6;else if(max===g)h=(b-r)/(max-min)+2;else h=(r-g)/(max-min)+4;h=(h*60+360)%360;return (h<70||h>330)?1:(h>170&&h<300?-1:(h<=170&&h>=70?(h<110?.3:-.5):-.3));}
+function depth(hex){const [r,g,b]=hexRgb(hex);const l=(.299*r+.587*g+.114*b)/255;return l>.75?-1:l<.35?1:0;}
+function setSkin(i){mSkin=i;mirrorUpdate();}function setHair(i){mHair=i;mirrorUpdate();}function setShirt(c){mShirt=c;mirrorUpdate();ding();}
+function mirrorUpdate(){const S=SKINS[mSkin];const H=HAIRS[mHair];
+  ["avFace","avNeck"].forEach(id=>$("#"+id).setAttribute("fill",S.c));$("#avHair").setAttribute("fill",H.c);$("#avShirt").setAttribute("fill",mShirt);$("#avReflect").setAttribute("fill",mShirt);
+  const sw=warmth(mShirt),sd=depth(mShirt);const pd=S.d+H.d;
+  let score=50;score+=sw*S.w*25;score+=(sd===0?0:(Math.sign(pd)===sd?20:-20));score=Math.max(5,Math.min(100,Math.round(score)));
+  $("#glowFill").style.width=score+"%";
+  const face=$("#avFace");face.setAttribute("filter",score>=75?"url(#glow)":"");face.style.opacity=score<35?".78":"1";
+  $("#avSpark").setAttribute("opacity",score>=75?"1":"0");$("#avMouth").setAttribute("d",score>=75?"M130 176 Q150 200 170 176":score<35?"M134 186 Q150 176 166 186":"M132 178 Q150 196 168 178");
+  $("#avBlushL").setAttribute("opacity",score>=75?".55":".25");$("#avBlushR").setAttribute("opacity",score>=75?".55":".25");
+  $("#verdict").textContent=score>=75?"✨ 臉發光了！這是王牌色":score>=50?"🙂 還不錯，可以穿":"😴 臉看起來累累的，換一件吧";
+  const reasons=[];if(sw!==0)reasons.push(`這件衣服是${sw>0?"暖色":"冷色"}，皮膚是${S.w>0?"暖調":"冷調"}${sw*S.w>0?"，對上了 ✔":"，沒對上 ✘"}`);if(sd!==0)reasons.push(`衣服${sd>0?"很深":"很淺"}，這個人整體${pd>0?"偏深":"偏淺"}${Math.sign(pd)===sd?"，剛好 ✔":"，會被衣服吃掉 ✘"}`);
+  $("#mirrorWhy").textContent=reasons.join("；")||"白色、灰色、黑色本身沒有冷暖，看深淺就好。";
+  document.querySelectorAll("#skinChips .chip").forEach((b,i)=>b.classList.toggle("on",i===mSkin));document.querySelectorAll("#hairChips .chip").forEach((b,i)=>b.classList.toggle("on",i===mHair));document.querySelectorAll("#shirtChips .chip").forEach(b=>b.classList.toggle("on",b.dataset.c===mShirt));}
+$("#skinChips").innerHTML=SKINS.map((s,i)=>`<button class="chip" style="background:${s.c}" title="${s.n}" aria-label="膚色 ${s.n}" onclick="setSkin(${i})"></button>`).join("");
+$("#hairChips").innerHTML=HAIRS.map((h,i)=>`<button class="chip" style="background:${h.c}" aria-label="髮色" onclick="setHair(${i})"></button>`).join("");
+$("#shirtChips").innerHTML=SHIRTS.map(c=>`<button class="chip" data-c="${c}" style="background:${c}" aria-label="衣服 ${c}" onclick="setShirt('${c}')"></button>`).join("");
+mirrorUpdate();
+
+/* ---------- 冷暖分類遊戲 ---------- */
+const GAME_COLORS=[["#ff3b30","w","🍎"],["#ff8c42","w","🍊"],["#ffd60a","w","🌞"],["#ff6f61","w","🌺"],["#e07b39","w","🎃"],["#d4a017","w","🌻"],["#ff5a5f","w","🍓"],["#c47a3a","w","🍂"],
+  ["#3a86ff","c","🌊"],["#2ec4b6","c","🧊"],["#8338ec","c","🍇"],["#7fb6f5","c","🐬"],["#a8e6cf","c","🌿"],["#ff2d95","c","🩷"],["#1f4fbf","c","💙"],["#b39ddb","c","💜"]];
+let g={on:false,score:0,combo:0,time:30,timer:null,best:load("pc-best",0)};$("#gBest").textContent=g.best;
+function startGame(){g.on=true;g.score=0;g.combo=0;g.time=30;$("#gScore").textContent=0;$("#gCombo").textContent=0;$("#gTime").textContent=30;$("#gFb").textContent="";$("#gStart").disabled=true;spawn();
+  g.timer=setInterval(()=>{g.time--;$("#gTime").textContent=g.time;if(g.time<=5)beep(880,.05);if(g.time<=0)endGame();},1000);}
+function spawn(){const pool=$("#pool");pool.innerHTML="";const pick=[...GAME_COLORS].sort(()=>Math.random()-.5).slice(0,6);pick.forEach(c=>{const b=document.createElement("div");b.className="blob";b.style.background=c[0];b.dataset.k=c[1];b.textContent=c[2];pool.appendChild(b);});}
+function endGame(){clearInterval(g.timer);g.on=false;$("#gStart").disabled=false;$("#gStart").textContent="🔁 再玩一次";
+  if(g.score>g.best){g.best=g.score;store("pc-best",g.best);$("#gBest").textContent=g.best;$("#gFb").textContent=`🏆 新紀錄 ${g.score} 分！你是冷暖大師！`;fanfare();confetti();}
+  else $("#gFb").textContent=`⏰ 時間到！${g.score} 分。${g.score>=10?"超強！":"再來一次一定更好！"}`;$("#pool").innerHTML="";}
+(function(){let drag=null,ox=0,oy=0;const arena=$(".arena");
+  arena.addEventListener("pointerdown",e=>{const b=e.target.closest(".blob");if(!b||!g.on)return;drag=b;const r=b.getBoundingClientRect();ox=e.clientX-r.left;oy=e.clientY-r.top;b.classList.add("drag");b.style.left=r.left+"px";b.style.top=r.top+"px";b.style.width=r.width+"px";b.style.height=r.height+"px";b.setPointerCapture(e.pointerId);});
+  arena.addEventListener("pointermove",e=>{if(!drag)return;drag.style.left=(e.clientX-ox)+"px";drag.style.top=(e.clientY-oy)+"px";
+    document.querySelectorAll(".bucket").forEach(bk=>{const r=bk.getBoundingClientRect();bk.classList.toggle("over",e.clientX>r.left&&e.clientX<r.right&&e.clientY>r.top&&e.clientY<r.bottom);});});
+  function drop(e){if(!drag)return;const over=[...document.querySelectorAll(".bucket")].find(bk=>bk.classList.contains("over"));document.querySelectorAll(".bucket").forEach(bk=>bk.classList.remove("over"));
+    if(over){if(over.dataset.k===drag.dataset.k){g.combo++;g.score+=1+(g.combo>=3?1:0);ding();$("#gFb").textContent=g.combo>=3?`🔥 連續 ${g.combo}！加倍得分`:"✅ 答對！";drag.remove();}
+      else{g.combo=0;buzz();$("#gFb").textContent=`❌ ${drag.textContent} 是${drag.dataset.k==="w"?"暖色":"冷色"}喔`;drag.classList.remove("drag");drag.style.cssText=`background:${drag.style.background}`;}
+      $("#gScore").textContent=g.score;$("#gCombo").textContent=g.combo;if(!$("#pool").children.length)spawn();}
+    else{drag.classList.remove("drag");drag.style.cssText=`background:${drag.style.background}`;}drag=null;}
+  arena.addEventListener("pointerup",drop);arena.addEventListener("pointercancel",drop);})();
 
 /* ---------- 小學堂 ---------- */
-let skinWarm=true;
-function skinToggle(){skinWarm=!skinWarm;const el=$("#skinLight");const face=document.querySelector(".light-demo .face");if(skinWarm){el.textContent="黃橘光多 = 暖調";el.style.color="#ffb86b";face.style.background="#f0c7a6";}else{el.textContent="粉紅藍光多 = 冷調";el.style.color="#9fd3f5";face.style.background="#f2cdd0";}}
+const labR=$("#labRange");function lab(){const v=+labR.value;const warm=v/100;const face=$("#labFace");face.style.background=`rgb(${Math.round(240)},${Math.round(200+warm*10)},${Math.round(200-warm*40)})`;
+  const c=warm>.5?`hsl(${35-(warm-.5)*20},95%,70%)`:`hsl(${220+(0.5-warm)*100},80%,78%)`;$("#labBeam").style.background=`linear-gradient(90deg,${c},transparent)`;
+  $("#labTxt").innerHTML=Math.abs(v-50)<12?"中性調：兩種光差不多":v>50?`反射<b style="color:${c}">黃橘光</b>多 → 暖調`:`反射<b style="color:${c}">粉紅藍光</b>多 → 冷調`;}
+labR.oninput=lab;lab();
 const STRIP=[["#ff3b30","暖"],["#ff8c42","暖"],["#ffd60a","暖"],["#8bd17c","中"],["#2ec4b6","冷"],["#3a86ff","冷"],["#8338ec","冷"],["#ff2d95","冷"]];
 $("#strip").innerHTML=STRIP.map((c,i)=>`<div style="background:${c[0]}" onclick="stripPick(${i})">?</div>`).join("");
-function stripPick(i){const c=STRIP[i];const fb=$("#stripFb");const m={"暖":"🔥 這是<b style='color:#e07b39'>暖色</b>！像太陽、火、橘子。","冷":"🧊 這是<b style='color:#3a86ff'>冷色</b>！像海、冰、藍莓。","中":"🌿 這是<b>中間色</b>，偏黃就暖、偏藍就冷，綠色最會變身！"};fb.innerHTML=m[c[1]];document.querySelectorAll("#strip div")[i].textContent=c[1];ding();}
-$("#seasonCards").innerHTML=Object.entries(SEASONS).map(([k,S])=>`<div class="season-c" style="background:${S.color}"><div class="t">${S.emoji} ${S.name}</div><div class="d">${S.axis}<br>代表甜點：${S.nick}</div><div class="dots">${S.good.slice(0,5).map(c=>`<i style="background:${c[1]}"></i>`).join("")}</div></div>`).join("");
+function stripPick(i){const c=STRIP[i];const m={"暖":"🔥 這是<b style='color:#e07b39'>暖色</b>！像太陽、火、橘子。","冷":"🧊 這是<b style='color:#3a86ff'>冷色</b>！像海、冰、藍莓。","中":"🌿 這是<b>中間色</b>，偏黃就暖、偏藍就冷，綠色最會變身！"};$("#stripFb").innerHTML=m[c[1]];document.querySelectorAll("#strip div")[i].textContent=c[1];ding();}
+$("#seasonCards").innerHTML=Object.entries(SEASONS).map(([k,S])=>`<div class="season-c" style="background:${S.color}" onclick="seasonDetail('${k}')"><div class="t">${S.emoji} ${S.name}</div><div class="d">${S.axis}<br>代表甜點：${S.nick}</div><div class="dots">${S.good.slice(0,5).map(c=>`<i style="background:${c[1]}"></i>`).join("")}</div></div>`).join("");
+function seasonDetail(k){const S=SEASONS[k];$("#seasonDetail").innerHTML=`<div class="why" style="background:var(--bg);border-radius:20px;padding:14px 18px;margin-top:12px"><b style="color:${S.color};font-size:20px">${S.emoji} ${S.name}</b>　${esc(S.why)}<div class="sw" style="margin-top:10px">${S.good.map((c,i)=>`<div class="${["#ffffff","#fff4d6","#eceff4","#bfe3f5"].includes(c[1])?"lt":""}" style="background:${c[1]};animation-delay:${i*.07}s">${c[0]}</div>`).join("")}</div></div>`;ding();}
 
 /* ---------- 小測驗 ---------- */
 const QUIZ=[
-  {q:"白光照到紅蘋果，蘋果為什麼看起來是紅色？",o:["蘋果把紅光反射出來，其他顏色留下來","蘋果自己會發紅光","蘋果把紅光吃掉了"],a:0,e:"對！這就是「選擇性反射」，皮膚也是一樣的道理。"},
+  {q:"白光照到紅蘋果，蘋果為什麼看起來是紅色？",o:["蘋果把紅光反射出來，其他顏色吃掉","蘋果自己會發紅光","蘋果把紅光吃掉了"],a:0,e:"這就是「選擇性反射」，皮膚也是一樣的道理。"},
   {q:"下面哪一個是暖色？",o:["藍色","橘色","紫色"],a:1,e:"橘色像太陽和火，是暖色；藍色和紫色是冷色。"},
   {q:"皮膚反射比較多黃、橘光的人，我們叫他？",o:["冷調","暖調","無調"],a:1,e:"反射黃橘光多 → 暖調；反射粉紅藍光多 → 冷調。"},
-  {q:"「冬天人」最適合下面哪一種顏色？",o:["土黃色","純黑＋純白","駝色"],a:1,e:"冬天人是冷調＋鮮明，黑白對比超適合他們！"},
+  {q:"「冬天人」最適合下面哪一種顏色？",o:["土黃色","純黑＋純白","駝色"],a:1,e:"冬天人是冷調＋鮮明，黑白對比超適合！"},
   {q:"為什麼穿對顏色，臉會看起來比較亮？",o:["衣服會發光","衣服把光反射到臉上","臉會變大"],a:1,e:"衣服的顏色會把光反射到臉上，顏色對了臉就被打亮。"},
-  {q:"下面哪句話是對的？",o:["春天人最好，其他季節都不好","每個季節都有自己的王牌色","只有冬天人可以穿黑色"],a:1,e:"沒有最好的季節，只有最適合你的顏色！"}
+  {q:"下面哪句話是對的？",o:["春天人最好，其他都不好","每個季節都有自己的王牌色","只有冬天人可以穿黑色"],a:1,e:"沒有最好的季節，只有最適合你的顏色！"}
 ];
 let qi2=0,qscore=0;
-function renderQuiz(){
-  const root=$("#quiz-root");
-  if(qi2>=QUIZ.length){root.innerHTML=`<h2>🎉 完成！</h2><p class="lead">你答對 ${qscore}／${QUIZ.length} 題${qscore===QUIZ.length?"，全對！你是色彩博士 🎓":qscore>=4?"，很棒！":"，再去小學堂複習一下 📖"}</p><button class="big" onclick="qi2=0;qscore=0;renderQuiz()">🔁 再玩一次</button>`;if(qscore===QUIZ.length){fanfare();confetti();}return;}
-  const Q=QUIZ[qi2];
-  root.innerHTML=`<div class="stepno">第 ${qi2+1} 題／${QUIZ.length} 題　得分 ${qscore}</div><div class="q">${esc(Q.q)}</div><div class="qopt">${Q.o.map((o,i)=>`<button onclick="answer(${i})">${["🅰","🅱","🅲"][i]}　${esc(o)}</button>`).join("")}</div><div class="feedback" id="qfb"></div>`;
-}
+function renderQuiz(){const root=$("#quiz-root");
+  if(qi2>=QUIZ.length){root.innerHTML=`<h2>🎉 小測驗完成！</h2><p class="lead">答對 ${qscore}／${QUIZ.length} 題${qscore===QUIZ.length?"，全對！你是色彩博士 🎓":qscore>=4?"，很棒！":"，再往上複習一下 📖"}</p><button class="big" onclick="qi2=0;qscore=0;renderQuiz()">🔁 再玩一次</button>`;if(qscore===QUIZ.length){fanfare();confetti();}return;}
+  const Q=QUIZ[qi2];root.innerHTML=`<h2>⑤ 小測驗</h2><div class="stepno">第 ${qi2+1} 題／${QUIZ.length}　得分 ${qscore}</div><div class="q">${esc(Q.q)}</div><div class="qopt">${Q.o.map((o,i)=>`<button onclick="answer(${i})">${["🅰","🅱","🅲"][i]}　${esc(o)}</button>`).join("")}</div><div class="feedback" id="qfb"></div>`;}
 function answer(i){const Q=QUIZ[qi2];const btns=document.querySelectorAll(".qopt button");btns.forEach(b=>b.disabled=true);btns[Q.a].classList.add("ok");
-  if(i===Q.a){qscore++;ding();$("#qfb").innerHTML="✅ 答對了！"+esc(Q.e);}else{btns[i].classList.add("no");beep(220,.25,"square");$("#qfb").innerHTML="❌ 再想想～ "+esc(Q.e);}
+  if(i===Q.a){qscore++;ding();$("#qfb").innerHTML="✅ 答對了！"+esc(Q.e);}else{btns[i].classList.add("no");buzz();$("#qfb").innerHTML="❌ 再想想～ "+esc(Q.e);}
   setTimeout(()=>{qi2++;renderQuiz();},2200);}
-renderQuiz();
-
-/* ---------- init ---------- */
-renderTest();
-window.addEventListener("beforeunload",stopCam);
+renderQuiz();renderTest();
+addEventListener("beforeunload",stopCam);
 </script>
 </body>
 </html>
