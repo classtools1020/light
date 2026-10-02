@@ -108,6 +108,14 @@
     .docs a{color:#42e0c8;font-weight:900;font-size:14px;text-decoration:underline dotted;margin-right:12px}
     .startbtn{margin-top:12px;width:100%;font-family:inherit;font-weight:900;font-size:22px;border:none;border-radius:16px;padding:16px;cursor:pointer;background:linear-gradient(180deg,#42e0c8,#1fbfa8);color:#063;box-shadow:0 6px 0 #14907f}
     .startbtn:active{transform:translateY(3px);box-shadow:0 3px 0 #14907f}
+    .grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));margin-top:12px}
+    .grid a{display:flex;align-items:center;gap:10px;min-height:64px;background:#13314f;border:2px solid rgba(120,170,210,.3);border-radius:14px;padding:10px 12px;text-decoration:none;color:#eaf6ff;font-weight:900;font-size:15px;line-height:1.35;transition:transform .12s,border-color .12s}
+    .grid a:hover{border-color:#ffc93c;transform:translateY(-2px)}
+    .grid a .n{flex:none;background:#ffc93c;color:#08131f;border-radius:50%;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;font-size:15px}
+    .grid a.ext::after{content:"↗";margin-left:auto;color:#9db8cf;font-size:13px}
+    .grid a.seen{background:#0c2236;color:#9db8cf}
+    .grid a.seen .n{background:#42e0c8}
+    .flowbtn{margin-top:10px;font-family:inherit;font-weight:900;font-size:14px;border:2px solid rgba(66,224,200,.5);border-radius:12px;padding:8px 14px;cursor:pointer;background:transparent;color:#42e0c8}
     .more2{margin-top:10px;background:rgba(255,255,255,.03);border-radius:12px;padding:8px 12px}
     .more2 summary{cursor:pointer;font-weight:900;color:#9db8cf;font-size:15px;padding:4px 0}
   </style>
@@ -129,6 +137,8 @@
     const fmt=d=>{const [y,m,dd]=d.split("-");return `${+m}/${+dd}（週${W[new Date(d+"T12:00:00+08:00").getDay()]}）`;};
     const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
     function prepKey(l){return "prep-"+l;}
+    const isExt=u=>/^https?:\/\//.test(u)&&!/classtools1020\.github\.io/.test(u)||/\.docx$/i.test(u);
+    let seen={};try{seen=JSON.parse(localStorage.getItem("seen-"+today)||"{}");}catch(e){}
     function strip(){
       document.getElementById("tstrip").innerHTML=dates.map((d,i)=>{const cls=[...new Set(SCHED.filter(s=>s.d===d).map(s=>s.c))].join("＋");const on=i===idx;const past=d<today;
         return `<button onclick="tdGo(${i})" style="border-radius:14px;padding:8px 12px;font-weight:900;font-size:14px;cursor:pointer;border:2px solid ${on?"#ffc93c":"rgba(120,170,210,.35)"};background:${on?"#3a2f10":"#0f2841"};color:${on?"#ffc93c":(past?"#7a8ea6":"#eaf6ff")}">${fmt(d)}<br><span style="font-size:12px;font-weight:800;color:${on?"#ffe08a":"#9db8cf"}">${cls}${d===today?"・今天":""}</span></button>`;}).join("");
@@ -144,14 +154,15 @@
       if(!isToday&&dates.indexOf(today)<0&&d>today){h+=`<div class="empty">今天（${fmt(today)}）沒有自然課 👇 下一堂在 ${fmt(d)}</div>`;}
       items.forEach(s=>{const L=LESSONS[s.l];let done={};try{done=JSON.parse(localStorage.getItem(prepKey(s.l))||"{}");}catch(e){}
         h+=`<div class="slot"><div class="sh"><span class="cls ${s.c==="乙班"?"b":""}">${s.c}</span><span class="per">${esc(s.p)}</span><span class="ln">${esc(L.name)}</span><span class="cp">${esc(L.task)}｜${esc(L.cp)}</span></div>
-          <button onclick="tdStart('${s.l}')" class="startbtn">▶ 開始這堂課</button>
+          ${L.steps.length?`<div class="grid">${L.steps.map((st,i)=>{const ext=isExt(st[1]);return `<a href="${st[1]}" class="${ext?"ext":""} ${seen[s.l+"-"+i]?"seen":""}" ${ext?'target="_blank" rel="noopener"':""} data-k="${s.l}-${i}"><span class="n">${i+1}</span><span>${esc(st[0])}</span></a>`;}).join("")}</div>`:""}
           <div class="tipbox">💡 ${esc(L.tip)}</div>
-          <details class="more2"><summary>📋 準備清單（${L.prep.length} 項）・上課步驟（${L.steps.length} 步）・教案</summary>
+          <details class="more2"><summary>📋 準備清單（${L.prep.length} 項）・教案台詞・下一步導覽列</summary>
+          <button onclick="tdStart('${s.l}')" class="flowbtn">▶ 想要一步一步帶：開啟底部「下一步」導覽列</button>
           ${L.prep.length?`<h4>🛒 準備（勾了會記住）</h4><div class="prep">${L.prep.map((p,i)=>`<label class="${done[i]?"done":""}"><input type="checkbox" data-l="${s.l}" data-i="${i}" ${done[i]?"checked":""}> ${esc(p)}</label>`).join("")}</div>`:""}
-          ${L.steps.length?`<h4>▶ 上課順序（也可以單獨點開）</h4><div class="steps">${L.steps.map((st,i)=>`<a href="${st[1]}" target="_blank" rel="noopener"><span class="n">${i+1}</span>${esc(st[0])}</a>`).join("")}</div>`:""}
           <div class="docs" style="margin-top:10px">${s.l[0]==="L"?`<a href="https://classtools1020.github.io/light-lens/files/01_透鏡_第1節教案台詞.docx">📘 透鏡教案逐字台詞</a><a href="https://classtools1020.github.io/light-lens/sub.html">🧳 代課包</a><a href="https://classtools1020.github.io/light-lens/">🔍 任務五首頁</a>`:s.l[0]==="R"?`<a href="https://classtools1020.github.io/light-refract/files/01_折射_三堂教案台詞.docx">📘 折射教案逐字台詞</a><a href="https://classtools1020.github.io/light-refract/">🥤 任務四首頁</a>`:s.l==="M"?`<a href="https://classtools1020.github.io/moon/script.html">📘 中秋逐格台詞</a><a href="https://classtools1020.github.io/moon/">🌕 中秋首頁</a>`:`<a href="${LC}files/01_光與顏色_三堂教案台詞_SEL融入版.docx">📘 教案逐字台詞</a><a href="${LC}">🌈 任務三首頁</a>`}</div>
           </details></div>`;});
       document.getElementById("tbody").innerHTML=h||`<div class="empty">這天沒有安排。</div>`;
+      document.querySelectorAll("#tbody .grid a").forEach(a=>a.addEventListener("click",()=>{if(window.FX&&FX.flowEnd)FX.flowEnd();seen[a.dataset.k]=1;a.classList.add("seen");try{localStorage.setItem("seen-"+today,JSON.stringify(seen));}catch(e){}}));
       document.querySelectorAll("#tbody input[type=checkbox]").forEach(cb=>cb.onchange=()=>{const k=prepKey(cb.dataset.l);let o={};try{o=JSON.parse(localStorage.getItem(k)||"{}");}catch(e){}
         o[cb.dataset.i]=cb.checked;try{localStorage.setItem(k,JSON.stringify(o));}catch(e){}cb.parentElement.classList.toggle("done",cb.checked);});
     }
