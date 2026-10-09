@@ -74,7 +74,7 @@
   <header>
     <div class="emblem">🔦</div>
     <div class="eyebrow">竹東國中自然科</div>
-    <h1>光線特勤隊</h1>
+    <h1 id="mh1">光線特勤隊</h1>
     <div class="sub">點任務，直接上課</div>
     <div style="margin:12px auto 0;max-width:720px;background:#0f2841;border:2px solid rgba(66,224,200,.5);border-radius:16px;padding:12px 16px;font-weight:900;font-size:16px;line-height:1.7;text-align:left">
       <div style="color:#42e0c8;font-size:14px;letter-spacing:.15em">怎麼用（三步）</div>
@@ -152,6 +152,7 @@
       const d=dates[idx];const isToday=d===today;
       document.getElementById("tdate").textContent=(isToday?"今天 ":"")+fmt(d)+(d>today&&!isToday?"　（下一次上課）":"")+(d<today?"　（已過）":"");
       const items=SCHED.filter(s=>s.d===d);
+      {const isT=items.some(s=>s.l[0]==="T");document.getElementById("mh1").textContent=isT?"溫度特勤隊":"光線特勤隊";const em=document.querySelector(".emblem");if(em)em.textContent=isT?"🌡️":"🔦";}
       let h="";
       if(!isToday&&dates.indexOf(today)<0&&d>today){h+=`<div class="empty">今天（${fmt(today)}）沒有自然課 👇 下一堂在 ${fmt(d)}</div>`;}
       items.forEach(s=>{const L=LESSONS[s.l];let done={};try{done=JSON.parse(localStorage.getItem(prepKey(s.l))||"{}");}catch(e){}
