@@ -136,6 +136,8 @@
     const today=new Date().toLocaleDateString("en-CA",{timeZone:"Asia/Taipei"});
     const dates=[...new Set(SCHED.map(s=>s.d))].sort();
     let idx=dates.findIndex(d=>d>=today); if(idx<0)idx=dates.length-1;
+    /* 記住老師選的日期（網址 #d=…），按返回／主選單回來還是同一天 */
+    {let v=null;const m=location.hash.match(/d=(\d{4}-\d{2}-\d{2})/);if(m)v=m[1];else{try{v=sessionStorage.getItem("lightDate");}catch(e){}}if(v&&dates.indexOf(v)>=0)idx=dates.indexOf(v);}
     const fmt=d=>{const [y,m,dd]=d.split("-");return `${+m}/${+dd}（週${W[new Date(d+"T12:00:00+08:00").getDay()]}）`;};
     const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
     function prepKey(l){return "prep-"+l;}
@@ -149,10 +151,10 @@
     window.tdStart=l=>{const L=LESSONS[l];if(!window.FX){alert("請重新整理再試");return;}FX.flowStart(L.name,L.steps.map(st=>({label:st[0],url:st[1]})));};
     function render(){
       strip();
-      const d=dates[idx];const isToday=d===today;
+      const d=dates[idx];const isToday=d===today;try{history.replaceState(null,"","#d="+d);sessionStorage.setItem("lightDate",d);}catch(e){}
       document.getElementById("tdate").textContent=(isToday?"今天 ":"")+fmt(d)+(d>today&&!isToday?"　（下一次上課）":"")+(d<today?"　（已過）":"");
       const items=SCHED.filter(s=>s.d===d);
-      {const isT=items.some(s=>s.l[0]==="T");document.getElementById("mh1").textContent=isT?"溫度特勤隊":"光線特勤隊";const em=document.querySelector(".emblem");if(em)em.textContent=isT?"🌡️":"🔦";}
+      {const isT=items.some(s=>s.l[0]==="T");document.getElementById("mh1").textContent=isT?"溫度特勤隊":"光線特勤隊";document.title=(isT?"溫度特勤隊":"光線特勤隊")+"・自然課主畫面";const em=document.querySelector(".emblem");if(em)em.textContent=isT?"🌡️":"🔦";}
       let h="";
       if(!isToday&&dates.indexOf(today)<0&&d>today){h+=`<div class="empty">今天（${fmt(today)}）沒有自然課 👇 下一堂在 ${fmt(d)}</div>`;}
       items.forEach(s=>{const L=LESSONS[s.l];let done={};try{done=JSON.parse(localStorage.getItem(prepKey(s.l))||"{}");}catch(e){}
@@ -162,7 +164,7 @@
           <details class="more2"><summary>📋 準備清單（${L.prep.length} 項）・教案台詞・下一步導覽列</summary>
           <button onclick="tdStart('${s.l}')" class="flowbtn">▶ 想要一步一步帶：開啟底部「下一步」導覽列</button>
           ${L.prep.length?`<h4>🛒 準備（勾了會記住）</h4><div class="prep">${L.prep.map((p,i)=>`<label class="${done[i]?"done":""}"><input type="checkbox" data-l="${s.l}" data-i="${i}" ${done[i]?"checked":""}> ${esc(p)}</label>`).join("")}</div>`:""}
-          <div class="docs" style="margin-top:10px">${s.l[0]==="L"?`<a href="https://classtools1020.github.io/light-lens/coach/">🧑‍🏫 老師排練（照著走一次就會）</a><a href="https://classtools1020.github.io/light-lens/files/01_透鏡_第1節教案台詞.pdf">📘 透鏡教案逐字台詞</a><a href="https://classtools1020.github.io/light-lens/files/L1-lens.pptx">⬇️ 下載 PPT 透鏡第1節</a><a href="https://classtools1020.github.io/light-lens/files/透鏡原理_老師小抄.pdf">📗 透鏡原理・老師小抄</a><a href="https://classtools1020.github.io/light-lens/sub.html">🧳 代課包</a><a href="https://classtools1020.github.io/light-lens/">🔍 任務五首頁</a>`:s.l[0]==="R"?`<a href="https://classtools1020.github.io/light-refract/files/01_折射_三堂教案台詞.pdf">📘 折射教案逐字台詞</a><a href="https://classtools1020.github.io/light-refract/files/R2-refraction.pptx">⬇️ 下載 PPT 第2節</a><a href="https://classtools1020.github.io/light-refract/files/R3-refraction.pptx">⬇️ 下載 PPT 第3節</a><a href="https://classtools1020.github.io/light-refract/story.html?print=student">🖨️ 事件簿講義（學生版）</a><a href="https://classtools1020.github.io/light-refract/story.html?print=key">🖨️ 事件簿講義（解答版）</a><a href="https://classtools1020.github.io/light-refract/news.html?print=student">🖨️ 新聞台講義</a><a href="https://classtools1020.github.io/light-refract/">🥤 任務四首頁</a>`:s.l==="M"?`<a href="https://classtools1020.github.io/moon/script.html">📘 中秋逐格台詞</a><a href="https://classtools1020.github.io/moon/">🌕 中秋首頁</a>`:`<a href="${LC}files/01_光與顏色_三堂教案台詞_SEL融入版.pdf">📘 教案逐字台詞</a><a href="${LC}">🌈 任務三首頁</a>`}</div>
+          <div class="docs" style="margin-top:10px">${s.l[0]==="L"?`<a href="https://classtools1020.github.io/light-lens/coach/">🧑‍🏫 老師排練（照著走一次就會）</a><a href="https://classtools1020.github.io/light-lens/files/01_透鏡_第1節教案台詞.pdf">📘 透鏡教案逐字台詞</a><a href="https://classtools1020.github.io/light-lens/files/L1-lens.pptx">⬇️ 下載 PPT 透鏡第1節</a><a href="https://classtools1020.github.io/light-lens/files/透鏡原理_老師小抄.pdf">📗 透鏡原理・老師小抄</a><a href="https://classtools1020.github.io/light-lens/sub.html">🧳 代課包</a><a href="https://classtools1020.github.io/light-lens/">🔍 任務五首頁</a>`:s.l[0]==="R"?`<a href="https://classtools1020.github.io/light-refract/files/01_折射_三堂教案台詞.pdf">📘 折射教案逐字台詞</a><a href="https://classtools1020.github.io/light-refract/files/R2-refraction.pptx">⬇️ 下載 PPT 第2節</a><a href="https://classtools1020.github.io/light-refract/files/R3-refraction.pptx">⬇️ 下載 PPT 第3節</a><a href="https://classtools1020.github.io/light-refract/story.html?print=student">🖨️ 事件簿講義（學生版）</a><a href="https://classtools1020.github.io/light-refract/story.html?print=key">🖨️ 事件簿講義（解答版）</a><a href="https://classtools1020.github.io/light-refract/news.html?print=student">🖨️ 新聞台講義</a><a href="https://classtools1020.github.io/light-refract/">🥤 任務四首頁</a>`:s.l[0]==="T"?`<a href="https://classtools1020.github.io/temp/files/${s.l}-temp.pptx">⬇️ 下載 PPT ${s.l}</a><a href="https://classtools1020.github.io/temp/files/${s.l}-print.pdf">🖨️ 講義＋學習單 PDF</a>${s.l==="T2"?`<a href="https://classtools1020.github.io/temp/files/T2-card.pdf">🌡️ 溫度尺小卡</a><a href="https://classtools1020.github.io/temp/files/T2-record.pdf">📋 提示紀錄表</a>`:""}<a href="https://classtools1020.github.io/temp/">🌡️ 溫度特勤隊首頁</a>`:/^SUB/.test(s.l)?``:s.l==="M"?`<a href="https://classtools1020.github.io/moon/script.html">📘 中秋逐格台詞</a><a href="https://classtools1020.github.io/moon/">🌕 中秋首頁</a>`:`<a href="${LC}files/01_光與顏色_三堂教案台詞_SEL融入版.pdf">📘 教案逐字台詞</a><a href="${LC}">🌈 任務三首頁</a>`}</div>
           </details></div>`;});
       document.getElementById("tbody").innerHTML=h||`<div class="empty">這天沒有安排。</div>`;
       document.querySelectorAll("#tbody .grid a").forEach(a=>a.addEventListener("click",()=>{if(window.FX&&FX.flowEnd)FX.flowEnd();seen[a.dataset.k]=1;a.classList.add("seen");try{localStorage.setItem("seen-"+today,JSON.stringify(seen));}catch(e){}}));
@@ -180,6 +182,15 @@
   </div>
   <h2 class="sec2">📚 教材庫（依任務找）</h2>
   <div class="tasks">
+    <a class="task t1" href="https://classtools1020.github.io/temp/" style="grid-column:1/-1">
+      <img src="https://classtools1020.github.io/temp/img/forehead.jpg" alt="" loading="eager" onerror="this.style.display='none'">
+      <div class="ov"></div>
+      <div class="in">
+        <div class="num"><span class="k">單元</span><span class="n">🌡️</span></div>
+        <div class="tx"><div class="title">溫度特勤隊<span class="tag">本週</span></div><div class="desc">手會騙人・額溫槍・溫度計・飲水機偵探・校園巡邏</div><div class="tools">簡報・PPT・額溫槍模擬器・飲水機偵探・搶答・學習單</div></div>
+        <div class="go">▶</div>
+      </div>
+    </a>
     <a class="task t1" href="https://classtools1020.github.io/light-shadow/">
       <img src="https://classtools1020.github.io/light-shadow/img/shadow.jpg" alt="" loading="eager" onerror="this.style.display='none'">
       <div class="ov"></div>
@@ -212,7 +223,7 @@
       <div class="ov"></div>
       <div class="in">
         <div class="num"><span class="k">任務</span><span class="n">四</span></div>
-        <div class="tx"><div class="title">光的折射<span class="tag">本週</span></div><div class="desc">吸管真的斷了嗎？・視深・折射的應用</div><div class="tools">簡報・折射實驗室・搶答・學習單・教案</div></div>
+        <div class="tx"><div class="title">光的折射</div><div class="desc">吸管真的斷了嗎？・視深・折射的應用</div><div class="tools">簡報・折射實驗室・搶答・學習單・教案</div></div>
         <div class="go">▶</div>
       </div>
     </a>
