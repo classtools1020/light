@@ -120,6 +120,19 @@
     .flowbtn{margin-top:10px;font-family:inherit;font-weight:900;font-size:14px;border:2px solid rgba(66,224,200,.5);border-radius:12px;padding:8px 14px;cursor:pointer;background:transparent;color:#42e0c8}
     .more2{margin-top:10px;background:rgba(255,255,255,.03);border-radius:12px;padding:8px 12px}
     .more2 summary{cursor:pointer;font-weight:900;color:#9db8cf;font-size:15px;padding:4px 0}
+    .lead3{display:grid;gap:4px;margin-top:10px;font-size:14.5px;font-weight:700;color:#d8e8f5;line-height:1.55}
+    .lead3 b{display:inline-block;min-width:6.2em;color:#ffe08a;font-weight:900}
+    .tbar{display:flex;height:10px;border-radius:99px;overflow:hidden;margin:12px 0 2px;gap:2px}
+    .ph{margin-top:14px;border-left:5px solid var(--pc);padding-left:12px}
+    .phh{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+    .phh b{color:var(--pc);font-size:17px;font-weight:900;letter-spacing:.04em}
+    .phh span{font-weight:900;color:#eaf6ff;background:rgba(255,255,255,.08);border-radius:99px;padding:1px 10px;font-size:13px}
+    .phh em{font-style:normal;color:#9db8cf;font-size:13.5px;font-weight:700}
+    .ph .grid{margin-top:8px}
+    .grid a .mt{display:block;font-size:12.5px;color:#9db8cf;font-weight:800;margin-top:2px}
+    .teach{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:14px}
+    .teach b{color:#9db8cf;font-weight:900;margin-right:4px}
+    .teach a{color:#42e0c8;font-weight:900;text-decoration:none;border:1px dashed rgba(66,224,200,.5);border-radius:10px;padding:5px 10px}
   </style>
   <script src="https://classtools1020.github.io/games/fx.js"></script>
   <script src="data.js"></script>
@@ -149,6 +162,20 @@
     }
     window.tdGo=i=>{idx=i;render();};
     window.tdStart=l=>{const L=LESSONS[l];if(!window.FX){alert("請重新整理再試");return;}FX.flowStart(L.name,L.steps.map(st=>({label:st[0],url:st[1]})));};
+
+    /* 三段式：引起動機／發展活動／綜合活動（步驟第 3 欄是段落、第 4 欄分鐘、第 5 欄教學方式） */
+    const PH={A:["引起動機","連結生活經驗、引起好奇、說明今天的任務","#ffc93c"],B:["發展活動","老師示範 → 一起做 → 自己做，提示逐步減少","#42e0c8"],C:["綜合活動","統整重點、評量、生活類化與預告","#c3a6ff"]};
+    function cardHTML(lk,st,i){const ext=isExt(st[1]);const meta=st[3]?`<small class="mt">⏱ ${st[3]} 分${st[4]?"・"+esc(st[4]):""}</small>`:"";
+      return `<a href="${st[1]}" class="${ext?"ext":""} ${seen[lk+"-"+i]?"seen":""}" ${ext?'target="_blank" rel="noopener"':""} data-k="${lk}-${i}"><span class="n">${i+1}</span><span>${esc(st[0])}${meta}</span></a>`;}
+    function stepsHTML(lk,L){if(!L.steps.length)return "";
+      if(!L.steps[0][2])return `<div class="grid">${L.steps.map((st,i)=>cardHTML(lk,st,i)).join("")}</div>`;
+      const sum=k=>L.steps.filter(st=>st[2]===k).reduce((a,st)=>a+(st[3]||0),0);const tot=L.steps.reduce((a,st)=>a+(st[3]||0),0)||1;
+      let h=L.goal?`<div class="lead3"><div><b>🎯 本節目標</b>${esc(L.goal)}</div><div><b>🏠 生活連結</b>${esc(L.life||"")}</div><div><b>✅ 怎麼評量</b>${esc(L.assess||"")}</div></div>`:"";
+      h+=`<div class="tbar">${["A","B","C"].map(k=>`<span style="flex:${sum(k)};background:${PH[k][2]}" title="${PH[k][0]} ${sum(k)} 分"></span>`).join("")}</div>`;
+      ["A","B","C"].forEach((k,pi)=>{const idx=L.steps.map((st,i)=>[st,i]).filter(x=>x[0][2]===k);if(!idx.length)return;
+        h+=`<div class="ph" style="--pc:${PH[k][2]}"><div class="phh"><b>${"①②③"[pi]} ${PH[k][0]}</b><span>${sum(k)} 分</span><em>${PH[k][1]}</em></div><div class="grid">${idx.map(x=>cardHTML(lk,x[0],x[1])).join("")}</div></div>`;});
+      if(L.teach&&L.teach.length)h+=`<div class="teach"><b>🧑‍🏫 老師用・列印・備案</b>${L.teach.map(t=>`<a href="${t[1]}" target="_blank" rel="noopener">${esc(t[0])}</a>`).join("")}</div>`;
+      return h;}
     function render(){
       strip();
       const d=dates[idx];const isToday=d===today;try{history.replaceState(null,"","#d="+d);sessionStorage.setItem("lightDate",d);}catch(e){}
@@ -159,7 +186,7 @@
       if(!isToday&&dates.indexOf(today)<0&&d>today){h+=`<div class="empty">今天（${fmt(today)}）沒有自然課 👇 下一堂在 ${fmt(d)}</div>`;}
       items.forEach(s=>{const L=LESSONS[s.l];let done={};try{done=JSON.parse(localStorage.getItem(prepKey(s.l))||"{}");}catch(e){}
         h+=`<div class="slot"><div class="sh"><span class="cls ${s.c==="乙班"?"b":""}">${s.c}</span><span class="per">${esc(s.p)}</span><span class="ln">${esc(L.name)}</span><span class="cp">${esc(L.task)}｜${esc(L.cp)}</span></div>
-          ${L.steps.length?`<div class="grid">${L.steps.map((st,i)=>{const ext=isExt(st[1]);return `<a href="${st[1]}" class="${ext?"ext":""} ${seen[s.l+"-"+i]?"seen":""}" ${ext?'target="_blank" rel="noopener"':""} data-k="${s.l}-${i}"><span class="n">${i+1}</span><span>${esc(st[0])}</span></a>`;}).join("")}</div>`:""}
+          ${stepsHTML(s.l,L)}
           <div class="tipbox">💡 ${esc(L.tip)}</div>
           <details class="more2"><summary>📋 準備清單（${L.prep.length} 項）・教案台詞・下一步導覽列</summary>
           <button onclick="tdStart('${s.l}')" class="flowbtn">▶ 想要一步一步帶：開啟底部「下一步」導覽列</button>
