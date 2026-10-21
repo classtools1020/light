@@ -130,6 +130,15 @@
     .phh em{font-style:normal;color:#9db8cf;font-size:13.5px;font-weight:700}
     .ph .grid{margin-top:8px}
     .grid a .mt{display:block;font-size:12.5px;color:#9db8cf;font-weight:800;margin-top:2px}
+    .plan{margin-top:12px;background:rgba(255,255,255,.03);border-radius:12px;padding:6px 12px}
+    .plan summary{cursor:pointer;font-weight:900;color:#9db8cf;font-size:15px;padding:4px 0}
+    .plan .pl{display:flex;gap:10px;font-size:14px;font-weight:700;color:#d8e8f5;line-height:1.6;padding:3px 0}
+    .plan .pl b{flex:none;width:6.5em;color:#ffe08a}
+    .plan .cd{font-weight:900;color:#42e0c8;margin-right:4px}
+    .plan small{color:#9db8cf;margin-left:6px}
+    .evt{margin-top:8px;display:grid;gap:2px;font-size:13.5px}
+    .evt div{display:grid;grid-template-columns:2em minmax(0,1.4fr) 4em minmax(0,2fr);gap:8px;padding:5px 0;border-top:1px solid rgba(120,170,210,.15);color:#d8e8f5;font-weight:700}
+    .evt div span:nth-child(3){color:#ffc93c;font-weight:900}
     .teach{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:14px}
     .teach b{color:#9db8cf;font-weight:900;margin-right:4px}
     .teach a{color:#42e0c8;font-weight:900;text-decoration:none;border:1px dashed rgba(66,224,200,.5);border-radius:10px;padding:5px 10px}
@@ -164,7 +173,7 @@
     window.tdStart=l=>{const L=LESSONS[l];if(!window.FX){alert("請重新整理再試");return;}FX.flowStart(L.name,L.steps.map(st=>({label:st[0],url:st[1]})));};
 
     /* 三段式：引起動機／發展活動／綜合活動（步驟第 3 欄是段落、第 4 欄分鐘、第 5 欄教學方式） */
-    const PH={A:["引起動機","連結生活經驗、引起好奇、說明今天的任務","#ffc93c"],B:["發展活動","老師示範 → 一起做 → 自己做，提示逐步減少","#42e0c8"],C:["綜合活動","統整重點、評量、生活類化與預告","#c3a6ff"]};
+    const PH={A:["引起動機","連結生活經驗、引起好奇、說明今天的任務","#ffc93c"],B:["發展活動","老師示範 → 一起做 → 自己做，提示逐步減少","#42e0c8"],C:["總結活動","統整重點、評量、生活類化與預告","#c3a6ff"]};
     function cardHTML(lk,st,i){const ext=isExt(st[1]);const meta=st[3]?`<small class="mt">⏱ ${st[3]} 分${st[4]?"・"+esc(st[4]):""}</small>`:"";
       return `<a href="${st[1]}" class="${ext?"ext":""} ${seen[lk+"-"+i]?"seen":""}" ${ext?'target="_blank" rel="noopener"':""} data-k="${lk}-${i}"><span class="n">${i+1}</span><span>${esc(st[0])}${meta}</span></a>`;}
     function stepsHTML(lk,L){if(!L.steps.length)return "";
@@ -174,6 +183,14 @@
       h+=`<div class="tbar">${["A","B","C"].map(k=>`<span style="flex:${sum(k)};background:${PH[k][2]}" title="${PH[k][0]} ${sum(k)} 分"></span>`).join("")}</div>`;
       ["A","B","C"].forEach((k,pi)=>{const idx=L.steps.map((st,i)=>[st,i]).filter(x=>x[0][2]===k);if(!idx.length)return;
         h+=`<div class="ph" style="--pc:${PH[k][2]}"><div class="phh"><b>${"①②③"[pi]} ${PH[k][0]}</b><span>${sum(k)} 分</span><em>${PH[k][1]}</em></div><div class="grid">${idx.map(x=>cardHTML(lk,x[0],x[1])).join("")}</div></div>`;});
+      if(L.std){const short=t=>esc(t.replace(/（跨階段調整）/,"").split(/[，。]/)[0]);
+        h+=`<details class="plan"><summary>📘 教案細節（賽課用）：學習重點・分層目標・每步評量</summary>
+        <div class="pl"><b>核心素養</b>${esc(L.std.core.split(" ")[0])}</div>
+        <div class="pl"><b>學習表現</b>${L.std.perf.map(c=>`<span class="cd" title="${esc(c[1])}">${esc(c[0])}</span>${short(c[1])}`).join("　")}</div>
+        <div class="pl"><b>學習內容</b>${L.std.cont.map(c=>`<span class="cd" title="${esc(c[1])}">${esc(c[0])}</span>${short(c[1])}`).join("　")}${L.std.cont.some(c=>/跨階段/.test(c[1]))?`<small>（Ⅱ 為跨階段向下調整）</small>`:""}</div>
+        <div class="pl"><b>分層目標</b><span>A 層（重度／低口語）：${esc(L.diff.A)}<br>B 層（中度／高口語）：${esc(L.diff.B)}</span></div>
+        <div class="pl"><b>學生可以選</b>${esc(L.choice||"")}</div>
+        <div class="evt">${L.steps.map((st,i)=>`<div><span>${i+1}</span><span>${esc(st[0].replace(/^\S+\s/,""))}</span><span>${st[6]?esc(st[6]):""}</span><span>${esc(st[5]||"")}</span></div>`).join("")}</div></details>`;}
       if(L.teach&&L.teach.length)h+=`<div class="teach"><b>🧑‍🏫 老師用・列印・備案</b>${L.teach.map(t=>`<a href="${t[1]}" target="_blank" rel="noopener">${esc(t[0])}</a>`).join("")}</div>`;
       return h;}
     function render(){
